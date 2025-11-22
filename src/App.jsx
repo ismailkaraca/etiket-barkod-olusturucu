@@ -20,6 +20,7 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Başlatma ---
+// --- Firebase Başlatma (ENV + Fallback) ---
 const firebaseConfigEnv = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -73,7 +74,7 @@ const useScriptLoader = (scripts) => {
 
 // --- Yardımcı Bileşenler ---
 
-const Barcode = ({ text, height = 35 }) => {
+const Barcode = ({ text, height = 25 }) => {
   const svgRef = useRef(null);
   
   useEffect(() => {
@@ -85,11 +86,14 @@ const Barcode = ({ text, height = 35 }) => {
           displayValue: true,
           text: barcodeValue,
           textPosition: "bottom",
-          fontSize: 12,
-          textMargin: 2,
+          fontSize: 10, // Font biraz küçültüldü
+          textMargin: 0, // Metin ile barkod arası boşluk sıfırlandı
           height: height,
           width: 1.5,
-          margin: 2
+          margin: 0, // Dış boşluklar sıfırlandı
+          marginTop: 0,
+          marginBottom: 0,
+          background: "transparent" // Arka plan şeffaf
         });
       } catch (e) {
         console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
@@ -97,7 +101,7 @@ const Barcode = ({ text, height = 35 }) => {
     }
   }, [text, height]);
 
-  return <svg ref={svgRef} className="max-w-full" />;
+  return <svg ref={svgRef} className="max-w-full" style={{ display: 'block' }} />;
 };
 
 const QRCode = ({ text, size = '25mm' }) => {
@@ -222,7 +226,8 @@ function App() {
   const [labelFields, setLabelFields] = useState(['itemcallnumber', 'title']);
   
   // Style States
-  const [textAlign, setTextAlign] = useState('center'); 
+  const [textAlign, setTextAlign] = useState('center'); // Block Horizontal Position
+  const [textJustify, setTextJustify] = useState('center'); // Text Content Alignment (New)
   const [verticalAlign, setVerticalAlign] = useState('top'); // 'top', 'center', 'bottom'
   const [lineHeight, setLineHeight] = useState(1.1);
   const [fontSize, setFontSize] = useState(8);
@@ -240,7 +245,7 @@ function App() {
   const [startBarcode, setStartBarcode] = useState("");
   const [endBarcode, setEndBarcode] = useState("");
   const [barcodeFormat, setBarcodeFormat] = useState('CODE128');
-  const [barcodeHeight, setBarcodeHeight] = useState(35); 
+  const [barcodeHeight, setBarcodeHeight] = useState(25); // Varsayılan yükseklik 25'e düşürüldü
   const [customText, setCustomText] = useState("");
 
   const [showSpineBarcode, setShowSpineBarcode] = useState(false);
@@ -249,7 +254,7 @@ function App() {
   const [spineBarcodeBold, setSpineBarcodeBold] = useState(true);
   const [spineMainTextBold, setSpineMainTextBold] = useState(true); 
   const [spineTextVerticalShift, setSpineTextVerticalShift] = useState(0);
-  const [spineBarcodeVerticalShift, setSpineBarcodeVerticalShift] = useState(0); // Yeni state: Barkod Dikey Konum
+  const [spineBarcodeVerticalShift, setSpineBarcodeVerticalShift] = useState(0);
 
   const tableHeaders = [ 
     { key: 'barcode', label: 'Barkod' }, 
@@ -346,11 +351,13 @@ function App() {
   useEffect(() => {
       if (labelType === 'spine') {
           setTextAlign('center');
-          setVerticalAlign('center'); // Sırt etiketi varsayılan ortala
+          setTextJustify('center');
+          setVerticalAlign('center');
           setFontSize(12); 
       } else {
           setTextAlign('center');
-          setVerticalAlign('top'); // Barkod etiketi varsayılan üst
+          setTextJustify('center');
+          setVerticalAlign('top');
           setFontSize(8);
       }
   }, [labelType]);
@@ -590,6 +597,7 @@ function App() {
         fontSize,
         fontFamily,
         textAlign,
+        textJustify, // Eklendi
         verticalAlign,
         lineHeight,
         barcodeHeight,
@@ -602,7 +610,7 @@ function App() {
         spineBarcodeBold,
         spineMainTextBold,
         spineTextVerticalShift,
-        spineBarcodeVerticalShift // Eklendi
+        spineBarcodeVerticalShift 
     };
 
     const newTemplates = { ...customTemplates, [newTemplateName]: templateToSave };
@@ -650,6 +658,7 @@ function App() {
               // Stil ayarlarını yükle (Varsa)
               if (tmpl.fontSize) setFontSize(tmpl.fontSize);
               if (tmpl.textAlign) setTextAlign(tmpl.textAlign);
+              if (tmpl.textJustify) setTextJustify(tmpl.textJustify); // Eklendi
               if (tmpl.verticalAlign) setVerticalAlign(tmpl.verticalAlign);
               if (tmpl.lineHeight) setLineHeight(tmpl.lineHeight);
               if (tmpl.fontFamily) setFontFamily(tmpl.fontFamily);
@@ -731,22 +740,30 @@ function App() {
       // Dikey hizalama mantığı (Sırt etiketi için)
       const justifyClass = verticalAlign === 'center' ? 'justify-center' : verticalAlign === 'bottom' ? 'justify-end' : 'justify-start';
 
+      // Yatay Konum (Blok Hizalama) - Flex Items Align
+      const alignItemsClass = textAlign === 'left' ? 'items-start' : textAlign === 'right' ? 'items-end' : 'items-center';
+      // Yatay Konum (Blok Hizalama) - Absolute Elements Text Align
+      const textAlignClass = textAlign === 'left' ? 'text-left' : textAlign === 'right' ? 'text-right' : 'text-center';
+      
+      // Metin Yaslama (İçerik Hizalama) - Text Justify
+      const contentTextAlign = textJustify; // 'left', 'center', 'right', 'justify'
+
       return (
-        <div className={`flex flex-col items-center ${justifyClass} h-full w-full overflow-hidden relative`}
+        <div className={`flex flex-col ${alignItemsClass} ${justifyClass} h-full w-full overflow-hidden relative`}
              style={{ 
                fontFamily: fontFamily, 
                fontSize: `${fontSize}pt`, 
                lineHeight: lineHeight, 
-               textAlign: textAlign,
+               textAlign: contentTextAlign, // Burası artık Metin Yaslama ayarını kullanıyor
                padding: '0mm', 
                paddingBottom: '0.5mm',
                paddingLeft: '1mm',
                paddingRight: '1mm'
              }}>
             
-            {/* Absolute Top Barcode */}
+            {/* Absolute Top Barcode - Konumu Blok Hizalamasına Göre */}
             {spineBarcodePosition === 'absolute-top' && barcodeDisplay && (
-                <div className="font-mono leading-none absolute top-0 left-0 w-full text-center" 
+                <div className={`font-mono leading-none absolute top-0 left-0 w-full ${textAlignClass}`}
                      style={{
                          fontSize: `${spineBarcodeFontSize}pt`, 
                          fontWeight: spineBarcodeBold ? 'bold' : 'normal',
@@ -769,8 +786,8 @@ function App() {
                 </div>
             )}
             
-            {/* Main Text */}
-            <div style={{ transform: `translateY(${spineTextVerticalShift}mm)` }} className="w-full">
+            {/* Main Text Wrapper - Width Fit Content ile Blok Hizalamasını Mümkün Kıl */}
+            <div style={{ transform: `translateY(${spineTextVerticalShift}mm)` }} className="w-fit max-w-full">
                 {parts.length > 0 ? parts.map((part, index) => (
                 <div key={index} className="w-full break-words" style={{ fontWeight: spineMainTextBold ? 'bold' : 'normal' }}>
                     {part}
@@ -792,9 +809,9 @@ function App() {
                 </div>
             )}
 
-             {/* Absolute Bottom Barcode */}
+             {/* Absolute Bottom Barcode - Konumu Blok Hizalamasına Göre */}
             {spineBarcodePosition === 'absolute-bottom' && barcodeDisplay && (
-                <div className="font-mono leading-none absolute bottom-0 left-0 w-full text-center" 
+                <div className={`font-mono leading-none absolute bottom-0 left-0 w-full ${textAlignClass}`}
                      style={{
                          fontSize: `${spineBarcodeFontSize}pt`, 
                          fontWeight: spineBarcodeBold ? 'bold' : 'normal',
@@ -808,15 +825,17 @@ function App() {
     }
 
     // BARKOD ETİKETİ GÖRÜNÜMÜ
-    // Dikey hizalama: 'top' seçiliyse padding'i kaldır, diğerlerinde varsayılanı kullan
     const containerPaddingTop = verticalAlign === 'top' ? '0mm' : '1mm';
-    
-    // İçerik hizalaması (Flex start/center/end)
+    // İçerik hizalaması (Metin için)
     const contentAlignClass = verticalAlign === 'center' ? 'items-center justify-center' : verticalAlign === 'bottom' ? 'items-end justify-end' : 'items-start justify-start';
 
     return (
       <div className="flex flex-col text-black h-full box-border overflow-hidden relative bg-white">
-          <div className={`flex ${contentAlignClass} flex-grow overflow-hidden relative z-0`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm' }}>
+          {/* Metin Katmanı (Üstte - Z-Index 20)
+             Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
+             absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
+          */}
+          <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', paddingBottom: '1mm' }}>
               {logo && (
                   <img 
                       src={logo} 
@@ -825,7 +844,7 @@ function App() {
                       style={{ height: `${logoSize}mm`, width: 'auto', marginRight: '2mm' }} 
                   />
               )}
-              <div className="flex-grow overflow-hidden" style={{ textAlign: textAlign, fontSize: `${fontSize}pt`, lineHeight: lineHeight, fontFamily: fontFamily }}>
+              <div className="flex-grow overflow-hidden" style={{ textAlign: textJustify, fontSize: `${fontSize}pt`, lineHeight: lineHeight, fontFamily: fontFamily }}>
                   {labelFields.map((fieldKey, index) => {
                       const content = fieldKey === 'customText' 
                           ? customText 
@@ -841,7 +860,12 @@ function App() {
                   })}
               </div>
           </div>
-          <div className="mt-auto flex-shrink-0 w-full flex justify-center items-end bg-white relative z-10" style={{ padding: '1mm 1mm 1mm 1mm' }}>
+          
+          {/* Barkod Katmanı (Altta - Z-Index 10)
+             absolute yapılarak akıştan çıkarıldı. Böylece metin alanını daraltmaz.
+             bottom-0 ile en alta sabitlendi.
+          */}
+          <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-10 pointer-events-none" style={{ padding: '0mm' }}>
               {barcodeFormat === 'CODE128' 
                   ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} /> 
                   : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
@@ -1176,9 +1200,21 @@ function App() {
                                 <div className="space-y-3">
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                            <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Hizalama</label>
+                                            <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum (Blok)</label>
                                             <select value={textAlign} onChange={(e) => setTextAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="left">Sola</option><option value="center">Orta</option><option value="right">Sağa</option></select>
                                         </div>
+                                        <div>
+                                            <label className="text-xs font-medium block mb-1 text-slate-500">Metin Yaslama</label>
+                                            <select value={textJustify} onChange={(e) => setTextJustify(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                <option value="left">Sola</option>
+                                                <option value="center">Ortaya</option>
+                                                <option value="right">Sağa</option>
+                                                <option value="justify">İki Yana</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2">
                                         <div>
                                             <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Hizalama</label>
                                             <select value={verticalAlign} onChange={(e) => setVerticalAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
@@ -1186,13 +1222,6 @@ function App() {
                                                 <option value="center">Orta</option>
                                                 <option value="bottom">Alt</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                            <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
-                                            <input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"/>
                                         </div>
                                         <div>
                                             <label className="text-xs font-medium block mb-1 text-slate-500">Satır Aralığı</label>
@@ -1205,34 +1234,42 @@ function App() {
                                             />
                                         </div>
                                     </div>
-
+                                    
                                     <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
+                                            <input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"/>
+                                        </div>
                                         <div>
                                             <label className="text-xs font-medium block mb-1 text-slate-500">Font</label>
                                             <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="sans-serif">Sans-Serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option></select>
                                         </div>
-                                        {labelType === 'barcode' && (
-                                        <div>
-                                            <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Tipi</label>
-                                            <select value={barcodeFormat} onChange={(e) => setBarcodeFormat(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="CODE128">Barkod (128)</option><option value="QR">QR Kod</option></select>
-                                        </div>
-                                        )}
                                     </div>
                                     
                                     {/* YENİ BARKOD YÜKSEKLİĞİ AYARI (Sadece EAN13 ise) */}
-                                    {labelType === 'barcode' && barcodeFormat === 'CODE128' && (
-                                        <div>
-                                            <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Yüksekliği</label>
-                                            <div className="flex items-center gap-2">
-                                                <input 
-                                                    type="range" 
-                                                    min="10" 
-                                                    max="100" 
-                                                    value={barcodeHeight} 
-                                                    onChange={(e) => setBarcodeHeight(Number(e.target.value))} 
-                                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                                                />
-                                                <span className="text-xs w-8 text-right">{barcodeHeight}</span>
+                                    {labelType === 'barcode' && (
+                                        <div className="pt-2 border-t dark:border-slate-600">
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <div>
+                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Tipi</label>
+                                                    <select value={barcodeFormat} onChange={(e) => setBarcodeFormat(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="CODE128">Barkod (128)</option><option value="QR">QR Kod</option></select>
+                                                </div>
+                                                {barcodeFormat === 'CODE128' && (
+                                                <div>
+                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Yüksekliği</label>
+                                                    <div className="flex items-center gap-2">
+                                                        <input 
+                                                            type="range" 
+                                                            min="10" 
+                                                            max="100" 
+                                                            value={barcodeHeight} 
+                                                            onChange={(e) => setBarcodeHeight(Number(e.target.value))} 
+                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                        />
+                                                        <span className="text-xs w-8 text-right">{barcodeHeight}</span>
+                                                    </div>
+                                                </div>
+                                                )}
                                             </div>
                                         </div>
                                     )}
