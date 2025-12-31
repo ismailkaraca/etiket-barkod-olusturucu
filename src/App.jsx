@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { createRoot } from 'react-dom/client';
 import { initializeApp } from 'firebase/app';
 import {
     getAuth,
@@ -19,22 +18,9 @@ import {
     onSnapshot
 } from 'firebase/firestore';
 
-// --- Firebase Başlatma --- ismail
-// --- Firebase Başlatma (ENV + Fallback) ---
-const firebaseConfigEnv = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
-};
+// --- Firebase Başlatma ---
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
-const finalConfig = (typeof __firebase_config !== 'undefined')
-    ? JSON.parse(__firebase_config)
-    : firebaseConfigEnv;
-
-const firebaseConfig = finalConfig;
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -74,61 +60,83 @@ const useScriptLoader = (scripts) => {
 
 // --- Yardımcı Bileşenler ---
 
-const Barcode = ({ text, height = 25 }) => {
+const Barcode = ({ text, height = 25, color = '#000000' }) => {
     const svgRef = useRef(null);
 
     useEffect(() => {
-        if (svgRef.current && text && window.JsBarcode) {
-            try {
-                const barcodeValue = String(text).slice(0, 16);
-                window.JsBarcode(svgRef.current, barcodeValue, {
-                    format: "CODE128",
-                    displayValue: true,
-                    text: barcodeValue,
-                    textPosition: "bottom",
-                    fontSize: 10, // Font biraz küçültüldü
-                    textMargin: 0, // Metin ile barkod arası boşluk sıfırlandı
-                    height: height,
-                    width: 1.5,
-                    margin: 0, // Dış boşluklar sıfırlandı
-                    marginTop: 0,
-                    marginBottom: 0,
-                    background: "transparent" // Arka plan şeffaf
-                });
-            } catch (e) {
-                console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
+        const timer = setTimeout(() => {
+            if (svgRef.current && text && window.JsBarcode) {
+                try {
+                    const barcodeValue = String(text).slice(0, 16);
+                    window.JsBarcode(svgRef.current, barcodeValue, {
+                        format: "CODE128",
+                        displayValue: true,
+                        text: barcodeValue,
+                        textPosition: "bottom",
+                        fontSize: 10,
+                        textMargin: 0,
+                        height: height,
+                        width: 1.5,
+                        margin: 0,
+                        marginTop: 0,
+                        marginBottom: 0,
+                        background: "transparent",
+                        lineColor: color
+                    });
+                } catch (e) {
+                    console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
+                }
             }
-        }
-    }, [text, height]);
+        }, 50);
+
+        return () => clearTimeout(timer);
+    }, [text, height, color]);
 
     return <svg ref={svgRef} className="max-w-full" style={{ display: 'block' }} />;
 };
 
-const QRCode = ({ text, size = '25mm' }) => {
+const QRCode = ({ text, size = '25mm', color = '#000000' }) => {
     const qrRef = useRef(null);
 
     useEffect(() => {
-        if (qrRef.current && text && window.qrcode) {
-            qrRef.current.innerHTML = '';
-            try {
-                const typeNumber = 0; // Otomatik algılama
-                const errorCorrectionLevel = 'L';
-                const qr = window.qrcode(typeNumber, errorCorrectionLevel);
-                qr.addData(String(text));
-                qr.make();
-                qrRef.current.innerHTML = qr.createSvgTag({ cellSize: 2, margin: 0 });
-                const svg = qrRef.current.querySelector('svg');
-                if (svg) {
-                    svg.style.width = '100%';
-                    svg.style.height = '100%';
-                    svg.removeAttribute('width');
-                    svg.removeAttribute('height');
+        const timer = setTimeout(() => {
+            if (qrRef.current && text && window.qrcode) {
+                qrRef.current.innerHTML = '';
+                try {
+                    const typeNumber = 0; // Otomatik algılama
+                    const errorCorrectionLevel = 'L';
+                    const qr = window.qrcode(typeNumber, errorCorrectionLevel);
+                    qr.addData(String(text));
+                    qr.make();
+                    const svgTag = qr.createSvgTag({ cellSize: 2, margin: 0 });
+                    qrRef.current.innerHTML = svgTag;
+                    
+                    const svg = qrRef.current.querySelector('svg');
+                    if (svg) {
+                        svg.style.width = '100%';
+                        svg.style.height = '100%';
+                        svg.removeAttribute('width');
+                        svg.removeAttribute('height');
+                        
+                        const paths = svg.querySelectorAll('path');
+                        paths.forEach(path => {
+                            path.setAttribute('fill', color);
+                        });
+                        const rects = svg.querySelectorAll('rect');
+                         rects.forEach(rect => {
+                             if(rect.getAttribute('fill') !== 'white' && rect.getAttribute('fill') !== '#ffffff') {
+                                 rect.setAttribute('fill', color);
+                             }
+                        });
+
+                    }
+                } catch (e) {
+                    console.error("QR Code oluşturulamadı:", text, e);
                 }
-            } catch (e) {
-                console.error("QR Code oluşturulamadı:", text, e);
             }
-        }
-    }, [text]);
+        }, 50);
+        return () => clearTimeout(timer);
+    }, [text, color]);
 
     return <div ref={qrRef} style={{ width: size, height: size, margin: 'auto' }} />;
 };
@@ -226,18 +234,34 @@ function App() {
     const [labelFields, setLabelFields] = useState(['itemcallnumber', 'title']);
 
     // Style States
-    const [textAlign, setTextAlign] = useState('center'); // Block Horizontal Position
-    const [textJustify, setTextJustify] = useState('center'); // Text Content Alignment (New)
-    const [verticalAlign, setVerticalAlign] = useState('top'); // 'top', 'center', 'bottom'
-    const [lineHeight, setLineHeight] = useState(1.1);
-    const [fontSize, setFontSize] = useState(8);
+    const [textAlign, setTextAlign] = useState('center');
+    const [textJustify, setTextJustify] = useState('left');
+    const [verticalAlign, setVerticalAlign] = useState('top');
+    const [lineHeight, setLineHeight] = useState(1.0);
+    const [fontSize, setFontSize] = useState(7);
     const [fontFamily, setFontFamily] = useState('sans-serif');
     const [isFirstLineBold, setIsFirstLineBold] = useState(true);
+    const [fontColor, setFontColor] = useState('#000000');
+    const [barcodeColor, setBarcodeColor] = useState('#000000');
 
     // Image/Logo
     const [logo, setLogo] = useState('https://i.ibb.co/XrrDKnNW/ktblogo400.png');
     const [useMinistryLogo, setUseMinistryLogo] = useState(true);
     const [logoSize, setLogoSize] = useState(7);
+    const [logoAlignX, setLogoAlignX] = useState('left');
+    const [logoAlignY, setLogoAlignY] = useState('top');
+
+    // Spine Specific Logo & Barcode
+    const [spineBarcodeHorizontalShift, setSpineBarcodeHorizontalShift] = useState(0);
+    const [spineLogoAlignX, setSpineLogoAlignX] = useState('left');
+    const [spineLogoAlignY, setSpineLogoAlignY] = useState('center');
+
+    // Location Marker States (YENİ)
+    const [locationColors, setLocationColors] = useState({}); // { 'Yetişkin Bölümü': '#FF0000', ... }
+    const [locMarkSize, setLocMarkSize] = useState(2); // mm
+    const [locMarkAlignX, setLocMarkAlignX] = useState('right');
+    const [locMarkAlignY, setLocMarkAlignY] = useState('top');
+    const [showLocMark, setShowLocMark] = useState(true);
 
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [customTemplates, setCustomTemplates] = useState({});
@@ -245,7 +269,7 @@ function App() {
     const [startBarcode, setStartBarcode] = useState("");
     const [endBarcode, setEndBarcode] = useState("");
     const [barcodeFormat, setBarcodeFormat] = useState('CODE128');
-    const [barcodeHeight, setBarcodeHeight] = useState(25); // Varsayılan yükseklik 25'e düşürüldü
+    const [barcodeHeight, setBarcodeHeight] = useState(38);
     const [customText, setCustomText] = useState("");
 
     const [showSpineBarcode, setShowSpineBarcode] = useState(false);
@@ -255,6 +279,9 @@ function App() {
     const [spineMainTextBold, setSpineMainTextBold] = useState(true);
     const [spineTextVerticalShift, setSpineTextVerticalShift] = useState(0);
     const [spineBarcodeVerticalShift, setSpineBarcodeVerticalShift] = useState(0);
+    const [spineBarcodeTextAlign, setSpineBarcodeTextAlign] = useState('left');
+
+    const fileInputRef = useRef(null);
 
     const tableHeaders = [
         { key: 'barcode', label: 'Barkod' },
@@ -271,14 +298,13 @@ function App() {
             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                 await signInWithCustomToken(auth, __initial_auth_token);
             } else {
-                // Varsayılan olarak anonim giriş yapmıyoruz, kullanıcı manuel giriş yapacak
+                await signInAnonymously(auth);
             }
         };
         initAuth();
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             if (!currentUser) {
-                // Giriş yapılmadıysa LocalStorage'dan çek
                 try {
                     const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
                     if (saved) setCustomTemplates(JSON.parse(saved));
@@ -288,21 +314,17 @@ function App() {
         return () => unsubscribe();
     }, []);
 
-    // Kullanıcı değiştiğinde Firestore'dan verileri çek
     useEffect(() => {
         if (!user) return;
-
-        const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates');
+        const collectionRef = collection(db, 'artifacts', appId, 'users', user.uid, 'user_data');
+        const docRef = doc(collectionRef, 'templates');
         const unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                 setCustomTemplates(docSnap.data());
-            } else {
-                setCustomTemplates({});
             }
         }, (error) => {
             console.error("Firestore veri çekme hatası:", error);
         });
-
         return () => unsubscribeSnapshot();
     }, [user]);
 
@@ -312,14 +334,12 @@ function App() {
             await signInWithPopup(auth, googleProvider);
         } catch (error) {
             console.error("Google giriş hatası:", error);
-            alert("Giriş yapılırken bir hata oluştu.");
         }
     };
 
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            // Çıkış yapınca yerel verilere dön
             const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
             if (saved) setCustomTemplates(JSON.parse(saved));
             else setCustomTemplates({});
@@ -340,7 +360,6 @@ function App() {
         document.documentElement.classList.toggle('dark', isDarkMode);
     }, [isDarkMode]);
 
-    // Başlangıçta demo veri yükle
     useEffect(() => {
         setAllData(demoData);
         setFileName("Örnek Veri Seti");
@@ -351,26 +370,16 @@ function App() {
     useEffect(() => {
         if (labelType === 'spine') {
             setTextAlign('center');
-            setTextJustify('center');
+            setTextJustify('left');
             setVerticalAlign('center');
             setFontSize(12);
         } else {
             setTextAlign('center');
-            setTextJustify('center');
+            setTextJustify('left');
             setVerticalAlign('top');
-            setFontSize(8);
+            setFontSize(7);
         }
     }, [labelType]);
-
-    // Seçimleri oturumda tut
-    useEffect(() => {
-        try {
-            const savedSelection = sessionStorage.getItem('kohaLabelMaker_selectedBarcodes');
-            if (savedSelection && savedSelection !== '[]') {
-                // setSelectedBarcodes(new Set(JSON.parse(savedSelection)));
-            }
-        } catch (e) { console.error("Seçimler yüklenemedi", e); }
-    }, []);
 
     useEffect(() => {
         try {
@@ -432,7 +441,15 @@ function App() {
 
         const { jsPDF } = window.jspdf;
         if (printArea) {
-            window.html2canvas(printArea, { scale: 3, useCORS: true, logging: false }).then(canvas => {
+            window.html2canvas(printArea, { 
+                scale: 3, 
+                useCORS: true, 
+                logging: false, 
+                scrollX: 0, 
+                scrollY: 0,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight
+            }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -445,7 +462,7 @@ function App() {
                 pdf.save(`${baseFileName}_${dateTimeString}.pdf`);
             }).catch(err => {
                 console.error("PDF oluşturma hatası:", err);
-                alert("PDF oluşturulurken bir hata oluştu. Detaylar konsolda.");
+                alert("PDF oluşturulurken bir hata oluştu.");
             });
         }
     }, [pdfFileName]);
@@ -586,46 +603,111 @@ function App() {
         alert(`${barcodesToSelect.length} adet materyal seçildi.`);
     };
 
-    // --- Şablon Kaydetme (Firestore + LocalStorage) ---
+    // --- Şablon İşlemleri ---
+
+    const handleExportTemplates = () => {
+        if (Object.keys(customTemplates).length === 0) {
+            alert("İndirilecek kayıtlı şablon bulunamadı.");
+            return;
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(customTemplates));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "etiket_sablonlari.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+
+    const handleImportTemplatesClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleImportTemplates = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            try {
+                const importedTemplates = JSON.parse(event.target.result);
+                if (typeof importedTemplates !== 'object') {
+                    alert("Geçersiz dosya formatı.");
+                    return;
+                }
+
+                const mergedTemplates = { ...customTemplates, ...importedTemplates };
+                setCustomTemplates(mergedTemplates);
+
+                if (user) {
+                    try {
+                        const collectionRef = collection(db, 'artifacts', appId, 'users', user.uid, 'user_data');
+                        await setDoc(doc(collectionRef, 'templates'), mergedTemplates);
+                        alert("Şablonlar başarıyla yüklendi ve hesabınıza kaydedildi.");
+                    } catch (err) {
+                        console.error("Şablon yükleme hatası (Cloud):", err);
+                        alert("Şablonlar yüklendi fakat buluta kaydedilemedi.");
+                    }
+                } else {
+                    localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(mergedTemplates));
+                    alert("Şablonlar başarıyla yüklendi (Yerel).");
+                }
+            } catch (err) {
+                console.error("Dosya okuma hatası:", err);
+                alert("Dosya okunamadı veya bozuk.");
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = null; // Reset input
+    };
+
     const handleSaveTemplate = async () => {
         if (!newTemplateName.trim()) { alert("Lütfen şablon için bir isim girin."); return; }
 
-        // Şablon artık hem layout ayarlarını hem de stil ayarlarını içerecek
         const templateToSave = {
-            ...settings, // Sayfa ve etiket boyutları
-            // Stil Ayarları
+            ...settings,
             fontSize,
             fontFamily,
             textAlign,
-            textJustify, // Eklendi
+            textJustify,
             verticalAlign,
             lineHeight,
             barcodeHeight,
             isFirstLineBold,
             labelType,
-            // Sırt etiketi özel ayarları
             showSpineBarcode,
             spineBarcodePosition,
             spineBarcodeFontSize,
             spineBarcodeBold,
             spineMainTextBold,
             spineTextVerticalShift,
-            spineBarcodeVerticalShift
+            spineBarcodeVerticalShift,
+            spineBarcodeHorizontalShift, 
+            logoAlignX,
+            logoAlignY,
+            spineLogoAlignX, 
+            spineLogoAlignY,
+            fontColor,
+            barcodeColor,
+            locationColors, 
+            locMarkSize, 
+            locMarkAlignX, 
+            locMarkAlignY, 
+            showLocMark 
         };
 
         const newTemplates = { ...customTemplates, [newTemplateName]: templateToSave };
         setCustomTemplates(newTemplates);
 
         if (user) {
-            // Kullanıcı giriş yapmışsa Firestore'a kaydet
             try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates'), newTemplates);
+                const collectionRef = collection(db, 'artifacts', appId, 'users', user.uid, 'user_data');
+                await setDoc(doc(collectionRef, 'templates'), newTemplates);
             } catch (e) {
                 console.error("Şablon kaydedilemedi (Cloud):", e);
                 alert("Şablon buluta kaydedilemedi.");
             }
         } else {
-            // Giriş yapmamışsa LocalStorage'a kaydet
             localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(newTemplates));
         }
         setNewTemplateName('');
@@ -638,7 +720,8 @@ function App() {
 
         if (user) {
             try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates'), newTemplates);
+                 const collectionRef = collection(db, 'artifacts', appId, 'users', user.uid, 'user_data');
+                await setDoc(doc(collectionRef, 'templates'), newTemplates);
             } catch (e) {
                 console.error("Şablon silinemedi (Cloud):", e);
             }
@@ -652,21 +735,16 @@ function App() {
         if (key !== 'custom' && key !== 'load_custom') {
             const tmpl = templates[key] || customTemplates[key];
             if (tmpl) {
-                // Layout ayarlarını yükle
                 setSettings(tmpl);
-
-                // Stil ayarlarını yükle (Varsa)
                 if (tmpl.fontSize) setFontSize(tmpl.fontSize);
                 if (tmpl.textAlign) setTextAlign(tmpl.textAlign);
-                if (tmpl.textJustify) setTextJustify(tmpl.textJustify); // Eklendi
+                if (tmpl.textJustify) setTextJustify(tmpl.textJustify);
                 if (tmpl.verticalAlign) setVerticalAlign(tmpl.verticalAlign);
                 if (tmpl.lineHeight) setLineHeight(tmpl.lineHeight);
                 if (tmpl.fontFamily) setFontFamily(tmpl.fontFamily);
                 if (tmpl.barcodeHeight) setBarcodeHeight(tmpl.barcodeHeight);
                 if (tmpl.isFirstLineBold !== undefined) setIsFirstLineBold(tmpl.isFirstLineBold);
                 if (tmpl.labelType) setLabelType(tmpl.labelType);
-
-                // Sırt etiketi ayarlarını yükle
                 if (tmpl.showSpineBarcode !== undefined) setShowSpineBarcode(tmpl.showSpineBarcode);
                 if (tmpl.spineBarcodePosition) setSpineBarcodePosition(tmpl.spineBarcodePosition);
                 if (tmpl.spineBarcodeFontSize) setSpineBarcodeFontSize(tmpl.spineBarcodeFontSize);
@@ -674,6 +752,19 @@ function App() {
                 if (tmpl.spineMainTextBold !== undefined) setSpineMainTextBold(tmpl.spineMainTextBold);
                 if (tmpl.spineTextVerticalShift !== undefined) setSpineTextVerticalShift(tmpl.spineTextVerticalShift);
                 if (tmpl.spineBarcodeVerticalShift !== undefined) setSpineBarcodeVerticalShift(tmpl.spineBarcodeVerticalShift);
+                if (tmpl.spineBarcodeHorizontalShift !== undefined) setSpineBarcodeHorizontalShift(tmpl.spineBarcodeHorizontalShift);
+                if (tmpl.logoAlignX) setLogoAlignX(tmpl.logoAlignX);
+                if (tmpl.logoAlignY) setLogoAlignY(tmpl.logoAlignY);
+                if (tmpl.spineLogoAlignX) setSpineLogoAlignX(tmpl.spineLogoAlignX);
+                if (tmpl.spineLogoAlignY) setSpineLogoAlignY(tmpl.spineLogoAlignY);
+                if (tmpl.fontColor) setFontColor(tmpl.fontColor);
+                if (tmpl.barcodeColor) setBarcodeColor(tmpl.barcodeColor);
+                // YENİ: Location Marker Settings
+                if (tmpl.locationColors) setLocationColors(tmpl.locationColors);
+                if (tmpl.locMarkSize) setLocMarkSize(tmpl.locMarkSize);
+                if (tmpl.locMarkAlignX) setLocMarkAlignX(tmpl.locMarkAlignX);
+                if (tmpl.locMarkAlignY) setLocMarkAlignY(tmpl.locMarkAlignY);
+                if (tmpl.showLocMark !== undefined) setShowLocMark(tmpl.showLocMark);
             }
         }
     };
@@ -721,8 +812,79 @@ function App() {
         setLogo(e.target.checked ? 'https://i.ibb.co/XrrDKnNW/ktblogo400.png' : null);
     };
 
+    // --- YENİ: Renk Atama ---
+    const handleLocationColorChange = (location, color) => {
+        setLocationColors(prev => ({
+            ...prev,
+            [location]: color
+        }));
+    };
+
     // 6. Render Yardımcıları
     const renderSingleLabel = (data, key) => {
+        const getLogoStyle = (isSpine = false) => {
+            let style = { position: 'absolute', height: `${logoSize}mm`, width: 'auto', zIndex: 30 };
+            const alignX = isSpine ? spineLogoAlignX : logoAlignX;
+            const alignY = isSpine ? spineLogoAlignY : logoAlignY;
+            
+            if (alignX === 'left') style.left = '1mm';
+            else if (alignX === 'right') style.right = '1mm';
+            else if (alignX === 'center') { style.left = '50%'; style.transform = 'translateX(-50%)'; }
+
+            if (alignY === 'top') style.top = '1mm';
+            else if (alignY === 'bottom') style.bottom = '1mm';
+            else if (alignY === 'center') {
+                style.top = '50%';
+                if (style.transform) style.transform += ' translateY(-50%)';
+                else style.transform = 'translateY(-50%)';
+            }
+            
+            return style;
+        };
+
+        // --- YENİ: Location Mark Stili Hesaplama ---
+        const getLocMarkStyle = () => {
+            let style = {};
+            if (locMarkAlignX === 'left') style.left = '1mm';
+            else if (locMarkAlignX === 'right') style.right = '1mm';
+            else if (locMarkAlignX === 'center') { style.left = '50%'; style.transform = 'translateX(-50%)'; }
+
+            if (locMarkAlignY === 'top') style.top = '1mm';
+            else if (locMarkAlignY === 'bottom') style.bottom = '1mm';
+            else if (locMarkAlignY === 'center') {
+                style.top = '50%';
+                if (style.transform) style.transform += ' translateY(-50%)';
+                else style.transform = 'translateY(-50%)';
+            }
+            return style;
+        };
+        
+        const locColor = data.location ? locationColors[data.location] : null;
+
+        // ... (Mevcut padding hesaplamaları aynen kalıyor)
+        let extraPl = 0;
+        let extraPr = 0;
+        let extraPt = 0;
+        let extraPb = 0;
+
+        if (logo && labelType !== 'spine') {
+            const clearance = logoSize + 2; 
+
+            if (logoAlignX === 'left') {
+                extraPl = clearance;
+            } else if (logoAlignX === 'right') {
+                extraPr = clearance;
+            }
+
+            if (logoAlignX === 'center') {
+                if (logoAlignY === 'top') {
+                    extraPt = clearance;
+                } else if (logoAlignY === 'bottom') {
+                    extraPb = clearance;
+                }
+            }
+        }
+
         if (labelType === 'spine') {
             const callNumber = data.itemcallnumber || (key === 'preview' ? '398.27 GRİ 2005' : '');
             const parts = callNumber.split(' ').filter(p => p && p.trim().length > 0);
@@ -737,56 +899,77 @@ function App() {
                 if (bCode) barcodeDisplay = `[${bCode}]`;
             }
 
-            // Dikey hizalama mantığı (Sırt etiketi için)
             const justifyClass = verticalAlign === 'center' ? 'justify-center' : verticalAlign === 'bottom' ? 'justify-end' : 'justify-start';
-
-            // Yatay Konum (Blok Hizalama) - Flex Items Align
             const alignItemsClass = textAlign === 'left' ? 'items-start' : textAlign === 'right' ? 'items-end' : 'items-center';
-            // Yatay Konum (Blok Hizalama) - Absolute Elements Text Align
             const textAlignClass = textAlign === 'left' ? 'text-left' : textAlign === 'right' ? 'text-right' : 'text-center';
-
-            // Metin Yaslama (İçerik Hizalama) - Text Justify
-            const contentTextAlign = textJustify; // 'left', 'center', 'right', 'justify'
+            const barcodeTextAlignClass = spineBarcodeTextAlign === 'left' ? 'text-left' : spineBarcodeTextAlign === 'right' ? 'text-right' : 'text-center';
+            const contentTextAlign = textJustify;
 
             return (
-                <div className={`flex flex-col ${alignItemsClass} ${justifyClass} h-full w-full overflow-hidden relative`}
+                <div className={`flex flex-col ${alignItemsClass} ${justifyClass} h-full w-full overflow-hidden relative bg-white`}
                     style={{
                         fontFamily: fontFamily,
                         fontSize: `${fontSize}pt`,
                         lineHeight: lineHeight,
-                        textAlign: contentTextAlign, // Burası artık Metin Yaslama ayarını kullanıyor
-                        padding: '0mm',
+                        textAlign: contentTextAlign,
+                        paddingTop: '0mm', 
                         paddingBottom: '0.5mm',
                         paddingLeft: '1mm',
-                        paddingRight: '1mm'
+                        paddingRight: '1mm',
+                        color: fontColor
                     }}>
 
-                    {/* Absolute Top Barcode - Konumu Blok Hizalamasına Göre */}
+                    {/* YENİ: Location Marker (Sırt Etiketi) */}
+                    {showLocMark && locColor && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                width: `${locMarkSize}mm`,
+                                height: `${locMarkSize}mm`,
+                                backgroundColor: locColor,
+                                borderRadius: '50%',
+                                zIndex: 40,
+                                ...getLocMarkStyle()
+                            }}
+                        />
+                    )}
+
+                    {logo && (
+                        <img
+                            src={logo}
+                            alt="logo"
+                            className="object-contain"
+                            style={getLogoStyle(true)}
+                        />
+                    )}
+
                     {spineBarcodePosition === 'absolute-top' && barcodeDisplay && (
-                        <div className={`font-mono leading-none absolute top-0 left-0 w-full ${textAlignClass}`}
+                        <div className={`font-mono leading-none absolute top-0 left-0 w-full ${barcodeTextAlignClass}`}
                             style={{
                                 fontSize: `${spineBarcodeFontSize}pt`,
                                 fontWeight: spineBarcodeBold ? 'bold' : 'normal',
-                                transform: `translateY(${spineBarcodeVerticalShift}mm)`
+                                transform: `translate(${spineBarcodeHorizontalShift}mm, ${spineBarcodeVerticalShift}mm)`,
+                                paddingLeft: '1mm', 
+                                paddingRight: '1mm',
+                                color: fontColor
                             }}>
                             {barcodeDisplay}
                         </div>
                     )}
 
-                    {/* Normal Top Barcode */}
                     {spineBarcodePosition === 'top' && barcodeDisplay && (
-                        <div className="font-mono leading-none"
+                        <div className={`font-mono leading-none w-full ${barcodeTextAlignClass}`}
                             style={{
                                 fontSize: `${spineBarcodeFontSize}pt`,
                                 fontWeight: spineBarcodeBold ? 'bold' : 'normal',
                                 marginBottom: '0.5mm',
-                                transform: `translateY(${spineBarcodeVerticalShift}mm)`
+                                transform: `translate(${spineBarcodeHorizontalShift}mm, ${spineBarcodeVerticalShift}mm)`,
+                                color: fontColor
                             }}>
                             {barcodeDisplay}
                         </div>
                     )}
 
-                    {/* Main Text Wrapper - Width Fit Content ile Blok Hizalamasını Mümkün Kıl */}
                     <div style={{ transform: `translateY(${spineTextVerticalShift}mm)` }} className="w-fit max-w-full">
                         {parts.length > 0 ? parts.map((part, index) => (
                             <div key={index} className="w-full break-words" style={{ fontWeight: spineMainTextBold ? 'bold' : 'normal' }}>
@@ -797,25 +980,27 @@ function App() {
                         )}
                     </div>
 
-                    {/* Normal Bottom Barcode */}
                     {spineBarcodePosition === 'bottom' && barcodeDisplay && (
-                        <div className="mt-0.5 font-mono leading-none"
+                        <div className={`mt-0.5 font-mono leading-none w-full ${barcodeTextAlignClass}`}
                             style={{
                                 fontSize: `${spineBarcodeFontSize}pt`,
                                 fontWeight: spineBarcodeBold ? 'bold' : 'normal',
-                                transform: `translateY(${spineBarcodeVerticalShift}mm)`
+                                transform: `translate(${spineBarcodeHorizontalShift}mm, ${spineBarcodeVerticalShift}mm)`,
+                                color: fontColor
                             }}>
                             {barcodeDisplay}
                         </div>
                     )}
 
-                    {/* Absolute Bottom Barcode - Konumu Blok Hizalamasına Göre */}
                     {spineBarcodePosition === 'absolute-bottom' && barcodeDisplay && (
-                        <div className={`font-mono leading-none absolute bottom-0 left-0 w-full ${textAlignClass}`}
+                        <div className={`font-mono leading-none absolute bottom-0 left-0 w-full ${barcodeTextAlignClass}`}
                             style={{
                                 fontSize: `${spineBarcodeFontSize}pt`,
                                 fontWeight: spineBarcodeBold ? 'bold' : 'normal',
-                                transform: `translateY(${spineBarcodeVerticalShift}mm)`
+                                transform: `translate(${spineBarcodeHorizontalShift}mm, ${spineBarcodeVerticalShift}mm)`,
+                                paddingLeft: '1mm',
+                                paddingRight: '1mm',
+                                color: fontColor
                             }}>
                             {barcodeDisplay}
                         </div>
@@ -824,27 +1009,52 @@ function App() {
             );
         }
 
-        // BARKOD ETİKETİ GÖRÜNÜMÜ
-        const containerPaddingTop = verticalAlign === 'top' ? '0mm' : '1mm';
-        // İçerik hizalaması (Metin için)
-        const contentAlignClass = verticalAlign === 'center' ? 'items-center justify-center' : verticalAlign === 'bottom' ? 'items-end justify-end' : 'items-start justify-start';
+        const containerPaddingTopMm = verticalAlign === 'top' ? 0 : 1; 
+        const finalPaddingTop = containerPaddingTopMm + extraPt;
+        const finalPaddingLeft = 1 + extraPl;
+        const finalPaddingRight = 1 + extraPr;
+        const finalPaddingBottom = 1 + extraPb;
+
+        const contentAlignClass = verticalAlign === 'center' ? 'justify-center' : verticalAlign === 'bottom' ? 'justify-end' : 'justify-start';
+        const barcodeJustify = textAlign === 'left' ? 'justify-start' : textAlign === 'right' ? 'justify-end' : 'justify-center';
+        const isBarcodeTop = verticalAlign === 'bottom';
+        const barcodeContainerPosition = isBarcodeTop ? 'top-0 items-start' : 'bottom-0 items-end';
 
         return (
             <div className="flex flex-col text-black h-full box-border overflow-hidden relative bg-white">
-                {/* Metin Katmanı (Üstte - Z-Index 20)
-             Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
-             absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
-          */}
-                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', paddingBottom: '1mm' }}>
-                    {logo && (
-                        <img
-                            src={logo}
-                            alt="logo"
-                            className="flex-shrink-0 object-contain"
-                            style={{ height: `${logoSize}mm`, width: 'auto', marginRight: '2mm' }}
-                        />
-                    )}
-                    <div className="flex-grow overflow-hidden" style={{ textAlign: textJustify, fontSize: `${fontSize}pt`, lineHeight: lineHeight, fontFamily: fontFamily }}>
+                
+                {/* YENİ: Location Marker (Barkod Etiketi) */}
+                {showLocMark && locColor && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            width: `${locMarkSize}mm`,
+                            height: `${locMarkSize}mm`,
+                            backgroundColor: locColor,
+                            borderRadius: '50%',
+                            zIndex: 40,
+                            ...getLocMarkStyle()
+                        }}
+                    />
+                )}
+
+                {logo && (
+                    <img
+                        src={logo}
+                        alt="logo"
+                        className="object-contain"
+                        style={getLogoStyle(false)}
+                    />
+                )}
+
+                <div className={`flex flex-col ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none bg-transparent`} 
+                     style={{ 
+                         paddingTop: `${finalPaddingTop}mm`, 
+                         paddingLeft: `${finalPaddingLeft}mm`, 
+                         paddingRight: `${finalPaddingRight}mm`, 
+                         paddingBottom: `${finalPaddingBottom}mm` 
+                     }}>
+                    <div className="w-full h-auto bg-white bg-opacity-90" style={{ textAlign: textJustify, fontSize: `${fontSize}pt`, lineHeight: lineHeight, fontFamily: fontFamily, marginTop: 0, color: fontColor }}>
                         {labelFields.map((fieldKey, index) => {
                             const content = fieldKey === 'customText'
                                 ? customText
@@ -861,14 +1071,10 @@ function App() {
                     </div>
                 </div>
 
-                {/* Barkod Katmanı (Altta - Z-Index 10)
-             absolute yapılarak akıştan çıkarıldı. Böylece metin alanını daraltmaz.
-             bottom-0 ile en alta sabitlendi.
-          */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-10 pointer-events-none" style={{ padding: '0mm' }}>
+                <div className={`absolute ${barcodeContainerPosition} left-0 w-full flex ${barcodeJustify} bg-transparent z-10 pointer-events-none`} style={{ padding: '0mm' }}>
                     {barcodeFormat === 'CODE128'
-                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
-                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
+                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} color={barcodeColor} />
+                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} color={barcodeColor} />
                     }
                 </div>
             </div>
@@ -884,6 +1090,7 @@ function App() {
         ));
     };
 
+    // --- Pagination Controls Definition ---
     const paginationControls = (
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm bg-slate-50 dark:bg-slate-700/50 p-2 rounded-lg border border-slate-200 dark:border-slate-600">
             <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700 transition-colors">« Önceki</button>
@@ -914,6 +1121,7 @@ function App() {
             <button onClick={() => setCurrentPage(p => Math.min(Math.ceil(sortedData.length / effectiveItemsPerPage), p + 1))} disabled={currentPage * effectiveItemsPerPage >= sortedData.length} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700 transition-colors">Sonraki »</button>
         </div>
     );
+    // --- End Pagination Controls ---
 
     if (!loaded) {
         return (
@@ -942,14 +1150,14 @@ function App() {
       `}</style>
             <div className="bg-slate-100 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-200">
                 <div className="max-w-screen-2xl mx-auto">
+                    {/* Header and other top sections ... */}
                     <header className="mb-8 no-print flex flex-col md:flex-row justify-between items-center gap-4">
                         <div>
                             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Kütüphane Etiket Oluşturucu</h1>
                             <p className="text-slate-600 dark:text-slate-400 mt-1">Koha veya Excel verilerini yükleyin, barkod veya sırt etiketlerini tasarlayın.</p>
                         </div>
-
-                        {/* --- KULLANICI MENÜSÜ --- */}
-                        <div className="flex items-center gap-4">
+                        {/* User menu ... */}
+                         <div className="flex items-center gap-4">
                             {user ? (
                                 <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 pr-4">
                                     {user.photoURL ? (
@@ -979,7 +1187,8 @@ function App() {
 
                     <div className="flex flex-col gap-8">
                         <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
-                            <h3 className="font-bold text-lg border-b pb-3 mb-4 dark:border-slate-600 flex items-center gap-2">
+                             {/* File Upload Section ... */}
+                              <h3 className="font-bold text-lg border-b pb-3 mb-4 dark:border-slate-600 flex items-center gap-2">
                                 <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">Adım 1</span>
                                 Veri Dosyası Yükle
                             </h3>
@@ -1015,7 +1224,8 @@ function App() {
                         </div>
 
                         {allData.length > 0 && (
-                            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
+                           //  Table and Selection Section ...
+                           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 dark:border-slate-600 gap-2">
                                     <h3 className="font-bold text-lg flex items-center gap-2">
                                         <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">Adım 2</span>
@@ -1042,6 +1252,7 @@ function App() {
                                     </div>
                                 </div>
 
+                                {/* --- Search, Filters, Table ... (Same as before) --- */}
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                                     <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg">
                                         <h4 className="font-semibold text-sm mb-3 text-slate-700 dark:text-slate-300">Barkod Aralığına Göre Seç</h4>
@@ -1066,7 +1277,8 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-
+                                
+                                {/* ... Bulk Actions, Search Input, Pagination, Table ... */}
                                 <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-4 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
                                     <div className="flex items-center gap-2">
                                         <span className="text-xs font-bold text-blue-800 dark:text-blue-300 mr-2">TOPLU İŞLEMLER:</span>
@@ -1166,10 +1378,11 @@ function App() {
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 <div className="lg:col-span-2 space-y-6">
-                                    {/* BARKOD MODU AYARLARI */}
+                                     {/* ... Label Fields and Style Panels ... */}
                                     {labelType === 'barcode' && (
                                         <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg">
-                                            <h4 className="font-semibold text-sm mb-3 flex justify-between">
+                                            {/* ... Fields ... */}
+                                             <h4 className="font-semibold text-sm mb-3 flex justify-between">
                                                 Etiket Üzerindeki Bilgiler
                                                 <span className="text-xs font-normal text-slate-500 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border dark:border-slate-600">Max 3 satır</span>
                                             </h4>
@@ -1180,7 +1393,6 @@ function App() {
                                                         <span className="truncate">{field.label}</span>
                                                     </label>
                                                 ))}
-
                                                 <div className="col-span-2 mt-2 pt-3 border-t dark:border-slate-600">
                                                     <label className="flex items-center space-x-2 text-sm cursor-pointer mb-2">
                                                         <input type="checkbox" value="customText" checked={labelFields.includes('customText')} onChange={handleFieldSelection} disabled={!labelFields.includes('customText') && labelFields.length >= 3} className="rounded text-blue-600 focus:ring-blue-500" />
@@ -1190,31 +1402,31 @@ function App() {
                                                         <input type="text" value={customText} onChange={e => setCustomText(e.target.value)} placeholder="Örn: Kütüphane Adı" className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" />
                                                     )}
                                                 </div>
+                                                <div className="col-span-2 mt-2 pt-3 border-t dark:border-slate-600">
+                                                    <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
+                                                        <input type="checkbox" checked={isFirstLineBold} onChange={e => setIsFirstLineBold(e.target.checked)} className="rounded text-blue-600" />
+                                                        <span>İlk satırı kalın yap</span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
 
                                     <div className="grid md:grid-cols-2 gap-6">
                                         <div>
-                                            <h4 className="font-semibold text-sm mb-3">Yazı Stili</h4>
+                                            {/* ... Style Settings ... */}
+                                             <h4 className="font-semibold text-sm mb-3">Yazı Stili</h4>
                                             <div className="space-y-3">
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <div>
-                                                        <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum (Blok)</label>
-                                                        <select value={textAlign} onChange={(e) => setTextAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="left">Sola</option><option value="center">Orta</option><option value="right">Sağa</option></select>
-                                                    </div>
+                                                {/* ... Existing style inputs ... */}
+                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Metin Yaslama</label>
                                                         <select value={textJustify} onChange={(e) => setTextJustify(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
                                                             <option value="left">Sola</option>
                                                             <option value="center">Ortaya</option>
                                                             <option value="right">Sağa</option>
-                                                            <option value="justify">İki Yana</option>
                                                         </select>
                                                     </div>
-                                                </div>
-
-                                                <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Hizalama</label>
                                                         <select value={verticalAlign} onChange={(e) => setVerticalAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
@@ -1223,31 +1435,48 @@ function App() {
                                                             <option value="bottom">Alt</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Satır Aralığı</label>
-                                                        <input
-                                                            type="number"
-                                                            step="0.1"
-                                                            value={lineHeight}
-                                                            onChange={(e) => setLineHeight(Number(e.target.value))}
-                                                            className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"
-                                                        />
+                                                        <input type="number" step="0.1" value={lineHeight} onChange={(e) => setLineHeight(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
                                                     </div>
-                                                </div>
-
-                                                <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
                                                         <input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
                                                     </div>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Font</label>
                                                         <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="sans-serif">Sans-Serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option></select>
                                                     </div>
                                                 </div>
+                                                 <div className="border-t pt-3 mt-1 dark:border-slate-600">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="text-xs font-medium block mb-2 text-slate-500">Yazı Rengi</label>
+                                                            <div className="flex items-center gap-2">
+                                                                <input type="color" value={fontColor} onChange={(e) => setFontColor(e.target.value)} className="w-8 h-8 rounded border-none cursor-pointer bg-transparent" />
+                                                                <button onClick={() => setFontColor('#ff0000')} className="w-6 h-6 rounded-full bg-red-600 hover:ring-2 ring-red-300 transition-all" title="Kırmızı"></button>
+                                                                <button onClick={() => setFontColor('#008000')} className="w-6 h-6 rounded-full bg-green-700 hover:ring-2 ring-green-300 transition-all" title="Yeşil"></button>
+                                                                <button onClick={() => setFontColor('#000000')} className="w-6 h-6 rounded-full bg-black hover:ring-2 ring-gray-300 transition-all border border-gray-300" title="Siyah"></button>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-xs font-medium block mb-2 text-slate-500">Barkod Rengi</label>
+                                                            <div className="flex items-center gap-2">
+                                                                <input type="color" value={barcodeColor} onChange={(e) => setBarcodeColor(e.target.value)} className="w-8 h-8 rounded border-none cursor-pointer bg-transparent" />
+                                                                 <button onClick={() => setBarcodeColor('#ff0000')} className="w-6 h-6 rounded-full bg-red-600 hover:ring-2 ring-red-300 transition-all" title="Kırmızı"></button>
+                                                                <button onClick={() => setBarcodeColor('#008000')} className="w-6 h-6 rounded-full bg-green-700 hover:ring-2 ring-green-300 transition-all" title="Yeşil"></button>
+                                                                <button onClick={() => setBarcodeColor('#000000')} className="w-6 h-6 rounded-full bg-black hover:ring-2 ring-gray-300 transition-all border border-gray-300" title="Siyah"></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                {/* YENİ BARKOD YÜKSEKLİĞİ AYARI (Sadece EAN13 ise) */}
-                                                {labelType === 'barcode' && (
+                                                {/* ... Barcode Specific Settings ... */}
+                                                 {labelType === 'barcode' && (
                                                     <div className="pt-2 border-t dark:border-slate-600">
                                                         <div className="grid grid-cols-2 gap-2">
                                                             <div>
@@ -1258,14 +1487,7 @@ function App() {
                                                                 <div>
                                                                     <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Yüksekliği</label>
                                                                     <div className="flex items-center gap-2">
-                                                                        <input
-                                                                            type="range"
-                                                                            min="10"
-                                                                            max="100"
-                                                                            value={barcodeHeight}
-                                                                            onChange={(e) => setBarcodeHeight(Number(e.target.value))}
-                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                                                                        />
+                                                                        <input type="range" min="10" max="100" value={barcodeHeight} onChange={(e) => setBarcodeHeight(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
                                                                         <span className="text-xs w-8 text-right">{barcodeHeight}</span>
                                                                     </div>
                                                                 </div>
@@ -1273,7 +1495,6 @@ function App() {
                                                         </div>
                                                     </div>
                                                 )}
-
                                                 {labelType === 'barcode' && (
                                                     <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
                                                         <input type="checkbox" checked={isFirstLineBold} onChange={e => setIsFirstLineBold(e.target.checked)} className="rounded text-blue-600" />
@@ -1290,15 +1511,7 @@ function App() {
                                                         <div className="p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
                                                             <label className="text-xs font-medium block mb-1 text-slate-500">Yazı Dikey Konum (mm)</label>
                                                             <div className="flex items-center gap-2">
-                                                                <input
-                                                                    type="range"
-                                                                    min="-10"
-                                                                    max="10"
-                                                                    step="0.5"
-                                                                    value={spineTextVerticalShift}
-                                                                    onChange={(e) => setSpineTextVerticalShift(Number(e.target.value))}
-                                                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                                                                />
+                                                                <input type="range" min="-10" max="10" step="0.5" value={spineTextVerticalShift} onChange={(e) => setSpineTextVerticalShift(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
                                                                 <span className="text-xs w-8 text-right">{spineTextVerticalShift}</span>
                                                             </div>
                                                         </div>
@@ -1307,6 +1520,7 @@ function App() {
                                             </div>
                                         </div>
 
+                                        {/* ... Logo Settings ... */}
                                         {labelType === 'barcode' && (
                                             <div>
                                                 <h4 className="font-semibold text-sm mb-3">Logo Ayarları</h4>
@@ -1326,64 +1540,146 @@ function App() {
                                                             <label className="text-xs font-medium block mb-1 text-slate-500">Logo Yüksekliği (mm)</label>
                                                             <input type="number" value={logoSize} onChange={(e) => setLogoSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
                                                         </div>
+                                                         {/* Logo Konum Ayarları */}
+                                                        <div className="grid grid-cols-2 gap-2 pt-2 border-t mt-2">
+                                                            <div>
+                                                                <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum</label>
+                                                                <select value={logoAlignX} onChange={(e) => setLogoAlignX(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                    <option value="left">Sol</option>
+                                                                    <option value="center">Orta</option>
+                                                                    <option value="right">Sağ</option>
+                                                                </select>
+                                                            </div>
+                                                            <div>
+                                                                <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Konum</label>
+                                                                <select value={logoAlignY} onChange={(e) => setLogoAlignY(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                    <option value="top">Üst</option>
+                                                                    <option value="center">Orta</option>
+                                                                    <option value="bottom">Alt</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         )}
 
-                                        {labelType === 'spine' && (
-                                            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-800">
-                                                <h4 className="font-semibold text-sm mb-3 text-yellow-800 dark:text-yellow-300">Sırt Etiketi Ayarları</h4>
-                                                <div className="space-y-3">
+                                         {labelType === 'spine' && (
+                                            <div className="space-y-6">
+                                                {/* Barkod Ayarları Bloğu */}
+                                                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-800">
+                                                     {/* ... Spine Barcode settings ... */}
+                                                     <h4 className="font-semibold text-sm mb-3 text-yellow-800 dark:text-yellow-300">Sırt Etiketi Ayarları</h4>
+                                                    <div className="space-y-3">
+                                                        <div className="space-y-2 pt-1">
+                                                            <h5 className="text-xs font-bold text-yellow-700 dark:text-yellow-400 uppercase">Barkod Numarası</h5>
+                                                            <label className="flex items-center space-x-2 text-sm cursor-pointer">
+                                                                <input type="checkbox" checked={showSpineBarcode} onChange={e => setShowSpineBarcode(e.target.checked)} className="rounded text-blue-600" />
+                                                                <span>Numarayı Göster</span>
+                                                            </label>
 
-                                                    <div className="space-y-2 pt-1">
-                                                        <h5 className="text-xs font-bold text-yellow-700 dark:text-yellow-400 uppercase">Barkod Numarası</h5>
-                                                        <label className="flex items-center space-x-2 text-sm cursor-pointer">
-                                                            <input type="checkbox" checked={showSpineBarcode} onChange={e => setShowSpineBarcode(e.target.checked)} className="rounded text-blue-600" />
-                                                            <span>Numarayı Göster</span>
-                                                        </label>
-
-                                                        {showSpineBarcode && (
-                                                            <>
-                                                                <div className="grid grid-cols-2 gap-2">
-                                                                    <div>
-                                                                        <label className="text-xs font-medium block mb-1 text-slate-500">Konum</label>
-                                                                        <select value={spineBarcodePosition} onChange={e => setSpineBarcodePosition(e.target.value)} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600">
-                                                                            <option value="top">Üstte</option>
-                                                                            <option value="bottom">Altta</option>
-                                                                            <option value="absolute-top">En Üstte (Sabit)</option>
-                                                                            <option value="absolute-bottom">En Altta (Sabit)</option>
-                                                                        </select>
+                                                            {showSpineBarcode && (
+                                                                <>
+                                                                    <div className="grid grid-cols-2 gap-2">
+                                                                        <div>
+                                                                            <label className="text-xs font-medium block mb-1 text-slate-500">Konum</label>
+                                                                            <select value={spineBarcodePosition} onChange={e => setSpineBarcodePosition(e.target.value)} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                                <option value="top">Üstte</option>
+                                                                                <option value="bottom">Altta</option>
+                                                                                <option value="absolute-top">En Üstte (Sabit)</option>
+                                                                                <option value="absolute-bottom">En Altta (Sabit)</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div>
+                                                                            <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
+                                                                            <input type="number" value={spineBarcodeFontSize} onChange={e => setSpineBarcodeFontSize(Number(e.target.value))} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                                                        </div>
                                                                     </div>
-                                                                    <div>
-                                                                        <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
-                                                                        <input type="number" value={spineBarcodeFontSize} onChange={e => setSpineBarcodeFontSize(Number(e.target.value))} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600" />
-                                                                    </div>
-                                                                </div>
 
-                                                                <div className="p-1">
-                                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Dikey Konum (mm)</label>
-                                                                    <div className="flex items-center gap-2">
-                                                                        <input
-                                                                            type="range"
-                                                                            min="-10"
-                                                                            max="10"
-                                                                            step="0.5"
-                                                                            value={spineBarcodeVerticalShift}
-                                                                            onChange={(e) => setSpineBarcodeVerticalShift(Number(e.target.value))}
-                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                                                                        />
-                                                                        <span className="text-xs w-8 text-right">{spineBarcodeVerticalShift}</span>
+                                                                    {/* YENİ: Barkod Yatay Konum Slider */}
+                                                                    <div className="p-1">
+                                                                        <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Yatay Konum (mm)</label>
+                                                                        <div className="flex items-center gap-2">
+                                                                            <input
+                                                                                type="range"
+                                                                                min="-20"
+                                                                                max="20"
+                                                                                step="0.5"
+                                                                                value={spineBarcodeHorizontalShift}
+                                                                                onChange={(e) => setSpineBarcodeHorizontalShift(Number(e.target.value))}
+                                                                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                                            />
+                                                                            <span className="text-xs w-8 text-right">{spineBarcodeHorizontalShift}</span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <label className="flex items-center space-x-2 text-sm cursor-pointer mt-1">
-                                                                    <input type="checkbox" checked={spineBarcodeBold} onChange={e => setSpineBarcodeBold(e.target.checked)} className="rounded text-blue-600" />
-                                                                    <span>Barkod Numarası Kalın</span>
-                                                                </label>
-                                                                <p className="text-[10px] text-slate-500 mt-2">Otomatik: İlk 4 hane atlanır, kalan kısımdaki baştaki sıfırlar silinir.</p>
-                                                            </>
+                                                                    <div className="p-1">
+                                                                        <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Dikey Konum (mm)</label>
+                                                                        <div className="flex items-center gap-2">
+                                                                            <input
+                                                                                type="range"
+                                                                                min="-10"
+                                                                                max="10"
+                                                                                step="0.5"
+                                                                                value={spineBarcodeVerticalShift}
+                                                                                onChange={(e) => setSpineBarcodeVerticalShift(Number(e.target.value))}
+                                                                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                                            />
+                                                                            <span className="text-xs w-8 text-right">{spineBarcodeVerticalShift}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <label className="flex items-center space-x-2 text-sm cursor-pointer mt-1">
+                                                                        <input type="checkbox" checked={spineBarcodeBold} onChange={e => setSpineBarcodeBold(e.target.checked)} className="rounded text-blue-600" />
+                                                                        <span>Barkod Numarası Kalın</span>
+                                                                    </label>
+                                                                    <p className="text-[10px] text-slate-500 mt-2">Otomatik: İlk 4 hane atlanır, kalan kısımdaki baştaki sıfırlar silinir.</p>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* YENİ: Sırt Etiketi Logo Ayarları Bloğu */}
+                                                 <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-800">
+                                                    <h4 className="font-semibold text-sm mb-3 text-yellow-800 dark:text-yellow-300">Sırt Etiketi Logo Ayarları</h4>
+                                                    <div className="space-y-3">
+                                                        <div className="flex items-center space-x-2 text-sm mb-3">
+                                                            <input type="checkbox" id="spineMinistryLogoCheck" checked={useMinistryLogo} onChange={handleMinistryLogoToggle} className="rounded text-blue-600" />
+                                                            <label htmlFor="spineMinistryLogoCheck" className="cursor-pointer select-none">Varsayılan Logo</label>
+                                                        </div>
+                                                        
+                                                        {!useMinistryLogo && (
+                                                            <div>
+                                                                <label className="text-xs font-medium block mb-1 text-slate-500">Özel Logo Yükle</label>
+                                                                <input type="file" accept="image/*" onChange={handleLogoChange} className="text-xs w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer" />
+                                                            </div>
                                                         )}
+                                                        
+                                                        <div>
+                                                            <label className="text-xs font-medium block mb-1 text-slate-500">Logo Yüksekliği (mm)</label>
+                                                            <input type="number" value={logoSize} onChange={(e) => setLogoSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                                        </div>
+
+                                                        {/* Sırt Etiketi Logo Konum Ayarları */}
+                                                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-yellow-200 dark:border-yellow-700 mt-2">
+                                                            <div>
+                                                                <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum</label>
+                                                                <select value={spineLogoAlignX} onChange={(e) => setSpineLogoAlignX(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                    <option value="left">Sol</option>
+                                                                    <option value="center">Orta</option>
+                                                                    <option value="right">Sağ</option>
+                                                                </select>
+                                                            </div>
+                                                            <div>
+                                                                <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Konum</label>
+                                                                <select value={spineLogoAlignY} onChange={(e) => setSpineLogoAlignY(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                    <option value="top">Üst</option>
+                                                                    <option value="center">Orta</option>
+                                                                    <option value="bottom">Alt</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1391,17 +1687,77 @@ function App() {
                                     </div>
                                 </div>
 
+                                {/* YENİ PANEL: Raf Konumu İşaretçisi */}
+                                <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-lg border border-emerald-100 dark:border-emerald-800 lg:col-span-2">
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h4 className="font-semibold text-sm text-emerald-900 dark:text-emerald-300">Raf Konumu İşaretçisi (Renkli Nokta)</h4>
+                                        <label className="flex items-center space-x-2 text-xs cursor-pointer">
+                                            <input type="checkbox" checked={showLocMark} onChange={(e) => setShowLocMark(e.target.checked)} className="rounded text-emerald-600 focus:ring-emerald-500" />
+                                            <span>Göster</span>
+                                        </label>
+                                    </div>
+
+                                    {showLocMark && (
+                                        <div className="space-y-4">
+                                            {/* Genel Ayarlar */}
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                <div>
+                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (mm)</label>
+                                                    <input type="number" step="0.5" value={locMarkSize} onChange={(e) => setLocMarkSize(Number(e.target.value))} className="w-full p-1.5 border rounded text-xs dark:bg-slate-700 dark:border-slate-600" />
+                                                </div>
+                                                <div>
+                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum</label>
+                                                    <select value={locMarkAlignX} onChange={(e) => setLocMarkAlignX(e.target.value)} className="w-full p-1.5 border rounded text-xs dark:bg-slate-700 dark:border-slate-600">
+                                                        <option value="left">Sol</option>
+                                                        <option value="center">Orta</option>
+                                                        <option value="right">Sağ</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Konum</label>
+                                                    <select value={locMarkAlignY} onChange={(e) => setLocMarkAlignY(e.target.value)} className="w-full p-1.5 border rounded text-xs dark:bg-slate-700 dark:border-slate-600">
+                                                        <option value="top">Üst</option>
+                                                        <option value="center">Orta</option>
+                                                        <option value="bottom">Alt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            {/* Renk Atama Listesi */}
+                                            <div>
+                                                <p className="text-xs text-slate-500 mb-2 italic">Mevcut konumlar için renk seçin:</p>
+                                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1">
+                                                    {uniqueLocations.map(loc => (
+                                                        <div key={loc} className="flex items-center gap-2 text-xs p-1 bg-white dark:bg-slate-800 rounded border dark:border-slate-600">
+                                                            <input
+                                                                type="color"
+                                                                value={locationColors[loc] || '#000000'}
+                                                                onChange={(e) => handleLocationColorChange(loc, e.target.value)}
+                                                                className="w-5 h-5 rounded-full border-none cursor-pointer p-0 bg-transparent flex-shrink-0"
+                                                                title="Renk Seç"
+                                                            />
+                                                            <span className="truncate flex-grow" title={loc}>{loc}</span>
+                                                            {locationColors[loc] && <button onClick={() => { const newC = {...locationColors}; delete newC[loc]; setLocationColors(newC); }} className="text-red-500 hover:text-red-700">×</button>}
+                                                        </div>
+                                                    ))}
+                                                    {uniqueLocations.length === 0 && <p className="text-xs text-slate-400 col-span-3">Henüz veri yüklenmedi.</p>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col">
-                                    <h4 className="font-semibold text-sm mb-4 text-center text-slate-500 uppercase tracking-wider">Canlı Önizleme</h4>
+                                    {/* Preview Box ... */}
+                                     <h4 className="font-semibold text-sm mb-4 text-center text-slate-500 uppercase tracking-wider">Canlı Önizleme</h4>
                                     <div className="flex-grow flex items-center justify-center overflow-hidden py-8 bg-slate-200 dark:bg-slate-800 rounded-lg inner-shadow">
                                         <div style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}>
                                             <div className="bg-white shadow-lg transition-all duration-300" style={{ width: `${settings.labelWidth}mm`, height: `${settings.labelHeight}mm` }}>
                                                 {renderSingleLabel({
-                                                    barcode: '111000000072', // Örnek barkod güncellendi
+                                                    barcode: '111000000072',
                                                     title: 'Örnek Kitap Adı',
                                                     author: 'Yazar Adı',
                                                     itemcallnumber: '398.27 GRİ 2005',
-                                                    location: 'Genel Koleksiyon'
+                                                    location: 'Genel Koleksiyon' // Demo için sabit konum
                                                 }, 'preview')}
                                             </div>
                                         </div>
@@ -1409,8 +1765,9 @@ function App() {
                                     <p className="text-xs text-center mt-4 text-slate-400">Gerçek baskıda kenar çizgileri kesikli olacaktır.</p>
                                 </div>
                             </div>
-
-                            <div className="grid md:grid-cols-2 gap-8 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                           
+                            {/* ... Template Management & Print Area (Same as before) ... */}
+                             <div className="grid md:grid-cols-2 gap-8 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
                                 <div>
                                     <h4 className="font-semibold text-sm mb-3">Kağıt Düzeni</h4>
                                     <select value={selectedTemplateKey} onChange={(e) => loadTemplate(e.target.value)} className="w-full p-2.5 border rounded-md text-sm mb-4 bg-white dark:bg-slate-700 dark:border-slate-600 shadow-sm">
@@ -1436,6 +1793,24 @@ function App() {
                                 </div>
                                 <div>
                                     <h4 className="font-semibold text-sm mb-3">Şablon Yönetimi</h4>
+                                    
+                                    {/* Import/Export Butonları */}
+                                    <div className="flex gap-2 mb-3">
+                                        <button onClick={handleExportTemplates} className="flex-1 py-1.5 text-xs border border-blue-200 text-blue-700 rounded bg-blue-50 hover:bg-blue-100 transition-colors flex items-center justify-center gap-1">
+                                            <span>⬇️</span> Yedekle (İndir)
+                                        </button>
+                                        <button onClick={handleImportTemplatesClick} className="flex-1 py-1.5 text-xs border border-green-200 text-green-700 rounded bg-green-50 hover:bg-green-100 transition-colors flex items-center justify-center gap-1">
+                                            <span>⬆️</span> Şablon Yükle
+                                        </button>
+                                        <input 
+                                            type="file" 
+                                            accept=".json" 
+                                            ref={fileInputRef} 
+                                            onChange={handleImportTemplates} 
+                                            className="hidden" 
+                                        />
+                                    </div>
+
                                     <div className="flex items-center gap-2 mb-4">
                                         <input type="text" placeholder="Şablon adı (Örn: Brother 62mm)" value={newTemplateName} onChange={e => setNewTemplateName(e.target.value)} className="flex-grow p-2.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
                                         <button onClick={handleSaveTemplate} className="px-4 py-2.5 border rounded-md text-sm bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-emerald-200 transition-colors font-medium">Kaydet</button>
