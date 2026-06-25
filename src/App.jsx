@@ -83,28 +83,47 @@ const Barcode = ({ text, height = 25 }) => {
     const svgRef = useRef(null);
 
     useEffect(() => {
-        if (svgRef.current && text && window.JsBarcode) {
-            try {
-                const barcodeValue = String(text).slice(0, 16);
-                window.JsBarcode(svgRef.current, barcodeValue, {
-                    format: "CODE128",
-                    displayValue: true,
-                    text: barcodeValue,
-                    textPosition: "bottom",
-                    fontSize: 10, // Font biraz küçültüldü
-                    textMargin: 0, // Metin ile barkod arası boşluk sıfırlandı
-                    height: height,
-                    width: 1.5,
-                    margin: 0, // Dış boşluklar sıfırlandı
-                    marginTop: 0,
-                    marginBottom: 0,
-                    background: "transparent" // Arka plan şeffaf
-                });
-            } catch (e) {
-                console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
+        const timer = setTimeout(() => {
+            if (svgRef.current && text && window.JsBarcode) {
+                try {
+                    const barcodeValue = String(text).slice(0, 16);
+                    window.JsBarcode(svgRef.current, barcodeValue, {
+                        format: "CODE128",
+                        displayValue: true,
+                        text: barcodeValue,
+                        textPosition: "bottom",
+                        fontSize: 10,
+                        textMargin: 0,
+                        height: height,
+                        width: 1.5,
+                        margin: 0,
+                        marginTop: 0,
+                        marginBottom: 0,
+                        background: "transparent",
+                        lineColor: color
+                    });
+                    // JsBarcode SVG'nin içine beyaz arka plan <rect> ekliyor.
+                    // html2canvas bu beyaz rect'i render ediyor ve üstteki metinleri kapatıyor.
+                    // Bu yüzden arka plan rect'ini bulup kaldırıyoruz.
+                    const rects = svgRef.current.querySelectorAll('rect');
+                    rects.forEach(rect => {
+                        const fill = rect.getAttribute('fill');
+                        const width = parseFloat(rect.getAttribute('width') || 0);
+                        const height = parseFloat(rect.getAttribute('height') || 0);
+                        const svgWidth = parseFloat(svgRef.current.getAttribute('width') || 0);
+                        // Arka plan rect'i genelde SVG ile aynı genişlikte olur
+                        if ((fill === 'transparent' || fill === '#ffffff' || fill === 'white' || fill === '#fff') && width >= svgWidth * 0.9) {
+                            rect.remove();
+                        }
+                    });
+                } catch (e) {
+                    console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
+                }
             }
-        }
-    }, [text, height]);
+        }, 50);
+
+        return () => clearTimeout(timer);
+    }, [text, height, color]);
 
     return <svg ref={svgRef} className="max-w-full" style={{ display: 'block', background: 'transparent' }} />;
 };
@@ -863,7 +882,7 @@ function App() {
              bottom-0 ile en alta sabitlendi.
              mix-blend-multiply eklendi: Beyaz arka planın şeffaf davranmasını sağlar.
           */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm', mixBlendMode: 'multiply' }}>
+                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm' }}>
                     {barcodeFormat === 'CODE128'
                         ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
                         : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
