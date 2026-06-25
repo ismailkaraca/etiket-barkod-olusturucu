@@ -79,7 +79,7 @@ const useScriptLoader = (scripts) => {
 
 // --- Yardımcı Bileşenler ---
 
-const Barcode = ({ text, height = 25 }) => {
+const Barcode = ({ text, height = 25, color = '#000000' }) => {
     const svgRef = useRef(null);
 
     useEffect(() => {
