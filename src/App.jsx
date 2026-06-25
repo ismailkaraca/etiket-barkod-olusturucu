@@ -446,7 +446,16 @@ function App() {
 
         const { jsPDF } = window.jspdf;
         if (printArea) {
-            window.html2canvas(printArea, { scale: 3, useCORS: true, logging: false, backgroundColor: null }).then(canvas => {
+            window.html2canvas(printArea, { 
+                scale: 3, 
+                useCORS: true, 
+                logging: false, 
+                backgroundColor: '#ffffff',
+                scrollX: 0, 
+                scrollY: -window.scrollY,
+                windowWidth: printArea.scrollWidth,
+                windowHeight: printArea.scrollHeight
+            }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -854,7 +863,7 @@ function App() {
              bottom-0 ile en alta sabitlendi.
              mix-blend-multiply eklendi: Beyaz arka planın şeffaf davranmasını sağlar.
           */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm' }}>
+                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm', mixBlendMode: 'multiply' }}>
                     {barcodeFormat === 'CODE128'
                         ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
                         : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
