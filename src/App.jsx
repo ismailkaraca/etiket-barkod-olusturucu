@@ -1,50 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
-import { initializeApp } from 'firebase/app';
-import {
-    getAuth,
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut,
-    onAuthStateChanged,
-    signInAnonymously,
-    signInWithCustomToken
-} from 'firebase/auth';
-import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    collection,
-    onSnapshot
-} from 'firebase/firestore';
-
-// --- Firebase Başlatma --- ismail
-// --- Firebase Başlatma (ENV + Fallback) ---
-const firebaseConfigEnv = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "dummy_key",
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "dummy.firebaseapp.com",
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "dummy_project",
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "dummy.appspot.com",
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-    appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789:web:dummy"
-};
-
-const finalConfig = (typeof __firebase_config !== 'undefined')
-    ? JSON.parse(__firebase_config)
-    : firebaseConfigEnv;
-
-const firebaseConfig = finalConfig;
-let app, auth, db;
-try {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    db = getFirestore(app);
-} catch (e) {
-    console.error("Firebase init error:", e);
-}
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const googleProvider = new GoogleAuthProvider();
 
 // --- Script Yükleyici Hook ---
 const useScriptLoader = (scripts) => {
@@ -232,7 +187,7 @@ function App() {
     ]);
 
     // 2. State Tanımları
-    const [user, setUser] = useState(null);
+
     const [allData, setAllData] = useState([]);
     const [fileName, setFileName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -263,7 +218,7 @@ function App() {
     const [useMinistryLogo, setUseMinistryLogo] = useState(true);
     const [logoSize, setLogoSize] = useState(7);
 
-    const [isDarkMode, setIsDarkMode] = useState(false);
+
     const [customTemplates, setCustomTemplates] = useState({});
     const [newTemplateName, setNewTemplateName] = useState("");
     const [startBarcode, setStartBarcode] = useState("");
@@ -289,77 +244,13 @@ function App() {
         { key: 'location', label: 'Raf Konumu' }
     ];
 
-    // --- Firebase Auth ve Veri Yükleme ---
+    // --- Yerel Veri Yükleme ---
     useEffect(() => {
-        const initAuth = async () => {
-            if (auth && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                // Varsayılan olarak anonim giriş yapmıyoruz, kullanıcı manuel giriş yapacak
-            }
-        };
-        initAuth();
-
-        if (auth) {
-            const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-                setUser(currentUser);
-                if (!currentUser) {
-                    // Giriş yapılmadıysa LocalStorage'dan çek
-                    try {
-                        const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
-                        if (saved) setCustomTemplates(JSON.parse(saved));
-                    } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
-                }
-            });
-            return () => unsubscribe();
-        } else {
-            // Firebase yoksa local storage'dan yükle
-            try {
-                const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
-                if (saved) setCustomTemplates(JSON.parse(saved));
-            } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
-        }
-    }, []);
-
-    // Kullanıcı değiştiğinde Firestore'dan verileri çek
-    useEffect(() => {
-        if (!user) return;
-
-        const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates');
-        const unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                setCustomTemplates(docSnap.data());
-            } else {
-                setCustomTemplates({});
-            }
-        }, (error) => {
-            console.error("Firestore veri çekme hatası:", error);
-        });
-
-        return () => unsubscribeSnapshot();
-    }, [user]);
-
-    // --- Hesap İşlemleri ---
-    const handleGoogleLogin = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
-        } catch (error) {
-            console.error("Google giriş hatası:", error);
-            alert("Giriş yapılırken bir hata oluştu.");
-        }
-    };
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            // Çıkış yapınca yerel verilere dön
             const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
             if (saved) setCustomTemplates(JSON.parse(saved));
-            else setCustomTemplates({});
-        } catch (error) {
-            console.error("Çıkış hatası:", error);
-        }
-    };
+        } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
+    }, []);
 
     const itemsPerPage = useMemo(() => {
         if (allData.length === 0) return Math.max(1, settings.numCols * settings.numRows);
@@ -369,9 +260,6 @@ function App() {
     }, [rowsPerPageOption, settings.numCols, settings.numRows, allData.length]);
 
     // --- Effects ---
-    useEffect(() => {
-        document.documentElement.classList.toggle('dark', isDarkMode);
-    }, [isDarkMode]);
 
     // Başlangıçta demo veri yükle
     useEffect(() => {
@@ -657,36 +545,15 @@ function App() {
 
         const newTemplates = { ...customTemplates, [newTemplateName]: templateToSave };
         setCustomTemplates(newTemplates);
-
-        if (user) {
-            // Kullanıcı giriş yapmışsa Firestore'a kaydet
-            try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates'), newTemplates);
-            } catch (e) {
-                console.error("Şablon kaydedilemedi (Cloud):", e);
-                alert("Şablon buluta kaydedilemedi.");
-            }
-        } else {
-            // Giriş yapmamışsa LocalStorage'a kaydet
-            localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(newTemplates));
-        }
+        localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(newTemplates));
         setNewTemplateName('');
     };
 
-    const handleDeleteTemplate = async (templateName) => {
+    const handleDeleteTemplate = (templateName) => {
         const newTemplates = { ...customTemplates };
         delete newTemplates[templateName];
         setCustomTemplates(newTemplates);
-
-        if (user) {
-            try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'user_data', 'templates'), newTemplates);
-            } catch (e) {
-                console.error("Şablon silinemedi (Cloud):", e);
-            }
-        } else {
-            localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(newTemplates));
-        }
+        localStorage.setItem('kohaLabelMaker_customTemplates', JSON.stringify(newTemplates));
     };
 
     const loadTemplate = (key) => {
@@ -932,21 +799,21 @@ function App() {
     };
 
     const paginationControls = (
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm bg-slate-50 dark:bg-slate-700/50 p-2 rounded-lg border border-slate-200 dark:border-slate-600">
-            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700 transition-colors">« Önceki</button>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm bg-slate-50 p-2 rounded-lg border border-slate-200">
+            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">« Önceki</button>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
-                <span className="font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">
+                <span className="font-medium text-slate-600 whitespace-nowrap">
                     Sayfa {currentPage} / {Math.max(1, Math.ceil(sortedData.length / effectiveItemsPerPage))}
-                    <span className="ml-2 text-slate-400 dark:text-slate-500 hidden sm:inline">(Top. {sortedData.length})</span>
+                    <span className="ml-2 text-slate-400 hidden sm:inline">(Top. {sortedData.length})</span>
                 </span>
 
-                <div className="flex items-center gap-2 border-l pl-4 border-slate-300 dark:border-slate-600">
-                    <span className="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">Göster:</span>
+                <div className="flex items-center gap-2 border-l pl-4 border-slate-300">
+                    <span className="text-xs text-slate-500 hidden sm:inline">Göster:</span>
                     <select
                         value={rowsPerPageOption}
                         onChange={(e) => { setRowsPerPageOption(e.target.value); setCurrentPage(1); }}
-                        className="p-1.5 border rounded-md text-xs bg-white dark:bg-slate-600 dark:border-slate-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
+                        className="p-1.5 border rounded-md text-xs bg-white focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                     >
                         <option value="default">Otomatik ({settings.numCols * settings.numRows})</option>
                         <option value="10">10</option>
@@ -958,13 +825,13 @@ function App() {
                 </div>
             </div>
 
-            <button onClick={() => setCurrentPage(p => Math.min(Math.ceil(sortedData.length / effectiveItemsPerPage), p + 1))} disabled={currentPage * effectiveItemsPerPage >= sortedData.length} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700 transition-colors">Sonraki »</button>
+            <button onClick={() => setCurrentPage(p => Math.min(Math.ceil(sortedData.length / effectiveItemsPerPage), p + 1))} disabled={currentPage * effectiveItemsPerPage >= sortedData.length} className="px-4 py-2 border rounded-md bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Sonraki »</button>
         </div>
     );
 
     if (!loaded) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300">
+            <div className="flex items-center justify-center min-h-screen bg-slate-100 text-slate-600">
                 <div className="text-center">
                     <h2 className="text-2xl font-bold mb-2">Uygulama Hazırlanıyor...</h2>
                     <p>Gerekli kütüphaneler yükleniyor.</p>
@@ -987,59 +854,32 @@ function App() {
             #print-area { position: absolute; left: 0; top: 0; width: 100% !important; height: 100% !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; border: none !important; transform: none !important; } 
         }
       `}</style>
-            <div className="bg-slate-100 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-200">
+            <div className="bg-slate-100 min-h-screen text-slate-800 font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-200">
                 <div className="max-w-screen-2xl mx-auto">
                     <header className="mb-8 no-print flex flex-col md:flex-row justify-between items-center gap-4">
                         <div>
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Kütüphane Etiket Oluşturucu</h1>
-                            <p className="text-slate-600 dark:text-slate-400 mt-1">Koha veya Excel verilerini yükleyin, barkod veya sırt etiketlerini tasarlayın.</p>
+                            <h1 className="text-3xl font-bold text-slate-900">Kütüphane Etiket Oluşturucu</h1>
+                            <p className="text-slate-600 mt-1">Koha veya Excel verilerini yükleyin, barkod veya sırt etiketlerini tasarlayın.</p>
                         </div>
 
-                        {/* --- KULLANICI MENÜSÜ --- */}
-                        <div className="flex items-center gap-4">
-                            {user ? (
-                                <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 pr-4">
-                                    {user.photoURL ? (
-                                        <img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" />
-                                    ) : (
-                                        <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm">
-                                            {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
-                                        </div>
-                                    )}
-                                    <div className="hidden sm:block">
-                                        <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{user.displayName}</p>
-                                        <p className="text-[10px] text-emerald-500">● Çevrimiçi</p>
-                                    </div>
-                                    <button onClick={handleLogout} className="text-xs text-red-500 hover:text-red-600 font-semibold ml-2">Çıkış</button>
-                                </div>
-                            ) : (
-                                <button onClick={handleGoogleLogin} className="flex items-center gap-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 transition-all font-medium text-sm">
-                                    <svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26z" /><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" /></svg>
-                                    Giriş Yap
-                                </button>
-                            )}
-                            <button onClick={() => setIsDarkMode(p => !p)} className="p-2.5 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
-                                {isDarkMode ? '☀️' : '🌙'}
-                            </button>
-                        </div>
                     </header>
 
                     <div className="flex flex-col gap-8">
-                        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
-                            <h3 className="font-bold text-lg border-b pb-3 mb-4 dark:border-slate-600 flex items-center gap-2">
-                                <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">Adım 1</span>
+                        <div className="bg-white p-6 rounded-xl shadow-sm no-print border border-slate-200">
+                            <h3 className="font-bold text-lg border-b pb-3 mb-4 flex items-center gap-2">
+                                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Adım 1</span>
                                 Veri Dosyası Yükle
                             </h3>
                             <div className="flex flex-col gap-4">
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-100 dark:border-yellow-800 rounded-lg">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 bg-yellow-50 border border-yellow-100 rounded-lg">
                                     <div className="flex-grow">
-                                        <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-1">Karakter Kodlaması</label>
-                                        <p className="text-xs text-slate-600 dark:text-slate-400">Dosyanızdaki Türkçe karakterler bozuk çıkıyorsa veya sütunlar bulunamıyorsa buradan ayarı değiştirip dosyayı tekrar seçin.</p>
+                                        <label className="block text-sm font-semibold text-yellow-800 mb-1">Karakter Kodlaması</label>
+                                        <p className="text-xs text-slate-600">Dosyanızdaki Türkçe karakterler bozuk çıkıyorsa veya sütunlar bulunamıyorsa buradan ayarı değiştirip dosyayı tekrar seçin.</p>
                                     </div>
                                     <select
                                         value={fileEncoding}
                                         onChange={(e) => setFileEncoding(e.target.value)}
-                                        className="p-2 border rounded text-sm bg-white dark:bg-slate-800 dark:border-slate-600 cursor-pointer min-w-[200px]"
+                                        className="p-2 border rounded text-sm bg-white cursor-pointer min-w-[200px]"
                                     >
                                         <option value="Windows-1254">Türkçe (Windows-1254) - Önerilen</option>
                                         <option value="UTF-8">UTF-8 (Standart)</option>
@@ -1050,22 +890,22 @@ function App() {
                                 <div className="flex items-center gap-4 flex-wrap">
                                     <label className="block flex-grow">
                                         <span className="sr-only">Dosya Seç</span>
-                                        <input type="file" accept=".csv, .xlsx, .xls" onChange={handleFileChange} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-300 cursor-pointer" />
+                                        <input type="file" accept=".csv, .xlsx, .xls" onChange={handleFileChange} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer" />
                                     </label>
-                                    <button onClick={handleLoadDemoData} className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-full text-sm font-semibold transition-colors whitespace-nowrap border border-slate-300 dark:border-slate-600">
+                                    <button onClick={handleLoadDemoData} className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-sm font-semibold transition-colors whitespace-nowrap border border-slate-300">
                                         Örnek Veri Yükle
                                     </button>
                                 </div>
                             </div>
-                            {fileName && <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3 font-medium">✓ Yüklendi: {fileName} ({allData.length} kayıt)</p>}
+                            {fileName && <p className="text-sm text-emerald-600 mt-3 font-medium">✓ Yüklendi: {fileName} ({allData.length} kayıt)</p>}
                             {errorMessage && <p className="text-sm text-red-500 mt-3 font-medium">⚠️ {errorMessage}</p>}
                         </div>
 
                         {allData.length > 0 && (
-                            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
-                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 dark:border-slate-600 gap-2">
+                            <div className="bg-white p-6 rounded-xl shadow-sm no-print border border-slate-200">
+                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 gap-2">
                                     <h3 className="font-bold text-lg flex items-center gap-2">
-                                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">Adım 2</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Adım 2</span>
                                         Materyal Seçimi <span className="text-sm font-normal text-slate-500 ml-2">({selectedBarcodes.size} adet seçildi)</span>
                                     </h3>
                                 </div>
@@ -1073,11 +913,11 @@ function App() {
                                 {/* GÖSTERİM SAYISI SEÇİMİ */}
                                 <div className="flex justify-end mb-4">
                                     <div className="flex items-center gap-2">
-                                        <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Listeleme:</label>
+                                        <label className="text-sm font-medium text-slate-600">Listeleme:</label>
                                         <select
                                             value={rowsPerPageOption}
                                             onChange={(e) => { setRowsPerPageOption(e.target.value); setCurrentPage(1); }}
-                                            className="p-1.5 border rounded-md text-sm bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
+                                            className="p-1.5 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
                                         >
                                             <option value="default">Sayfa Düzenine Göre ({settings.numCols * settings.numRows})</option>
                                             <option value="10">10 Kayıt</option>
@@ -1090,23 +930,23 @@ function App() {
                                 </div>
 
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                                    <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg">
-                                        <h4 className="font-semibold text-sm mb-3 text-slate-700 dark:text-slate-300">Barkod Aralığına Göre Seç</h4>
+                                    <div className="bg-slate-50 p-4 rounded-lg">
+                                        <h4 className="font-semibold text-sm mb-3 text-slate-700">Barkod Aralığına Göre Seç</h4>
                                         <div className="flex items-center gap-2">
-                                            <input type="text" placeholder="Başlangıç (Örn: 001)" value={startBarcode} onChange={e => setStartBarcode(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" />
+                                            <input type="text" placeholder="Başlangıç (Örn: 001)" value={startBarcode} onChange={e => setStartBarcode(e.target.value)} className="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
                                             <span className="text-slate-400">-</span>
-                                            <input type="text" placeholder="Bitiş (Örn: 050)" value={endBarcode} onChange={e => setEndBarcode(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" />
+                                            <input type="text" placeholder="Bitiş (Örn: 050)" value={endBarcode} onChange={e => setEndBarcode(e.target.value)} className="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
                                             <button onClick={handleSelectByRange} className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors">Seç</button>
                                         </div>
                                     </div>
-                                    <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg">
-                                        <h4 className="font-semibold text-sm mb-3 text-slate-700 dark:text-slate-300">Gruplara Göre Hızlı Seç</h4>
+                                    <div className="bg-slate-50 p-4 rounded-lg">
+                                        <h4 className="font-semibold text-sm mb-3 text-slate-700">Gruplara Göre Hızlı Seç</h4>
                                         <div className="flex items-center gap-3">
-                                            <select defaultValue="" onChange={handleLocationSelect} className="w-full p-2 border rounded-md text-sm bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" disabled={uniqueLocations.length === 0}>
+                                            <select defaultValue="" onChange={handleLocationSelect} className="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none" disabled={uniqueLocations.length === 0}>
                                                 <option value="">Kütüphane Bölümü...</option>
                                                 {uniqueLocations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
                                             </select>
-                                            <select defaultValue="" onChange={handleDeweySelect} className="w-full p-2 border rounded-md text-sm bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none">
+                                            <select defaultValue="" onChange={handleDeweySelect} className="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none">
                                                 <option value="">Dewey Sınıflaması...</option>
                                                 {Object.entries(deweyCategories).map(([key, value]) => key && <option key={key} value={key}>{value}</option>)}
                                             </select>
@@ -1114,44 +954,44 @@ function App() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-4 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                                <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-4 mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xs font-bold text-blue-800 dark:text-blue-300 mr-2">TOPLU İŞLEMLER:</span>
-                                        <button onClick={handleSelectAllFiltered} className="px-3 py-1.5 bg-white border border-blue-200 rounded text-sm text-blue-700 hover:bg-blue-50 dark:bg-slate-800 dark:border-slate-600 dark:text-blue-300 dark:hover:bg-slate-700 transition-colors">Listelenenleri Seç</button>
-                                        <button onClick={handleDeselectAllFiltered} className="px-3 py-1.5 bg-white border border-red-200 rounded text-sm text-red-600 hover:bg-red-50 dark:bg-slate-800 dark:border-slate-600 dark:text-red-400 dark:hover:bg-slate-700 transition-colors">Seçimi Kaldır</button>
+                                        <span className="text-xs font-bold text-blue-800 mr-2">TOPLU İŞLEMLER:</span>
+                                        <button onClick={handleSelectAllFiltered} className="px-3 py-1.5 bg-white border border-blue-200 rounded text-sm text-blue-700 hover:bg-blue-50 transition-colors">Listelenenleri Seç</button>
+                                        <button onClick={handleDeselectAllFiltered} className="px-3 py-1.5 bg-white border border-red-200 rounded text-sm text-red-600 hover:bg-red-50 transition-colors">Seçimi Kaldır</button>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <button onClick={handleSelectPage} className="px-3 py-1.5 bg-white border border-slate-300 rounded text-sm text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Bu Sayfayı Seç</button>
-                                        <button onClick={handleDeselectPage} className="px-3 py-1.5 bg-white border border-slate-300 rounded text-sm text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Bu Sayfayı Kaldır</button>
+                                        <button onClick={handleSelectPage} className="px-3 py-1.5 bg-white border border-slate-300 rounded text-sm text-slate-700 hover:bg-slate-50 transition-colors">Bu Sayfayı Seç</button>
+                                        <button onClick={handleDeselectPage} className="px-3 py-1.5 bg-white border border-slate-300 rounded text-sm text-slate-700 hover:bg-slate-50 transition-colors">Bu Sayfayı Kaldır</button>
                                     </div>
                                 </div>
 
                                 <div className="relative mb-3">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
-                                    <input type="text" placeholder="Başlık, yazar, barkod veya yer numarası ara..." value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} className="w-full pl-9 p-2.5 border rounded-md text-sm shadow-sm dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" />
+                                    <input type="text" placeholder="Başlık, yazar, barkod veya yer numarası ara..." value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} className="w-full pl-9 p-2.5 border rounded-md text-sm shadow-sm focus:ring-2 focus:ring-blue-500 outline-none" />
                                 </div>
 
                                 {/* ÜST SAYFALAMA BUTONLARI */}
                                 {paginationControls}
 
-                                <div className="overflow-x-auto border rounded-lg dark:border-slate-700 mt-2">
+                                <div className="overflow-x-auto border rounded-lg mt-2">
                                     <table className="w-full text-left text-sm">
                                         <thead>
-                                            <tr className="bg-slate-100 dark:bg-slate-700/80 text-slate-600 dark:text-slate-300 font-semibold">
+                                            <tr className="bg-slate-100 text-slate-600 font-semibold">
                                                 {/* BAŞLIK CHECKBOX */}
                                                 <th className="p-3 w-10">
                                                     <input
                                                         type="checkbox"
                                                         checked={isCurrentPageSelected}
                                                         onChange={handleHeaderCheckboxChange}
-                                                        className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-500 cursor-pointer"
+                                                        className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer"
                                                     />
                                                 </th>
                                                 {/* Yeni eklenen Sıra No başlığı */}
                                                 <th className="p-3 w-10 font-bold text-center text-slate-500">#</th>
 
                                                 {tableHeaders.map((header, idx) => (
-                                                    <th key={idx} className="p-3 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 select-none transition-colors" onClick={() => idx > 0 && requestSort(header.key)}>
+                                                    <th key={idx} className="p-3 cursor-pointer hover:bg-slate-200 select-none transition-colors" onClick={() => idx > 0 && requestSort(header.key)}>
                                                         <div className="flex items-center gap-1">
                                                             {header.label || ''}
                                                             {idx > 0 && sortConfig.key === header.key && <span className="text-blue-500">{sortConfig.direction === 'ascending' ? '▲' : '▼'}</span>}
@@ -1160,18 +1000,18 @@ function App() {
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y dark:divide-slate-700">
+                                        <tbody className="divide-y">
                                             {paginatedData.map((item, index) => (
-                                                <tr key={item.uniqueId || index} className={`hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors ${selectedBarcodes.has(item.barcode) ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}>
+                                                <tr key={item.uniqueId || index} className={`hover:bg-blue-50 transition-colors ${selectedBarcodes.has(item.barcode) ? 'bg-blue-50/50' : ''}`}>
                                                     <td className="p-3 w-10">
-                                                        <input type="checkbox" checked={selectedBarcodes.has(item.barcode)} onChange={(e) => updateSelection([item.barcode], e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-500 cursor-pointer" />
+                                                        <input type="checkbox" checked={selectedBarcodes.has(item.barcode)} onChange={(e) => updateSelection([item.barcode], e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                                                     </td>
                                                     {/* Yeni eklenen Sıra No hücresi */}
                                                     <td className="p-3 w-10 text-center font-mono text-xs text-slate-400">
                                                         {(currentPage - 1) * effectiveItemsPerPage + index + 1}
                                                     </td>
                                                     {tableHeaders.map(header => (
-                                                        <td key={`${item.uniqueId}-${header.key}`} className={`p-3 ${header.key === 'barcode' ? 'font-mono text-slate-600 dark:text-slate-400' : ''} ${header.key === 'title' ? 'font-medium text-slate-900 dark:text-white' : ''}`}>
+                                                        <td key={`${item.uniqueId}-${header.key}`} className={`p-3 ${header.key === 'barcode' ? 'font-mono text-slate-600' : ''} ${header.key === 'title' ? 'font-medium text-slate-900' : ''}`}>
                                                             {item[header.key]}
                                                         </td>
                                                     ))}
@@ -1189,21 +1029,21 @@ function App() {
                             </div>
                         )}
 
-                        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm no-print border border-slate-200 dark:border-slate-700">
-                            <h3 className="font-bold text-lg border-b pb-3 mb-4 dark:border-slate-600 flex items-center gap-2">
-                                <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">Adım 3</span>
+                        <div className="bg-white p-6 rounded-xl shadow-sm no-print border border-slate-200">
+                            <h3 className="font-bold text-lg border-b pb-3 mb-4 flex items-center gap-2">
+                                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Adım 3</span>
                                 Etiket ve Baskı Ayarları
                             </h3>
 
-                            <div className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800">
-                                <h4 className="font-semibold text-sm mb-3 text-indigo-900 dark:text-indigo-300">Etiket Türü Seçimi</h4>
+                            <div className="mb-6 bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                                <h4 className="font-semibold text-sm mb-3 text-indigo-900">Etiket Türü Seçimi</h4>
                                 <div className="flex gap-4">
-                                    <label className={`flex-1 cursor-pointer p-3 rounded-lg border-2 transition-all text-center ${labelType === 'barcode' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30' : 'border-gray-200 hover:border-blue-300 bg-white dark:bg-slate-800 dark:border-slate-600'}`}>
+                                    <label className={`flex-1 cursor-pointer p-3 rounded-lg border-2 transition-all text-center ${labelType === 'barcode' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300 bg-white'}`}>
                                         <input type="radio" name="labelType" value="barcode" checked={labelType === 'barcode'} onChange={() => setLabelType('barcode')} className="sr-only" />
                                         <div className="font-bold text-sm">Barkod Etiketi</div>
                                         <div className="text-xs text-slate-500 mt-1">Barkod, başlık ve yazar içerir.</div>
                                     </label>
-                                    <label className={`flex-1 cursor-pointer p-3 rounded-lg border-2 transition-all text-center ${labelType === 'spine' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30' : 'border-gray-200 hover:border-blue-300 bg-white dark:bg-slate-800 dark:border-slate-600'}`}>
+                                    <label className={`flex-1 cursor-pointer p-3 rounded-lg border-2 transition-all text-center ${labelType === 'spine' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300 bg-white'}`}>
                                         <input type="radio" name="labelType" value="spine" checked={labelType === 'spine'} onChange={() => setLabelType('spine')} className="sr-only" />
                                         <div className="font-bold text-sm">Sırt Etiketi</div>
                                         <div className="text-xs text-slate-500 mt-1">Sadece yer numarası alt alta yazılır.</div>
@@ -1215,26 +1055,26 @@ function App() {
                                 <div className="lg:col-span-2 space-y-6">
                                     {/* BARKOD MODU AYARLARI */}
                                     {labelType === 'barcode' && (
-                                        <div className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg">
+                                        <div className="bg-slate-50 p-4 rounded-lg">
                                             <h4 className="font-semibold text-sm mb-3 flex justify-between">
                                                 Etiket Üzerindeki Bilgiler
-                                                <span className="text-xs font-normal text-slate-500 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border dark:border-slate-600">Max 3 satır</span>
+                                                <span className="text-xs font-normal text-slate-500 bg-white px-2 py-0.5 rounded border">Max 3 satır</span>
                                             </h4>
                                             <div className="grid grid-cols-2 gap-3 mb-4">
                                                 {availableFields.map(field => (
-                                                    <label key={field.key} className={`flex items-center space-x-2 text-sm p-2 rounded border transition-all cursor-pointer ${labelFields.includes(field.key) ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800' : 'border-transparent hover:bg-white dark:hover:bg-slate-600'}`}>
+                                                    <label key={field.key} className={`flex items-center space-x-2 text-sm p-2 rounded border transition-all cursor-pointer ${labelFields.includes(field.key) ? 'bg-blue-50 border-blue-200' : 'border-transparent hover:bg-white'}`}>
                                                         <input type="checkbox" value={field.key} checked={labelFields.includes(field.key)} onChange={handleFieldSelection} disabled={!labelFields.includes(field.key) && labelFields.length >= 3} className="rounded text-blue-600 focus:ring-blue-500" />
                                                         <span className="truncate">{field.label}</span>
                                                     </label>
                                                 ))}
 
-                                                <div className="col-span-2 mt-2 pt-3 border-t dark:border-slate-600">
+                                                <div className="col-span-2 mt-2 pt-3 border-t">
                                                     <label className="flex items-center space-x-2 text-sm cursor-pointer mb-2">
                                                         <input type="checkbox" value="customText" checked={labelFields.includes('customText')} onChange={handleFieldSelection} disabled={!labelFields.includes('customText') && labelFields.length >= 3} className="rounded text-blue-600 focus:ring-blue-500" />
                                                         <span className="font-medium">Sabit Metin Ekle</span>
                                                     </label>
                                                     {labelFields.includes('customText') && (
-                                                        <input type="text" value={customText} onChange={e => setCustomText(e.target.value)} placeholder="Örn: Kütüphane Adı" className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none" />
+                                                        <input type="text" value={customText} onChange={e => setCustomText(e.target.value)} placeholder="Örn: Kütüphane Adı" className="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
                                                     )}
                                                 </div>
                                             </div>
@@ -1248,11 +1088,11 @@ function App() {
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Yatay Konum (Blok)</label>
-                                                        <select value={textAlign} onChange={(e) => setTextAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="left">Sola</option><option value="center">Orta</option><option value="right">Sağa</option></select>
+                                                        <select value={textAlign} onChange={(e) => setTextAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm"><option value="left">Sola</option><option value="center">Orta</option><option value="right">Sağa</option></select>
                                                     </div>
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Metin Yaslama</label>
-                                                        <select value={textJustify} onChange={(e) => setTextJustify(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                        <select value={textJustify} onChange={(e) => setTextJustify(e.target.value)} className="w-full p-2 border rounded-md text-sm">
                                                             <option value="left">Sola</option>
                                                             <option value="center">Ortaya</option>
                                                             <option value="right">Sağa</option>
@@ -1264,7 +1104,7 @@ function App() {
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Dikey Hizalama</label>
-                                                        <select value={verticalAlign} onChange={(e) => setVerticalAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                        <select value={verticalAlign} onChange={(e) => setVerticalAlign(e.target.value)} className="w-full p-2 border rounded-md text-sm">
                                                             <option value="top">Üst (0px)</option>
                                                             <option value="center">Orta</option>
                                                             <option value="bottom">Alt</option>
@@ -1277,7 +1117,7 @@ function App() {
                                                             step="0.1"
                                                             value={lineHeight}
                                                             onChange={(e) => setLineHeight(Number(e.target.value))}
-                                                            className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"
+                                                            className="w-full p-2 border rounded-md text-sm"
                                                         />
                                                     </div>
                                                 </div>
@@ -1285,21 +1125,21 @@ function App() {
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
-                                                        <input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                                        <input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm" />
                                                     </div>
                                                     <div>
                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Font</label>
-                                                        <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="sans-serif">Sans-Serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option></select>
+                                                        <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} className="w-full p-2 border rounded-md text-sm"><option value="sans-serif">Sans-Serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option></select>
                                                     </div>
                                                 </div>
 
                                                 {/* YENİ BARKOD YÜKSEKLİĞİ AYARI (Sadece EAN13 ise) */}
                                                 {labelType === 'barcode' && (
-                                                    <div className="pt-2 border-t dark:border-slate-600">
+                                                    <div className="pt-2 border-t">
                                                         <div className="grid grid-cols-2 gap-2">
                                                             <div>
                                                                 <label className="text-xs font-medium block mb-1 text-slate-500">Barkod Tipi</label>
-                                                                <select value={barcodeFormat} onChange={(e) => setBarcodeFormat(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600"><option value="CODE128">Barkod (128)</option><option value="QR">QR Kod</option></select>
+                                                                <select value={barcodeFormat} onChange={(e) => setBarcodeFormat(e.target.value)} className="w-full p-2 border rounded-md text-sm"><option value="CODE128">Barkod (128)</option><option value="QR">QR Kod</option></select>
                                                             </div>
                                                             {barcodeFormat === 'CODE128' && (
                                                                 <div>
@@ -1311,7 +1151,7 @@ function App() {
                                                                             max="100"
                                                                             value={barcodeHeight}
                                                                             onChange={(e) => setBarcodeHeight(Number(e.target.value))}
-                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                                                                         />
                                                                         <span className="text-xs w-8 text-right">{barcodeHeight}</span>
                                                                     </div>
@@ -1322,19 +1162,19 @@ function App() {
                                                 )}
 
                                                 {labelType === 'barcode' && (
-                                                    <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
+                                                    <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 rounded">
                                                         <input type="checkbox" checked={isFirstLineBold} onChange={e => setIsFirstLineBold(e.target.checked)} className="rounded text-blue-600" />
                                                         <span>İlk satırı kalın yap (Başlık/Yer No)</span>
                                                     </label>
                                                 )}
                                                 {labelType === 'spine' && (
                                                     <div className="space-y-2">
-                                                        <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
+                                                        <label className="flex items-center space-x-2 text-sm cursor-pointer p-2 hover:bg-slate-50 rounded">
                                                             <input type="checkbox" checked={spineMainTextBold} onChange={e => setSpineMainTextBold(e.target.checked)} className="rounded text-blue-600" />
                                                             <span>Metni Kalın Yap (Bold)</span>
                                                         </label>
 
-                                                        <div className="p-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded">
+                                                        <div className="p-2 hover:bg-slate-50 rounded">
                                                             <label className="text-xs font-medium block mb-1 text-slate-500">Yazı Dikey Konum (mm)</label>
                                                             <div className="flex items-center gap-2">
                                                                 <input
@@ -1344,7 +1184,7 @@ function App() {
                                                                     step="0.5"
                                                                     value={spineTextVerticalShift}
                                                                     onChange={(e) => setSpineTextVerticalShift(Number(e.target.value))}
-                                                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                                                                 />
                                                                 <span className="text-xs w-8 text-right">{spineTextVerticalShift}</span>
                                                             </div>
@@ -1357,7 +1197,7 @@ function App() {
                                         {labelType === 'barcode' && (
                                             <div>
                                                 <h4 className="font-semibold text-sm mb-3">Logo Ayarları</h4>
-                                                <div className="p-3 border rounded-lg dark:border-slate-600">
+                                                <div className="p-3 border rounded-lg">
                                                     <div className="flex items-center space-x-2 text-sm mb-3">
                                                         <input type="checkbox" id="ministryLogoCheck" checked={useMinistryLogo} onChange={handleMinistryLogoToggle} className="rounded text-blue-600" />
                                                         <label htmlFor="ministryLogoCheck" className="cursor-pointer select-none">Varsayılan Logo</label>
@@ -1371,7 +1211,7 @@ function App() {
                                                         )}
                                                         <div>
                                                             <label className="text-xs font-medium block mb-1 text-slate-500">Logo Yüksekliği (mm)</label>
-                                                            <input type="number" value={logoSize} onChange={(e) => setLogoSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                                            <input type="number" value={logoSize} onChange={(e) => setLogoSize(Number(e.target.value))} className="w-full p-2 border rounded-md text-sm" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1379,12 +1219,12 @@ function App() {
                                         )}
 
                                         {labelType === 'spine' && (
-                                            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-800">
-                                                <h4 className="font-semibold text-sm mb-3 text-yellow-800 dark:text-yellow-300">Sırt Etiketi Ayarları</h4>
+                                            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                                                <h4 className="font-semibold text-sm mb-3 text-yellow-800">Sırt Etiketi Ayarları</h4>
                                                 <div className="space-y-3">
 
                                                     <div className="space-y-2 pt-1">
-                                                        <h5 className="text-xs font-bold text-yellow-700 dark:text-yellow-400 uppercase">Barkod Numarası</h5>
+                                                        <h5 className="text-xs font-bold text-yellow-700 uppercase">Barkod Numarası</h5>
                                                         <label className="flex items-center space-x-2 text-sm cursor-pointer">
                                                             <input type="checkbox" checked={showSpineBarcode} onChange={e => setShowSpineBarcode(e.target.checked)} className="rounded text-blue-600" />
                                                             <span>Numarayı Göster</span>
@@ -1395,7 +1235,7 @@ function App() {
                                                                 <div className="grid grid-cols-2 gap-2">
                                                                     <div>
                                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Konum</label>
-                                                                        <select value={spineBarcodePosition} onChange={e => setSpineBarcodePosition(e.target.value)} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600">
+                                                                        <select value={spineBarcodePosition} onChange={e => setSpineBarcodePosition(e.target.value)} className="w-full p-1.5 border rounded text-sm">
                                                                             <option value="top">Üstte</option>
                                                                             <option value="bottom">Altta</option>
                                                                             <option value="absolute-top">En Üstte (Sabit)</option>
@@ -1404,7 +1244,7 @@ function App() {
                                                                     </div>
                                                                     <div>
                                                                         <label className="text-xs font-medium block mb-1 text-slate-500">Boyut (pt)</label>
-                                                                        <input type="number" value={spineBarcodeFontSize} onChange={e => setSpineBarcodeFontSize(Number(e.target.value))} className="w-full p-1.5 border rounded text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                                                        <input type="number" value={spineBarcodeFontSize} onChange={e => setSpineBarcodeFontSize(Number(e.target.value))} className="w-full p-1.5 border rounded text-sm" />
                                                                     </div>
                                                                 </div>
 
@@ -1418,7 +1258,7 @@ function App() {
                                                                             step="0.5"
                                                                             value={spineBarcodeVerticalShift}
                                                                             onChange={(e) => setSpineBarcodeVerticalShift(Number(e.target.value))}
-                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                                                                         />
                                                                         <span className="text-xs w-8 text-right">{spineBarcodeVerticalShift}</span>
                                                                     </div>
@@ -1438,9 +1278,9 @@ function App() {
                                     </div>
                                 </div>
 
-                                <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col">
+                                <div className="bg-slate-100 p-4 rounded-xl border border-slate-200 flex flex-col">
                                     <h4 className="font-semibold text-sm mb-4 text-center text-slate-500 uppercase tracking-wider">Canlı Önizleme</h4>
-                                    <div className="flex-grow flex items-center justify-center overflow-hidden py-8 bg-slate-200 dark:bg-slate-800 rounded-lg inner-shadow">
+                                    <div className="flex-grow flex items-center justify-center overflow-hidden py-8 bg-slate-200 rounded-lg inner-shadow">
                                         <div style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}>
                                             <div className="bg-white shadow-lg transition-all duration-300" style={{ width: `${settings.labelWidth}mm`, height: `${settings.labelHeight}mm` }}>
                                                 {renderSingleLabel({
@@ -1457,10 +1297,10 @@ function App() {
                                 </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-8 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                            <div className="grid md:grid-cols-2 gap-8 mt-8 pt-6 border-t border-slate-200">
                                 <div>
                                     <h4 className="font-semibold text-sm mb-3">Kağıt Düzeni</h4>
-                                    <select value={selectedTemplateKey} onChange={(e) => loadTemplate(e.target.value)} className="w-full p-2.5 border rounded-md text-sm mb-4 bg-white dark:bg-slate-700 dark:border-slate-600 shadow-sm">
+                                    <select value={selectedTemplateKey} onChange={(e) => loadTemplate(e.target.value)} className="w-full p-2.5 border rounded-md text-sm mb-4 bg-white shadow-sm">
                                         <option value="system4">Barkod: A4 - 4 Sütunlu (46x22mm)</option>
                                         <option value="system3">Barkod: A4 - 3 Sütunlu (69x25mm)</option>
                                         <option value="spine_system">Sırt Etiketi: Sistem (52x30mm)</option>
@@ -1471,11 +1311,11 @@ function App() {
                                     </select>
 
                                     {selectedTemplateKey === 'custom' && (
-                                        <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm bg-slate-50 dark:bg-slate-700/30 p-3 rounded border dark:border-slate-600">
+                                        <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm bg-slate-50 p-3 rounded border">
                                             {Object.keys(settings).filter(k => k !== 'name' && k !== 'unit').map(key => (
                                                 <label key={key} className="flex flex-col">
                                                     <span className="text-xs text-slate-500 mb-1">{settingLabels[key] || key} (mm)</span>
-                                                    <input type="number" value={settings[key]} onChange={e => handleSettingChange(key, e.target.value)} className="p-1.5 border rounded dark:bg-slate-700 dark:border-slate-600 text-sm" />
+                                                    <input type="number" value={settings[key]} onChange={e => handleSettingChange(key, e.target.value)} className="p-1.5 border rounded text-sm" />
                                                 </label>
                                             ))}
                                         </div>
@@ -1484,16 +1324,16 @@ function App() {
                                 <div>
                                     <h4 className="font-semibold text-sm mb-3">Şablon Yönetimi</h4>
                                     <div className="flex items-center gap-2 mb-4">
-                                        <input type="text" placeholder="Şablon adı (Örn: Brother 62mm)" value={newTemplateName} onChange={e => setNewTemplateName(e.target.value)} className="flex-grow p-2.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" />
+                                        <input type="text" placeholder="Şablon adı (Örn: Brother 62mm)" value={newTemplateName} onChange={e => setNewTemplateName(e.target.value)} className="flex-grow p-2.5 border rounded-md text-sm" />
                                         <button onClick={handleSaveTemplate} className="px-4 py-2.5 border rounded-md text-sm bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-emerald-200 transition-colors font-medium">Kaydet</button>
                                     </div>
 
-                                    <div className="bg-slate-50 dark:bg-slate-700/30 rounded-lg border dark:border-slate-600 p-3 max-h-40 overflow-y-auto">
+                                    <div className="bg-slate-50 rounded-lg border p-3 max-h-40 overflow-y-auto">
                                         <h5 className="text-xs font-bold text-slate-400 uppercase mb-2">Kayıtlı Şablonlar</h5>
                                         {Object.keys(customTemplates).length > 0 ? (
                                             <div className="space-y-1">
                                                 {Object.keys(customTemplates).map(name => (
-                                                    <div key={name} className="flex justify-between items-center text-sm p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700"><span>{name}</span><div><button onClick={() => { setSelectedTemplateKey(name); loadTemplate(name); }} className="text-xs mr-2 text-blue-600 dark:text-blue-400">Yükle</button><button onClick={() => handleDeleteTemplate(name)} className="text-xs text-red-600 dark:text-red-400">Sil</button></div></div>
+                                                    <div key={name} className="flex justify-between items-center text-sm p-1 rounded hover:bg-slate-100"><span>{name}</span><div><button onClick={() => { setSelectedTemplateKey(name); loadTemplate(name); }} className="text-xs mr-2 text-blue-600">Yükle</button><button onClick={() => handleDeleteTemplate(name)} className="text-xs text-red-600">Sil</button></div></div>
                                                 ))}
                                             </div>
                                         ) : (
@@ -1505,8 +1345,8 @@ function App() {
                         </div>
 
                         <div className="w-full flex flex-col gap-6">
-                            <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm no-print">
-                                <div className="mb-4"><label className="text-sm font-medium block mb-1">PDF Dosya Adı</label><input type="text" value={pdfFileName} onChange={(e) => setPdfFileName(e.target.value)} className="w-full p-2 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600" placeholder="etiketler" /></div>
+                            <div className="bg-white p-4 rounded-lg shadow-sm no-print">
+                                <div className="mb-4"><label className="text-sm font-medium block mb-1">PDF Dosya Adı</label><input type="text" value={pdfFileName} onChange={(e) => setPdfFileName(e.target.value)} className="w-full p-2 border rounded-md text-sm" placeholder="etiketler" /></div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button onClick={handlePrintAsPdf} className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 shadow disabled:opacity-50" disabled={labelsToPrint.length === 0}>PDF Olarak İndir</button>
                                     <button onClick={() => setSelectedBarcodes(new Set())} className="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 shadow disabled:opacity-50" disabled={selectedBarcodes.size === 0}>Tüm Seçimleri Temizle</button>
