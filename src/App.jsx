@@ -22,12 +22,12 @@ import {
 // --- Firebase Başlatma --- ismail
 // --- Firebase Başlatma (ENV + Fallback) ---
 const firebaseConfigEnv = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "dummy_key",
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "dummy.firebaseapp.com",
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "dummy_project",
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "dummy.appspot.com",
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789:web:dummy"
 };
 
 const finalConfig = (typeof __firebase_config !== 'undefined')
@@ -35,9 +35,14 @@ const finalConfig = (typeof __firebase_config !== 'undefined')
     : firebaseConfigEnv;
 
 const firebaseConfig = finalConfig;
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+let app, auth, db;
+try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+} catch (e) {
+    console.error("Firebase init error:", e);
+}
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 const googleProvider = new GoogleAuthProvider();
 
@@ -101,7 +106,7 @@ const Barcode = ({ text, height = 25 }) => {
         }
     }, [text, height]);
 
-    return <svg ref={svgRef} className="max-w-full" style={{ display: 'block' }} />;
+    return <svg ref={svgRef} className="max-w-full" style={{ display: 'block', background: 'transparent' }} />;
 };
 
 const QRCode = ({ text, size = '25mm' }) => {
@@ -268,24 +273,33 @@ function App() {
     // --- Firebase Auth ve Veri Yükleme ---
     useEffect(() => {
         const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            if (auth && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                 await signInWithCustomToken(auth, __initial_auth_token);
             } else {
                 // Varsayılan olarak anonim giriş yapmıyoruz, kullanıcı manuel giriş yapacak
             }
         };
         initAuth();
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            if (!currentUser) {
-                // Giriş yapılmadıysa LocalStorage'dan çek
-                try {
-                    const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
-                    if (saved) setCustomTemplates(JSON.parse(saved));
-                } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
-            }
-        });
-        return () => unsubscribe();
+
+        if (auth) {
+            const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+                setUser(currentUser);
+                if (!currentUser) {
+                    // Giriş yapılmadıysa LocalStorage'dan çek
+                    try {
+                        const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
+                        if (saved) setCustomTemplates(JSON.parse(saved));
+                    } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
+                }
+            });
+            return () => unsubscribe();
+        } else {
+            // Firebase yoksa local storage'dan yükle
+            try {
+                const saved = localStorage.getItem('kohaLabelMaker_customTemplates');
+                if (saved) setCustomTemplates(JSON.parse(saved));
+            } catch (e) { console.error("Yerel şablonlar yüklenemedi", e); }
+        }
     }, []);
 
     // Kullanıcı değiştiğinde Firestore'dan verileri çek
@@ -432,7 +446,7 @@ function App() {
 
         const { jsPDF } = window.jspdf;
         if (printArea) {
-            window.html2canvas(printArea, { scale: 3, useCORS: true, logging: false }).then(canvas => {
+            window.html2canvas(printArea, { scale: 3, useCORS: true, logging: false, backgroundColor: null }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -835,7 +849,23 @@ function App() {
              Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
              absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
           */}
-                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', paddingBottom: '1mm' }}>
+                {/* Barkod Katmanı (Altta - Z-Index 10)
+             absolute yapılarak akıştan çıkarıldı. Böylece metin alanını daraltmaz.
+             bottom-0 ile en alta sabitlendi.
+             mix-blend-multiply eklendi: Beyaz arka planın şeffaf davranmasını sağlar.
+          */}
+                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm' }}>
+                    {barcodeFormat === 'CODE128'
+                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
+                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
+                    }
+                </div>
+
+                {/* Metin Katmanı (Üstte - Z-Index 20)
+             Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
+             absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
+          */}
+                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', paddingBottom: '1mm', background: 'transparent' }}>
                     {logo && (
                         <img
                             src={logo}
@@ -859,17 +889,6 @@ function App() {
                             );
                         })}
                     </div>
-                </div>
-
-                {/* Barkod Katmanı (Altta - Z-Index 10)
-             absolute yapılarak akıştan çıkarıldı. Böylece metin alanını daraltmaz.
-             bottom-0 ile en alta sabitlendi.
-          */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-10 pointer-events-none" style={{ padding: '0mm' }}>
-                    {barcodeFormat === 'CODE128'
-                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
-                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
-                    }
                 </div>
             </div>
         );
