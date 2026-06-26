@@ -43,9 +43,8 @@ const Barcode = ({ text, height = 25, color = '#000000' }) => {
                 try {
                     const barcodeValue = String(text).slice(0, 16);
                     // Canvas elementi kullanarak barkod oluştur.
-                    // Canvas doğal olarak şeffaf arka plana sahiptir.
-                    // html2canvas canvas'ı piksel piksel kopyalar - beyaz arka plan sorunu olmaz.
-                    // background: false ile JsBarcode arka plan dolgusu yapmaz.
+                    // Barkod metnin altında olduğu için (üst üste binme yok)
+                    // beyaz arka plan kullanıyoruz - barkod çubukları net ve koyu çıkar.
                     window.JsBarcode(canvasRef.current, barcodeValue, {
                         format: "CODE128",
                         displayValue: true,
@@ -58,7 +57,7 @@ const Barcode = ({ text, height = 25, color = '#000000' }) => {
                         margin: 0,
                         marginTop: 0,
                         marginBottom: 0,
-                        background: false,
+                        background: "#ffffff",
                         lineColor: color
                     });
                 } catch (e) {
