@@ -729,17 +729,9 @@ function App() {
         const contentAlignClass = verticalAlign === 'center' ? 'items-center justify-center' : verticalAlign === 'bottom' ? 'items-end justify-end' : 'items-start justify-start';
 
         return (
-            <div className="flex flex-col text-black h-full box-border overflow-hidden relative bg-white">
-                {/* Barkod Katmanı (Altta - absolute ile konumlandırılmış) */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end" style={{ background: 'transparent' }}>
-                    {barcodeFormat === 'CODE128'
-                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
-                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
-                    }
-                </div>
-
-                {/* Metin Katmanı (Üstte - z-index ile barkodun üzerinde) */}
-                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-10`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', background: 'transparent' }}>
+            <div className="flex flex-col text-black h-full box-border overflow-hidden bg-white">
+                {/* Metin Katmanı (Üstte - doğal akış) */}
+                <div className="flex w-full overflow-hidden" style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm' }}>
                     {logo && (
                         <img
                             src={logo}
@@ -763,6 +755,14 @@ function App() {
                             );
                         })}
                     </div>
+                </div>
+
+                {/* Barkod Katmanı (Metnin hemen altında - doğal akış) */}
+                <div className="w-full flex justify-center">
+                    {barcodeFormat === 'CODE128'
+                        ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
+                        : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
+                    }
                 </div>
             </div>
         );
