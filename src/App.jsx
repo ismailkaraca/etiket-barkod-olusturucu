@@ -35,14 +35,18 @@ const useScriptLoader = (scripts) => {
 // --- Yardımcı Bileşenler ---
 
 const Barcode = ({ text, height = 25, color = '#000000' }) => {
-    const svgRef = useRef(null);
+    const canvasRef = useRef(null);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (svgRef.current && text && window.JsBarcode) {
+            if (canvasRef.current && text && window.JsBarcode) {
                 try {
                     const barcodeValue = String(text).slice(0, 16);
-                    window.JsBarcode(svgRef.current, barcodeValue, {
+                    // Canvas elementi kullanarak barkod oluştur.
+                    // Canvas doğal olarak şeffaf arka plana sahiptir.
+                    // html2canvas canvas'ı piksel piksel kopyalar - beyaz arka plan sorunu olmaz.
+                    // background: false ile JsBarcode arka plan dolgusu yapmaz.
+                    window.JsBarcode(canvasRef.current, barcodeValue, {
                         format: "CODE128",
                         displayValue: true,
                         text: barcodeValue,
@@ -54,22 +58,8 @@ const Barcode = ({ text, height = 25, color = '#000000' }) => {
                         margin: 0,
                         marginTop: 0,
                         marginBottom: 0,
-                        background: "transparent",
+                        background: false,
                         lineColor: color
-                    });
-                    // JsBarcode SVG'nin içine beyaz arka plan <rect> ekliyor.
-                    // html2canvas bu beyaz rect'i render ediyor ve üstteki metinleri kapatıyor.
-                    // Bu yüzden arka plan rect'ini bulup kaldırıyoruz.
-                    const rects = svgRef.current.querySelectorAll('rect');
-                    rects.forEach(rect => {
-                        const fill = rect.getAttribute('fill');
-                        const width = parseFloat(rect.getAttribute('width') || 0);
-                        const height = parseFloat(rect.getAttribute('height') || 0);
-                        const svgWidth = parseFloat(svgRef.current.getAttribute('width') || 0);
-                        // Arka plan rect'i genelde SVG ile aynı genişlikte olur
-                        if ((fill === 'transparent' || fill === '#ffffff' || fill === 'white' || fill === '#fff') && width >= svgWidth * 0.9) {
-                            rect.remove();
-                        }
                     });
                 } catch (e) {
                     console.error(`JsBarcode hatası: Barkod "${text}" oluşturulamadı.`, e);
@@ -80,7 +70,7 @@ const Barcode = ({ text, height = 25, color = '#000000' }) => {
         return () => clearTimeout(timer);
     }, [text, height, color]);
 
-    return <svg ref={svgRef} className="max-w-full" style={{ display: 'block', background: 'transparent' }} />;
+    return <canvas ref={canvasRef} style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />;
 };
 
 const QRCode = ({ text, size = '25mm' }) => {
@@ -740,27 +730,16 @@ function App() {
 
         return (
             <div className="flex flex-col text-black h-full box-border overflow-hidden relative bg-white">
-                {/* Metin Katmanı (Üstte - Z-Index 20)
-             Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
-             absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
-          */}
-                {/* Barkod Katmanı (Altta - Z-Index 10)
-             absolute yapılarak akıştan çıkarıldı. Böylece metin alanını daraltmaz.
-             bottom-0 ile en alta sabitlendi.
-             mix-blend-multiply eklendi: Beyaz arka planın şeffaf davranmasını sağlar.
-          */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end bg-transparent z-0 pointer-events-none" style={{ padding: '0mm' }}>
+                {/* Barkod Katmanı (Altta - absolute ile konumlandırılmış) */}
+                <div className="absolute bottom-0 left-0 w-full flex justify-center items-end" style={{ background: 'transparent' }}>
                     {barcodeFormat === 'CODE128'
                         ? <Barcode text={data?.barcode || '123456789012'} height={barcodeHeight} />
                         : <QRCode text={data?.barcode || '123456789012'} size={`${Math.min(settings.labelWidth * 0.8, settings.labelHeight * 0.6)}mm`} />
                     }
                 </div>
 
-                {/* Metin Katmanı (Üstte - Z-Index 20)
-             Metinlerin barkod tarafından ezilmemesi için z-index yüksek tutuldu.
-             absolute veya h-full kullanılarak tüm alanı kaplaması sağlanmalı ki barkod alanı yer çalmasın.
-          */}
-                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-20 pointer-events-none`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', paddingBottom: '1mm', background: 'transparent' }}>
+                {/* Metin Katmanı (Üstte - z-index ile barkodun üzerinde) */}
+                <div className={`flex ${contentAlignClass} w-full h-full overflow-hidden relative z-10`} style={{ paddingTop: containerPaddingTop, paddingLeft: '1mm', paddingRight: '1mm', background: 'transparent' }}>
                     {logo && (
                         <img
                             src={logo}
