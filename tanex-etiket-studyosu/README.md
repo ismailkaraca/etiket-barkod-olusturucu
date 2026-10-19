@@ -34,3 +34,8 @@ Vercel GitHub entegrasyonunda proje kök dizini: `tanex-etiket-studyosu`. FastAP
 ## Tanex çevrimiçi şablon arşivi
 
 Üreticinin [Şablonlar ve Ölçüler](https://www.tanexlabel.com/sablonlar-ve-olculer/) sayfasındaki tüm A4 Word şablonları `.github/workflows/tanex-sync.yml` üzerinden indirilir. İndirilen kaynak şablonlar `templates/` klasörüne, ürün kodu, resmî ölçü ve uyumluluk verileri `templates/tanex_katalog.json` dosyasına kaydedilir. Uygulama ürün kodu veya etiket ölçüsüne göre arama yapabilir. Uyumlu olmayan Word düzenleri yanlış baskı üretilmemesi için aktif seçeneklere alınmaz. Varsayılan TW-2233 olarak kalır.
+
+
+### Sütun başlıkları ve çıktı sıralaması
+
+Seçilen her Excel sütunu için **Başlığı yazdır** ve **Başlık kalın** bağımsız seçeneklerdir. Başlık metni etiket üzerinde ayrı düzenlenebilir; Excel verisinin aslı değişmez. Sütunların yazdırma sırası oklarla belirlenir. **Kayıtları sırala** alanından herhangi bir Excel sütununa, Excel satır sırasına veya etiket adedine göre artan/azalan sıralama yapılabilir. Önizleme ve Word çıktısı aynı sıralanmış seçili kayıtları kullanır. Arama yalnızca ekrandaki tabloyu filtreler.

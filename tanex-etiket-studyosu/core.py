@@ -213,31 +213,59 @@ def wrap_text(text: str, max_mm:float, font):
         result.append(line)
     return result
 
+def _line_segments(line, original, start_at, heading_length, bold_heading, value_bold):
+    """Identify the original heading/value boundary after word wrapping."""
+    if not line:
+        return [], start_at
+    offset=original.find(line, start_at)
+    if offset<0:  # Defensive fallback for unusual whitespace in the Excel cell.
+        offset=start_at
+    pieces=[]
+    boundary=heading_length
+    if offset<boundary:
+        prefix=line[:max(0,min(len(line),boundary-offset))]
+        if prefix:pieces.append({'text':prefix,'bold':bool(bold_heading or value_bold)})
+    rest=line[max(0,boundary-offset):] if offset<boundary else line
+    if rest:pieces.append({'text':rest,'bold':bool(value_bold)})
+    return pieces,offset+len(line)
+
+
 def _layout_text(parts, width_mm,height_mm, options):
     padding=max(0,float(options.get('padding',3)))
     width=max(2,width_mm-2*padding)
     height=max(2,height_mm-2*padding)
     name=options.get('font','Arial')
-    label_names=options.get('showNames',False)
     base=float(options.get('fontSize',16))
     minpt=max(4,float(options.get('minFontSize',6)))
     maxpt=max(minpt,float(options.get('maxFontSize',26)))
     manual=bool(options.get('manual',False))
-    strings=[((heading+': ') if label_names else '')+str(val) for heading,val in parts if str(val).strip()]
-    if not strings:strings=['']
     if manual: sizes=[max(4,min(base,72))]
     else: sizes=[k/2 for k in range(round(maxpt*2),round(minpt*2)-1,-1)]
     candidate=None
     for size in sizes:
-        f=_font(size,name)
+        font=_font(size,name)
         lines=[]
-        for j,txt in enumerate(strings):
-            if j>0:lines.append('') if options.get('fieldBlankLine',False) else None
-            lines.extend(wrap_text(txt,width,f))
-        # Word's actual metrics depend on font, line-height and paragraph defaults.
+        rich_lines=[]
+        global_bold=bool(options.get('bold',False))
+        for entry in parts:
+            val=str(entry.get('value',''))
+            if not val.strip():continue
+            heading=str(entry.get('heading',''))
+            prefix=(heading+': ') if entry.get('showHeading',False) and heading else ''
+            original=prefix+val
+            wrapped=wrap_text(original,width,font)
+            if lines and options.get('fieldBlankLine',False):
+                lines.append('');rich_lines.append([])
+            position=0
+            for line in wrapped:
+                rich,position=_line_segments(line,original,position,len(prefix),entry.get('boldHeading',False),global_bold)
+                lines.append(line);rich_lines.append(rich)
+        if not lines:
+            lines=[''];rich_lines=[[]]
         h=len(lines)*size*25.4/72*1.23
-        over=h>height+0.05 or any(_text_width_mm(l,f)>width+0.1 for l in lines)
-        candidate={'size':size,'lines':lines,'overflow':over,'heightMM':round(h,1),'usableHeightMM':round(height,1),'usableWidthMM':round(width,1)}
+        # Actual bold metrics depend on the font substituted by the print system.
+        over=h>height+0.05 or any(_text_width_mm(line,font)>width+0.1 for line in lines)
+        candidate={'size':size,'lines':lines,'richLines':rich_lines,'overflow':over,'heightMM':round(h,1),'usableHeightMM':round(height,1),'usableWidthMM':round(width,1)}
         if not over:break
     return candidate
 
@@ -254,7 +282,15 @@ def compose_labels(template, request):
         copies=int(rec.get('qty',1))
         if not 0<=copies<=200:raise ValueError('Bir satır en fazla 200 defa çoğaltılabilir.')
         values=rec.get('values',[])
-        parts=[(heads[c],values[c] if c<len(values) else '') for c in fields]
+        field_opts=opts.get('fieldOptions') or {}
+        parts=[]
+        for c in fields:
+            settings=field_opts.get(str(c),{}) if isinstance(field_opts,dict) else {}
+            if not isinstance(settings,dict):settings={}
+            heading=str(settings.get('label',heads[c]))[:160]
+            parts.append({'heading':heading,'value':values[c] if c<len(values) else '',
+                          'showHeading':bool(settings.get('showHeading',opts.get('showNames',False))),
+                          'boldHeading':bool(settings.get('boldHeading',False))})
         for _ in range(copies):out.append({'sourceRow':rec.get('id'),'parts':parts})
         if len(out)>MAX_LABELS:raise ValueError(f'En fazla {MAX_LABELS} etiket tek seferde oluşturulabilir.')
     total=first+len(out)
@@ -272,7 +308,7 @@ def compose_labels(template, request):
         pages.append(labels)
     return {'pages':pages,'total':len(out),'pageCount':len(pages),'overflowCount':overflows,'start':first}
 
-def _replace_contents(cell, lines, font_size, options):
+def _replace_contents(cell, rich_lines, font_size, options):
     # Keep original table cell properties (borders/widths/vertical merges). Replace content only.
     tc=cell._tc
     for node in list(tc):
@@ -294,12 +330,13 @@ def _replace_contents(cell, lines, font_size, options):
     para=Paragraph(p,cell)
     para.alignment=halign
     pf=para.paragraph_format;pf.space_before=Pt(0);pf.space_after=Pt(0);pf.line_spacing=1.0
-    for i,line in enumerate(lines):
+    for i,segments in enumerate(rich_lines):
         if i:para.add_run().add_break()
-        run=para.add_run(line)
-        run.font.name=options.get('font','Arial')
-        run.font.size=Pt(font_size)
-        run.font.bold=bool(options.get('bold',False))
+        for segment in segments:
+            run=para.add_run(segment['text'])
+            run.font.name=options.get('font','Arial')
+            run.font.size=Pt(font_size)
+            run.font.bold=bool(segment.get('bold',False))
 
 def export_docx(template_data:bytes,template,composition,options):
     doc=Document(BytesIO(template_data))
@@ -330,7 +367,7 @@ def export_docx(template_data:bytes,template,composition,options):
         for index,(_r,_c,cell) in enumerate(cells):
             obj=page[index] if index<len(page) else None
             if obj:
-                _replace_contents(cell,obj['text']['lines'],obj['text']['size'],options)
+                _replace_contents(cell,obj['text']['richLines'],obj['text']['size'],options)
             else:
                 _replace_contents(cell,[],float(options.get('fontSize',16)),options)
     # Prevent blank paragraph at end of the sheet from becoming a phantom extra page.
