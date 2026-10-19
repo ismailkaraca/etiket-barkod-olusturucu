@@ -20,6 +20,7 @@ from docx.shared import Pt, Mm
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from PIL import ImageFont
+from phone_utils import format_phone, is_phone_field
 
 MAX_LABELS = 600
 FONT_DIR = Path('/usr/share/fonts/truetype')
@@ -278,7 +279,7 @@ def _parts_for_record(headers, fields, values, opts, qty):
                 n=int(idx)
                 return str(values[n] if 0<=n<len(values) else '')
             except (TypeError,ValueError):return ''
-        library=mapped('library');address=mapped('address');person=mapped('person');phone=mapped('phone')
+        library=mapped('library');address=mapped('address');person=mapped('person');phone=format_phone(mapped('phone'))
         city=mapped('city');district=mapped('district');count=mapped('count')
         town=' / '.join(x for x in (district,city) if x.strip())
         package=mapped('package') or str(opts.get('shipmentPackage') or '').strip()
@@ -301,8 +302,9 @@ def _parts_for_record(headers, fields, values, opts, qty):
         conf=field_opts.get(str(col),{}) if isinstance(field_opts,dict) else {}
         conf=conf if isinstance(conf,dict) else {}
         raw=str(values[col] if col<len(values) else '')
-        if not raw.strip() and conf.get('omitBlank',True):continue
         heading=str(conf.get('label',headers[col]))[:160]
+        if is_phone_field(headers[col]) or is_phone_field(heading):raw=format_phone(raw)
+        if not raw.strip() and conf.get('omitBlank',True):continue
         part={'kind':'text','heading':heading,'value':raw,'showHeading':bool(conf.get('showHeading',opts.get('showNames',False))),
               'boldHeading':bool(conf.get('boldHeading',False)), 'boldValue':bool(conf.get('boldValue',False)),
               'scale':_safe_mm(conf.get('scale',1),1,3) or 1,'align':str(conf.get('align',opts.get('align','center'))),
@@ -315,6 +317,7 @@ def _parts_for_record(headers, fields, values, opts, qty):
         if not val.strip():continue
         kind=extra.get('kind','text')
         if kind not in ('text','qr','code128'):kind='text'
+        if kind=='text' and is_phone_field(extra.get('label','')):val=format_phone(val)
         parts.append({'kind':kind,'heading':str(extra.get('label',''))[:100], 'value':val,
                       'showHeading':bool(extra.get('showHeading',False)), 'boldHeading':bool(extra.get('boldHeading',False)),
                       'boldValue':bool(extra.get('boldValue',False)), 'scale':float(extra.get('scale',1)),
