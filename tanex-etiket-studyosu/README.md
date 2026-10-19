@@ -1,45 +1,32 @@
-# Tanex Etiket Stüdyosu — İlk sürüm
+# Tanex Etiket Stüdyosu
 
-Excel verilerini yeni veya mevcut Tanex Word etiket şablonlarına yerleştiren tarayıcı uygulaması (yerel veya Vercel).
+Excel dosyasındaki sütunlarla orijinal Word etiket şablonlarını dolduran FastAPI web uygulamasıdır.
+
+## Yerleşik şablonlar
+
+| Şablon | Etiket ölçüsü | A4 düzeni |
+|---|---|---|
+| **TW-2233 (varsayılan)** | 70 × 25,4 mm | 3 sütun × 11 satır = 33 etiket |
+| TW-2044 | 48,5 × 25,4 mm | 4 sütun × 11 satır = 44 etiket |
+| TW-2408 | 105 × 72 mm | 2 sütun × 4 satır = 8 etiket |
+| TW-2404 | 210 × 74,25 mm | 1 sütun × 4 satır = 4 etiket |
+
+Word şablonları `templates/` klasöründedir ve A4 baskı yerleşimleri özgün Word hücreleri korunarak oluşturulur. İstediğiniz `.docx` şablonunu arayüz üzerinden ekleyebilirsiniz. Çevrimiçi sürümde kişiye özel şablonlar tarayıcının IndexedDB alanında tutulur.
+
+## Kullanım
+
+1. Word şablonunu seçin (ilk açılışta TW-2233 seçilir).
+2. Excel `.xlsx` dosyasını yükleyin, sayfa ve sütunları seçin.
+3. Satır seçin; etiket adetlerini belirleyin, gerekirse hücreleri düzenleyin.
+4. Canlı önizlemede otomatik punto ve hizalamayı kontrol edin.
+5. Word çıktısını indirip **%100 gerçek boyut** ile yazdırın.
 
 ## Çalıştırma
 
-Windows: **start_windows.bat** dosyasına çift tıklayın. Python 3.11 veya üzeri gerekir. İlk çalıştırmada gereken Python paketlerini kurmak için internet bağlantısı gerekebilir. Sonrasında uygulama bilgisayarınızda çalışır.
+Python 3.11+ ortamında: `pip install -r requirements.txt` ardından `uvicorn app:app --host 127.0.0.1 --port 8765`.
 
-macOS/Linux: Terminalden `bash start_linux_mac.sh` çalıştırın.
+Vercel GitHub entegrasyonunda proje kök dizini: `tanex-etiket-studyosu`. FastAPI framework seçilir.
 
-Tarayıcıdan `http://127.0.0.1:8765` adresini açın. Pencereyi/terminali kapatınca sunucu kapanır.
+## Notlar
 
-## İş akışı
-
-1. Tanex `.docx` şablonu seçin veya **Başka Word şablonu ekle** ile yeni bir şablon kaydedin. Yüklediğiniz şablonlar aynı bilgisayarda `templates` klasöründe saklanır.
-2. `.xlsx` dosyasını yükleyin; çalışma sayfasını seçin.
-3. Yazdırılacak sütunları ve sıralarını seçin.
-4. Satırları seçin, her satır için etiket adedini girin. **Düzenle** ile Excel alanlarını arayüzde değiştirin. Orijinal Excel dosyası değişmez.
-5. Otomatik yazı boyutunu kullanın veya manuel punto seçin. İç boşluk ve hizalamayı düzenleyin. İlk sayfa kısmen kullanılmışsa başlangıç etiketi konumu seçin.
-6. Önizlemede sayfaları kontrol edin, Word dosyasını indirin. Yazıcıda ölçek **%100 / Gerçek boyut** olmalıdır.
-
-## Şablon uyumluluğu
-
-- İlk sürüm tek bölüm ve tek ana Word tablosundan oluşan etiket sayfalarını destekler.
-- Orijinal `.docx` tablosu, satır yükseklikleri, hücre genişlikleri, sayfa kenar boşlukları korunmaya çalışılır; hücre içindeki içerik değiştirilir.
-- Serbest metin kutuları, iç içe tablolar, karmaşık şekiller ve alternatif şablon kuralları henüz desteklenmez.
-- Tarayıcıdaki önizleme hesaplanmış geometriden üretilir. Word ve fiziksel yazıcı yazı karakterlerini/hizalamaları farklı işleyebilir. **Önce boş A4'e deneme baskısı alın.**
-- Otomatik punto, yaklaşık font ölçümlerinden seçilir. Uygulama minimum puntoda bile sığmayan içeriklere uyarı verir. Tam fiziksel baskı uyumu otomatik olarak garanti edilemez.
-
-## Çevrimiçi sürüm / Vercel
-
-Vercel FastAPI runtime, `app.py` üzerinden çalışır. `requirements.txt` Python bağımlılıklarını içerir. Yüklenen kullanıcı şablonları Vercel diskinde değil tarayıcının IndexedDB alanında saklanır; başka cihaz veya tarayıcıyla kendiliğinden paylaşılmaz. Excel dosyası ve önizleme/ihracat istekleri Vercel sunucusunda geçici olarak işlenir. Hizmetin çalışması için kullanıcı verilerinin sunucuya aktarılması gerekir.
-
-Çevrimiçi Excel yüklemesi için 4 MB, Word şablonu için 2 MB sınırı uygulanır. Oturum açma sistemi yoktur; yüklediğiniz kişisel veriler herkese görünmese de bulutta işlenir. Hassas kurum/üyelik verilerinde kullanım öncesi veri koruma ve erişim şartlarını değerlendirin.
-
-## Gizlilik ve sınırlar
-
-- **Yerel kullanımda** işlemler 127.0.0.1 üzerinde kalır. **Vercel üzerinde** Excel/Word içeriği sunucuya gönderilir ve RAM/bellekte işlenir; uygulama bunları veri tabanına kaydetmez.
-- Excel verileri dosya olarak kalıcı saklanmaz. Çevrimiçi eklenen Word şablonları tarayıcının IndexedDB alanında saklanır; yerel kullanımda ayrıca `templates` klasöründe tutulabilir.
-- Maksimum 600 etiket/çıktı, yerel dosya sınırları Word 2 MB / Excel 15 MB; Vercel: Word 2 MB / Excel 4 MB, Excel her çalışma sayfasında en fazla 6000 satır ve 120 sütun.
-- Farklı bir bilgisayarda kullanmak için uygulama klasörünü aktarın.
-
-## Teknik not
-
-Backend: FastAPI / python-docx / standart XLSX-XML okuyucu / Pillow. UI: saf JavaScript + CSS, CDN bağımlılığı yok. Özellikle şablon tablosunu kopyalayarak DOCX sayfa düzenini korumaya odaklanılmıştır.
+İnternet üzerinde kullanıcıların yüklediği Excel içerikleri önizleme/Word üretimi sırasında Vercel sunucusunda işlenir; uygulama bu verileri veritabanına kaydetmez. Baskı boyutlarını doğrulamak için ilk denemede boş A4 sayfası kullanın.

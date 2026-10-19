@@ -15,8 +15,8 @@ function chosenRecords(){if(!S.sheet)return[];return S.sheet.rows.filter(r=>S.se
 function options(){return {showNames:$('showNames').checked,fieldBlankLine:$('fieldBlankLine').checked,manual:!$('autoFont').checked,fontSize:Number($('fontSize').value||16),minFontSize:Number($('minFont').value||6),maxFontSize:26,padding:Number($('padding').value||0),font:$('fontFamily').value,align:$('align').value,vertical:$('vertical').value,bold:$('bold').checked}}
 function payload(){return {templateId:S.template?.id||'',templateData:S.templateData,headers:S.sheet?.columns||[],fields:S.fields,records:chosenRecords(),start:Number($('startLabel').value||0),options:options()}}
 async function refreshTemplates(chosen){const resp=await (await api('/api/templates')).json();let stored=[];try{stored=await storedTemplates()}catch(e){toast('Tarayıcı depolaması açılamadı: '+e.message,true)}S.customTemplates=Object.fromEntries(stored.map(x=>[x.id,x]));S.templates=[...resp.templates,...stored.map(x=>x.info)];
-  $('templateSelect').innerHTML=S.templates.map(t=>`<option value="${esc(t.id)}">${esc(t.name.replace(/\.docx$/i,''))}</option>`).join('');
-  S.template=S.templates.find(t=>t.id===chosen)||S.templates[0]||null;if(S.template){$('templateSelect').value=S.template.id;chooseTemplate(S.template.id)}
+  $('templateSelect').innerHTML=S.templates.map(t=>`<option value="${esc(t.id)}">${t.id===resp.defaultTemplateId?'★ Varsayılan · ':''}${esc(t.name.replace(/\.docx$/i,''))}</option>`).join('');
+  S.template=S.templates.find(t=>t.id===chosen)||S.templates.find(t=>t.id===resp.defaultTemplateId)||S.templates[0]||null;if(S.template){$('templateSelect').value=S.template.id;chooseTemplate(S.template.id)}
 }
 function chooseTemplate(id){S.template=S.templates.find(t=>t.id===id)||null;if(!S.template)return;const t=S.template;S.templateData=S.customTemplates[id]?.data||null;
  $('templateSummary').innerHTML=`<strong>${t.perPage} etiket / sayfa</strong> · ${t.cols} sütun × ${t.rows} satır<br>${t.page.width} × ${t.page.height} mm kağıt · yaklaşık ${t.cells[0]?.width} × ${t.cells[0]?.height} mm etiket`;

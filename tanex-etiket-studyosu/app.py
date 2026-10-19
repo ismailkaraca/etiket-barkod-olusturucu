@@ -22,6 +22,7 @@ ROOT=Path(__file__).resolve().parent
 TEMPLATES=ROOT/'templates'
 IS_VERCEL=bool(os.environ.get('VERCEL'))
 STATIC=ROOT/'static'
+DEFAULT_TEMPLATE_ID='TW-223370x25.4mm'
 app=FastAPI(title='Tanex Etiket Stüdyosu',docs_url=None,redoc_url=None)
 app.mount('/static',StaticFiles(directory=str(STATIC)),name='static')
 
@@ -35,13 +36,14 @@ def catalog():
             inf['id']=file.stem
             out.append(inf)
         except Exception:continue
+    out.sort(key=lambda item: (item['id'] != DEFAULT_TEMPLATE_ID, item['name'].casefold()))
     return out
 
 @app.get('/',response_class=HTMLResponse)
 def home():return (STATIC/'index.html').read_text(encoding='utf-8')
 
 @app.get('/api/templates')
-def template_list():return {'templates':catalog()}
+def template_list():return {'templates':catalog(), 'defaultTemplateId':DEFAULT_TEMPLATE_ID}
 
 @app.post('/api/templates')
 async def new_template(file: UploadFile=File(...)):
