@@ -30,3 +30,7 @@ Vercel GitHub entegrasyonunda proje kök dizini: `tanex-etiket-studyosu`. FastAP
 ## Notlar
 
 İnternet üzerinde kullanıcıların yüklediği Excel içerikleri önizleme/Word üretimi sırasında Vercel sunucusunda işlenir; uygulama bu verileri veritabanına kaydetmez. Baskı boyutlarını doğrulamak için ilk denemede boş A4 sayfası kullanın.
+
+## Tanex çevrimiçi şablon arşivi
+
+Üreticinin [Şablonlar ve Ölçüler](https://www.tanexlabel.com/sablonlar-ve-olculer/) sayfasındaki tüm A4 Word şablonları `.github/workflows/tanex-sync.yml` üzerinden indirilir. İndirilen kaynak şablonlar `templates/` klasörüne, ürün kodu, resmî ölçü ve uyumluluk verileri `templates/tanex_katalog.json` dosyasına kaydedilir. Uygulama ürün kodu veya etiket ölçüsüne göre arama yapabilir. Uyumlu olmayan Word düzenleri yanlış baskı üretilmemesi için aktif seçeneklere alınmaz. Varsayılan TW-2233 olarak kalır.

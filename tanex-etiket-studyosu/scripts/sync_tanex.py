@@ -29,6 +29,19 @@ def fetch(url):
             time.sleep(1+attempt*2)
 def links(page):
     soup=BeautifulSoup(page,'html.parser')
+    # The page's displayed code/size pairs are authoritative. Some DOCX
+    # filenames concatenate the code and dimension or reverse the axes.
+    plain=soup.get_text(' ',strip=True)
+    heading='PRATİK A4 ETİKET ŞABLONLARIMIZ'
+    trailer='PRATİK A4 BİLGİSAYAR ŞABLONLARIMIZ'
+    section=plain.split(heading,1)[-1].split(trailer,1)[0]
+    official={}
+    for span in re.split(r'(?=TW-\d{4}\b)',section):
+        m=MODEL.match(span.strip())
+        if not m:continue
+        v=SIZE.search(span[m.end():] if span.startswith(m.group()) else span)
+        if v:official[m.group().upper()]=re.sub(r'\s+',' ',v.group(1)).strip()
+    if len(official)<145:raise ValueError('Üretici sayfasındaki ürün ve ölçü eşleşmeleri okunamadı')
     result=[]
     codes=set()
     computer=False
@@ -72,6 +85,7 @@ def links(page):
         if code=='TW-2041':size='118×41 mm'
         if code=='TW-2050':size='70×50,8 mm'
         if code=='TW-2059':size='42×59,69 mm'
+        if code in official:size=official[code]
         size=re.sub(r'\s+',' ',size).strip()
         baseline={'TW-2233':'TW-223370x25.4mm.docx','TW-2044':'TW-204448.5x25.4mm.docx','TW-2404':'TW-2404210x74.25mm.docx','TW-2408':'TW-2408_105x72mm.docx'}
         ext='.doc' if p.path.lower().endswith('.doc') else '.docx'

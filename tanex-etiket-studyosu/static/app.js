@@ -15,8 +15,8 @@ function chosenRecords(){if(!S.sheet)return[];return S.sheet.rows.filter(r=>S.se
 function options(){return {showNames:$('showNames').checked,fieldBlankLine:$('fieldBlankLine').checked,manual:!$('autoFont').checked,fontSize:Number($('fontSize').value||16),minFontSize:Number($('minFont').value||6),maxFontSize:26,padding:Number($('padding').value||0),font:$('fontFamily').value,align:$('align').value,vertical:$('vertical').value,bold:$('bold').checked}}
 function payload(){return {templateId:S.template?.id||'',templateData:S.templateData,headers:S.sheet?.columns||[],fields:S.fields,records:chosenRecords(),start:Number($('startLabel').value||0),options:options()}}
 function renderTemplateOptions(){
- const term=String($('templateSearch')?.value||'').trim().toLocaleLowerCase('tr-TR').replace(/[,×\s]/g,'');
- const filtered=S.templates.filter(t=>!term || [t.id,t.name,t.measurement||'',t.category||''].join(' ').toLocaleLowerCase('tr-TR').replace(/[,×\s]/g,'').includes(term) || t.id===S.template?.id);
+ const term=String($('templateSearch')?.value||'').trim().toLocaleLowerCase('tr-TR').replace(/×/g,'x').replace(/,/g,'.').replace(/\s/g,'');
+ const filtered=S.templates.filter(t=>!term || [t.id,t.name,t.measurement||'',t.category||''].join(' ').toLocaleLowerCase('tr-TR').replace(/×/g,'x').replace(/,/g,'.').replace(/\s/g,'').includes(term) || t.id===S.template?.id);
  $('templateSelect').innerHTML=filtered.map(t=>'<option value="'+esc(t.id)+'">'+(t.id===S.defaultTemplateId?'★ Varsayılan · ':'')+esc(t.name.replace(/\.docx$/i,''))+'</option>').join('');
  if(S.template)$('templateSelect').value=S.template.id;
  $('templateCount').textContent=S.templates.length+' kullanılabilir şablon · '+filtered.length+' sonuç'+(S.catalogStats?.unsupportedCount?' · '+S.catalogStats.unsupportedCount+' farklı Word düzeni arşivde (otomatik baskıya uyumsuz)':'');
