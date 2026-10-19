@@ -28,22 +28,41 @@ app.mount('/static',StaticFiles(directory=str(STATIC)),name='static')
 
 
 def catalog():
-    out=[]
-    for file in sorted(TEMPLATES.glob('*.docx')):
+    """Use the verified downloadable DOCX catalog; retain manually added labels."""
+    file=TEMPLATES/'tanex_katalog.json'
+    found=[]
+    seen=set()
+    stats=None
+    if file.is_file():
         try:
-            buf=file.read_bytes()
-            inf=inspect_template(buf,file.name)
-            inf['id']=file.stem
-            out.append(inf)
+            report=json.loads(file.read_text(encoding='utf-8'))
+            stats={key:report.get(key) for key in ('totalLinks','compatibleCount','unsupportedCount','failedCount','source','generatedUTC')}
+            for row in report.get('templates',[]):
+                p=TEMPLATES/row['filename']
+                seen.add(p.stem)  # Do not reparse unsupported originals.
+                if row.get('status')!='compatible' or not p.is_file():continue
+                item=row['info'].copy()
+                item['id']=p.stem
+                found.append(item)
+        except (ValueError,KeyError,TypeError,OSError):
+            stats=None
+    for p in sorted(TEMPLATES.glob('*.docx')):
+        if p.stem in seen:continue
+        try:
+            info=inspect_template(p.read_bytes(),p.name)
+            info['id']=p.stem
+            found.append(info)
         except Exception:continue
-    out.sort(key=lambda item: (item['id'] != DEFAULT_TEMPLATE_ID, item['name'].casefold()))
-    return out
+    found.sort(key=lambda item:(item['id']!=DEFAULT_TEMPLATE_ID,item.get('model',item['name']).casefold()))
+    return found,stats
 
 @app.get('/',response_class=HTMLResponse)
 def home():return (STATIC/'index.html').read_text(encoding='utf-8')
 
 @app.get('/api/templates')
-def template_list():return {'templates':catalog(), 'defaultTemplateId':DEFAULT_TEMPLATE_ID}
+def template_list():
+    templates,stats=catalog()
+    return {'templates':templates,'defaultTemplateId':DEFAULT_TEMPLATE_ID,'catalogStats':stats}
 
 @app.post('/api/templates')
 async def new_template(file: UploadFile=File(...)):

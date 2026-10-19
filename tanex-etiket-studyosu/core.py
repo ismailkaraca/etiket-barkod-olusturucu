@@ -68,7 +68,7 @@ def inspect_template(data: bytes, name: str) -> dict:
     for r,c,cell in _unique_table_cells(table):
         cells.append({'index':len(cells),'r':r,'c':c,'width':round(cell.width.mm,2),'height':heights[r], 'text':cell.text.strip()[:40]})
     if not cells:raise ValueError('Şablonda kullanılabilir hücre bulunamadı.')
-    if len(cells)>120:raise ValueError('Bir sayfada en fazla 120 etiket hücresi destekleniyor.')
+    if len(cells)>600:raise ValueError('Bir sayfada en fazla 600 etiket hücresi destekleniyor.')
     return {'name':name,'page':{'width':pagew,'height':pageh},'margins':m,'rows':len(table.rows),'cols':len(table.columns),'widths':widths,'heights':heights,'cells':cells,'perPage':len(cells), 'warnings':(['Bu dosya A4 değil; Word belgesinin özgün sayfa boyutu kullanılacak.'] if not (abs(pagew-210)<3 and abs(pageh-297)<3) else [])}
 
 def to_text(value, heading=''):

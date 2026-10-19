@@ -14,9 +14,24 @@ function chosenSheet(){return S.sheet}
 function chosenRecords(){if(!S.sheet)return[];return S.sheet.rows.filter(r=>S.selected.has(r.id)).map(r=>({...r,qty:Math.max(0,Number(S.qty[r.id]??1))}));}
 function options(){return {showNames:$('showNames').checked,fieldBlankLine:$('fieldBlankLine').checked,manual:!$('autoFont').checked,fontSize:Number($('fontSize').value||16),minFontSize:Number($('minFont').value||6),maxFontSize:26,padding:Number($('padding').value||0),font:$('fontFamily').value,align:$('align').value,vertical:$('vertical').value,bold:$('bold').checked}}
 function payload(){return {templateId:S.template?.id||'',templateData:S.templateData,headers:S.sheet?.columns||[],fields:S.fields,records:chosenRecords(),start:Number($('startLabel').value||0),options:options()}}
-async function refreshTemplates(chosen){const resp=await (await api('/api/templates')).json();let stored=[];try{stored=await storedTemplates()}catch(e){toast('Tarayıcı depolaması açılamadı: '+e.message,true)}S.customTemplates=Object.fromEntries(stored.map(x=>[x.id,x]));S.templates=[...resp.templates,...stored.map(x=>x.info)];
-  $('templateSelect').innerHTML=S.templates.map(t=>`<option value="${esc(t.id)}">${t.id===resp.defaultTemplateId?'★ Varsayılan · ':''}${esc(t.name.replace(/\.docx$/i,''))}</option>`).join('');
-  S.template=S.templates.find(t=>t.id===chosen)||S.templates.find(t=>t.id===resp.defaultTemplateId)||S.templates[0]||null;if(S.template){$('templateSelect').value=S.template.id;chooseTemplate(S.template.id)}
+function renderTemplateOptions(){
+ const term=String($('templateSearch')?.value||'').trim().toLocaleLowerCase('tr-TR').replace(/[,×\s]/g,'');
+ const filtered=S.templates.filter(t=>!term || [t.id,t.name,t.measurement||'',t.category||''].join(' ').toLocaleLowerCase('tr-TR').replace(/[,×\s]/g,'').includes(term) || t.id===S.template?.id);
+ $('templateSelect').innerHTML=filtered.map(t=>'<option value="'+esc(t.id)+'">'+(t.id===S.defaultTemplateId?'★ Varsayılan · ':'')+esc(t.name.replace(/\.docx$/i,''))+'</option>').join('');
+ if(S.template)$('templateSelect').value=S.template.id;
+ $('templateCount').textContent=S.templates.length+' kullanılabilir şablon · '+filtered.length+' sonuç'+(S.catalogStats?.unsupportedCount?' · '+S.catalogStats.unsupportedCount+' farklı Word düzeni arşivde (otomatik baskıya uyumsuz)':'');
+}
+async function refreshTemplates(chosen){
+ const resp=await (await api('/api/templates')).json();
+ let stored=[];
+ try{stored=await storedTemplates()}catch(e){toast('Tarayıcı depolaması açılamadı: '+e.message,true)}
+ S.customTemplates=Object.fromEntries(stored.map(x=>[x.id,x]));
+ S.templates=[...resp.templates,...stored.map(x=>x.info)];
+ S.defaultTemplateId=resp.defaultTemplateId;
+ S.catalogStats=resp.catalogStats;
+ S.template=S.templates.find(t=>t.id===chosen)||S.templates.find(t=>t.id===resp.defaultTemplateId)||S.templates[0]||null;
+ renderTemplateOptions();
+ if(S.template)chooseTemplate(S.template.id);
 }
 function chooseTemplate(id){S.template=S.templates.find(t=>t.id===id)||null;if(!S.template)return;const t=S.template;S.templateData=S.customTemplates[id]?.data||null;
  $('templateSummary').innerHTML=`<strong>${t.perPage} etiket / sayfa</strong> · ${t.cols} sütun × ${t.rows} satır<br>${t.page.width} × ${t.page.height} mm kağıt · yaklaşık ${t.cells[0]?.width} × ${t.cells[0]?.height} mm etiket`;
@@ -90,7 +105,7 @@ async function updatePreview(){refreshStats();let req=payload(),seq=++S.requestS
 function queuePreview(){refreshStats();clearTimeout(S.timer);S.timer=setTimeout(updatePreview,190)}
 async function download(){if(!S.composition)return;let btn=$('downloadBtn');btn.disabled=true;btn.textContent='Word hazırlanıyor…';try{let resp=await api('/api/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())});let blob=await resp.blob();let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='Tanex_Etiketler_'+new Date().toISOString().slice(0,10)+'.docx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500);toast('Word çıktısı hazır. Baskıda gerçek boyut (%100) seç.')}catch(e){toast(e.message,true)}finally{btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 16v4h16v-4"/></svg> Word dosyasını indir'}}
 function wire(){
- $('templateSelect').onchange=e=>chooseTemplate(e.target.value);$('templateInput').onchange=e=>uploadTemplate(e.target.files[0]);$('excelInput').onchange=e=>uploadExcel(e.target.files[0]);$('sheetSelect').onchange=e=>chooseSheet(Number(e.target.value));
+ $('templateSelect').onchange=e=>chooseTemplate(e.target.value);$('templateSearch').oninput=renderTemplateOptions;$('templateInput').onchange=e=>uploadTemplate(e.target.files[0]);$('excelInput').onchange=e=>uploadExcel(e.target.files[0]);$('sheetSelect').onchange=e=>chooseSheet(Number(e.target.value));
  let dz=$('dropzone');for(let evt of ['dragover','dragenter'])dz.addEventListener(evt,e=>{e.preventDefault();dz.classList.add('dragover')});for(let evt of ['dragleave','drop'])dz.addEventListener(evt,e=>{e.preventDefault();dz.classList.remove('dragover')});dz.addEventListener('drop',e=>{let f=e.dataTransfer.files[0];if(f)uploadExcel(f)});
  $('clearFields').onclick=()=>{S.fields=[];renderFields();queuePreview()};$('rowSearch').oninput=()=>{S.page=0;renderRows()};$('prevPage').onclick=()=>{S.page--;renderRows()};$('nextPage').onclick=()=>{S.page++;renderRows()};
  $('selectAll').onclick=()=>{let matching=filteredRows();for(let r of matching){S.selected.add(r.id);if(!S.qty[r.id])S.qty[r.id]=Number($('defaultQty').value)||1}renderRows();queuePreview()};
