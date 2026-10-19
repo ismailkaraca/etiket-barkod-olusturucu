@@ -1,9 +1,9 @@
 'use strict';
 const $=id=>document.getElementById(id), F=$('shipmentForm');
 const required=['province','district','library','address','phone','material','total'];
-const allFields=['province','district','library','address','phone','recipient','material','total','unitsPerPack','packsPerBox','date','recipientTitle'];
-const names={province:'İl',district:'İlçe',library:'Kütüphane adı',address:'Adres',phone:'Kütüphane telefonu',recipient:'Teslim alacak kişi',material:'Malzeme',total:'Toplam etiket',unitsPerPack:'Paket başına etiket',packsPerBox:'Koli başına paket',date:'Tarih',recipientTitle:'Unvan'};
-const initial={material:'UHF RFID Kütüphane Etiketi (Şerit)',total:'9000',unitsPerPack:'1000',packsPerBox:'9'};
+const allFields=['province','district','library','address','phone','recipient','sender','material','total','unitsPerPack','packsPerBox','date','recipientTitle'];
+const names={province:'İl',district:'İlçe',library:'Kütüphane adı',address:'Adres',phone:'Kütüphane telefonu',recipient:'Teslim alacak kişi',sender:'Teslim eden kişi',material:'Malzeme',total:'Toplam etiket',unitsPerPack:'Paket başına etiket',packsPerBox:'Koli başına paket',date:'Tarih',recipientTitle:'Unvan'};
+const initial={material:'UHF RFID Kütüphane Etiketi (Şerit)',total:'',unitsPerPack:'1000',packsPerBox:'9'};
 let records=[],editIndex=-1,sheets=[],sheet=null, previewUrl=null;
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function value(id){return ($(id)?.value||'').trim()}
@@ -36,7 +36,7 @@ function compute(){const r=readForm(),n=calc(r);const node=$('calcBox');
  else if(n.error){node.innerHTML='<b>Uyarı:</b> '+escapeHtml(n.error)}
  else node.innerHTML=`<strong>${display(n.total)} etiket → ${n.packs} paket / ${n.boxes} koli</strong><div>Bir pakette ${display(n.per)} etiket · Bir kolide en fazla ${n.box} paket</div><div>${n.distribution.map(x=>`${x.box}. koli: <b>${x.packs} paket / ${display(x.labels)} etiket</b>`).join(' &nbsp; | &nbsp; ')}</div>`;
 }
-function updateVisual(){const r=readForm(),n=calc(r);$('previewLibrary').textContent=r.library||'Kütüphane adı';$('previewLocation').textContent=(r.province||'İl')+' / '+(r.district||'İlçe');$('previewAddress').textContent=r.address||'Gönderi adresi';$('previewPhone').textContent=r.phone||'Kütüphane telefonu';$('previewQuantity').textContent=display(r.total)+' ADET RFID ETİKETİ';$('previewBoxes').textContent=n&&!n.error?`${n.boxes} KOLİ · ${n.packs} PAKET`:'Koli/paket hesabı'}
+function updateVisual(){const r=readForm(),n=calc(r);$('previewLibrary').textContent=r.library||'Kütüphane adı';$('previewLocation').textContent=(r.province||'İl')+' / '+(r.district||'İlçe');$('previewAddress').textContent=r.address||'Gönderi adresi';$('previewPhone').textContent=r.phone||'Kütüphane telefonu';$('previewQuantity').textContent=r.total?(display(r.total)+' ADET RFID ETİKETİ'):'ETİKET ADEDİ GİRİLMEDİ';$('previewBoxes').textContent=n&&!n.error?`${n.boxes} KOLİ · ${n.packs} PAKET`:'Koli/paket hesabı'}
 function setStatus(message,error=false){$('result').textContent=message;$('result').classList.toggle('error',error)}
 function checkedRows(){return records.filter(x=>x.checked).map(x=>({...x.data}));}
 function getPayload(){const chosen=checkedRows();if(chosen.length)return chosen;
