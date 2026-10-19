@@ -180,7 +180,59 @@ def export_edited_excel(payload:ExcelExportRequest):
     workbook.close()
     return Response(content=output.getvalue(),media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',headers={'Content-Disposition':'attachment; filename="duzenlenmis_excel.xlsx"'})
 
+
+
+# --- Independent landscape-A4 shipping label / RFID handover receipt studio ---
+class ShipmentBatch(BaseModel):
+    records:list[dict]
+    onePerBox:bool=True
+
+class QRReceipt(BaseModel):
+    token:str
+
+@app.get('/gonderi', response_class=HTMLResponse)
+def shipping_studio():
+    return (STATIC/'gonderi.html').read_text(encoding='utf-8')
+
+@app.get('/tutanak', response_class=HTMLResponse)
+def receipt_qr_page():
+    return (STATIC/'tutanak.html').read_text(encoding='utf-8')
+
+@app.post('/api/gonderi/hesapla')
+def calculate_shipping(payload:ShipmentBatch):
+    from shipping import normalize_receipt,plan_cartons
+    try:
+        return {'records':[dict(normalize_receipt(x),boxPlan=plan_cartons(normalize_receipt(x))) for x in payload.records]}
+    except ValueError as e:raise HTTPException(400,str(e))
+
+@app.post('/api/gonderi/etiket-pdf')
+def shipment_document(payload:ShipmentBatch,request:Request):
+    from shipping import shipping_label_pdf
+    # Point to the stable production alias; an immutable preview deployment must not appear in QR links.
+    public=os.environ.get('SHIPPING_PUBLIC_URL',
+        'https://etiket-barkod-olusturucu-h6aa.vercel.app' if IS_VERCEL else str(request.base_url).rstrip('/'))
+    try:output=shipping_label_pdf(payload.records,public,payload.onePerBox)
+    except ValueError as e:raise HTTPException(400,str(e))
+    return Response(content=output,media_type='application/pdf',headers={
+        'Content-Disposition':'attachment; filename="rfid_gonderi_etiketleri_A4_yatay.pdf"',
+        'Cache-Control':'no-store','Referrer-Policy':'no-referrer'})
+
+@app.post('/api/tutanak/pdf')
+def receipt_document(payload:ShipmentBatch):
+    from shipping import receipt_pdf
+    try:output=receipt_pdf(payload.records)
+    except ValueError as e:raise HTTPException(400,str(e))
+    return Response(content=output,media_type='application/pdf',headers={
+       'Content-Disposition':'attachment; filename="rfid_etiket_teslim_tutanaklari.pdf"','Cache-Control':'no-store'})
+
+@app.post('/api/tutanak/qr-pdf')
+def receipt_by_qr(payload:QRReceipt):
+    from shipping import decode_receipt,receipt_pdf
+    try:receipt=decode_receipt(payload.token);output=receipt_pdf([receipt])
+    except ValueError as e:raise HTTPException(400,str(e))
+    return Response(content=output,media_type='application/pdf',headers={
+       'Content-Disposition':'attachment; filename="rfid_etiket_teslim_tutanagi.pdf"','Cache-Control':'no-store','Referrer-Policy':'no-referrer'})
+
 if __name__=='__main__':
     print('Tanex Etiket Stüdyosu yerel adres: http://127.0.0.1:8765')
     uvicorn.run(app,host='127.0.0.1',port=8765,log_level='warning')
-
