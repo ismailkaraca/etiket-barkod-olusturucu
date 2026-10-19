@@ -54,7 +54,7 @@ def _text(value,limit=MAX_TEXT):
 
 
 def format_phone(value):
-    """Display Turkish telephone numbers as +212) 542-40-81 while keeping raw input intact."""
+    """Display Turkish telephone numbers as (212) 542-40-81 while keeping raw input intact."""
     raw=_text(value,40)
     if re.fullmatch(r"[0-9]{10,14}\.0",raw):
         raw=raw[:-2]  # Numeric Excel cells sometimes become strings ending in .0.
@@ -67,7 +67,7 @@ def format_phone(value):
         digits=digits[1:]
     if len(digits)!=10:
         return raw
-    return f"+{digits[:3]}) {digits[3:6]}-{digits[6:8]}-{digits[8:]}"
+    return f"({digits[:3]}) {digits[3:6]}-{digits[6:8]}-{digits[8:]}"
 
 
 def _positive_int(x,name,min_value=1,max_value=3_000_000):

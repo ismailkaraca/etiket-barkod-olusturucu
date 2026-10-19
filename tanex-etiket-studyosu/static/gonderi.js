@@ -38,7 +38,7 @@ function formatPhone(value){
  if(digits.length===12&&digits.startsWith('90'))digits=digits.slice(2);
  if(digits.length===11&&digits.startsWith('0'))digits=digits.slice(1);
  if(digits.length!==10)return raw;
- return '+'+digits.slice(0,3)+') '+digits.slice(3,6)+'-'+digits.slice(6,8)+'-'+digits.slice(8);
+ return '('+digits.slice(0,3)+') '+digits.slice(3,6)+'-'+digits.slice(6,8)+'-'+digits.slice(8);
 }
 function display(n){return Number(n||0).toLocaleString('tr-TR')}
 function compute(){const r=readForm(),n=calc(r);const node=$('calcBox');
