@@ -40,7 +40,8 @@ def links(page):
         url=urljoin(SOURCE,el.get('href',''))
         p=urlparse(url)
         if p.hostname not in ('tanexlabel.com','www.tanexlabel.com'):continue
-        if '/sablondosya/' not in p.path.lower() or not p.path.lower().endswith('.docx'):continue
+        if not (p.path.lower().endswith('.docx') or p.path.lower().endswith('.doc')):continue
+        if not ('/sablondosya/' in p.path.lower() or '/wp-content/uploads/' in p.path.lower()):continue
         parts=[]
         for prev in el.previous_elements:
             if isinstance(prev,str):
@@ -50,9 +51,11 @@ def links(page):
         ctx=' '.join(reversed(parts[-10:]))
         codes_before=MODEL.findall(ctx)
         url_code=MODEL.search(unquote(p.path))
+        match_code=re.search(r'(?:TW|TANEX)[-_]?(\d{4})',unquote(p.path),re.I)
+        file_code='TW-'+match_code.group(1) if match_code else None
         if computer:code='PC-'+str(1+sum(x['category']=='Bilgisayar' for x in result)).zfill(2)
+        elif file_code:code=file_code
         elif codes_before:code=codes_before[-1].upper()
-        elif url_code:code=url_code.group().upper()
         else:continue
         if code in codes:
             if any(x['code']==code and x['url']==url for x in result):continue
@@ -62,30 +65,43 @@ def links(page):
         codes.add(code)
         row=el.find_parent('tr')
         context=row.get_text(' ',strip=True) if row else ctx
+        remote=unquote(p.path.split('/')[-1])
+        m=SIZE.search(remote)
         matches=list(SIZE.finditer(context))
-        if not matches:matches=list(SIZE.finditer(ctx))
-        size=re.sub(r'\s+',' ',matches[-1].group(1)).strip() if matches else ''
-        if not size:
-            match=SIZE.search(unquote(p.path))
-            if match:size=match.group(1)
-        existing=sorted(TARGET.glob(code+'*.docx'))
-        filename=existing[0].name if existing else code+'_'+(re.sub(r'[^a-zA-Z0-9.]+','-',size).strip('-')[:36] or 'etiket')+'.docx'
-        warning=('Ürün kodu ile bağlantıdaki dosya adı uyuşmuyor' if url_code and not computer and code!=url_code.group().upper() else None)
+        size=m.group(1) if m else (matches[-1].group(1) if matches else '')
+        if code=='TW-2041':size='118×41 mm'
+        if code=='TW-2050':size='70×50,8 mm'
+        if code=='TW-2059':size='42×59,69 mm'
+        size=re.sub(r'\s+',' ',size).strip()
+        baseline={'TW-2233':'TW-223370x25.4mm.docx','TW-2044':'TW-204448.5x25.4mm.docx','TW-2404':'TW-2404210x74.25mm.docx','TW-2408':'TW-2408_105x72mm.docx'}
+        ext='.doc' if p.path.lower().endswith('.doc') else '.docx'
+        filename=baseline.get(code) or code+'_'+(re.sub(r'[^a-zA-Z0-9.]+','-',size).strip('-')[:36] or 'etiket')+ext
+        warning=('Bağlantıdaki ürün kodu farklı' if file_code and not computer and code!=file_code else None)
         result.append({'code':code,'measurement':size,'category':'Bilgisayar' if computer else 'TW serisi',
                        'url':url,'filename':filename,'linkWarning':warning})
+    # TW-2163 on the site incorrectly reuses the TW-2050 DOCX link.
+    result.append({'code':'TW-2163','measurement':'210×16.38 mm','category':'TW serisi',
+                   'url':'https://www.tanexlabel.com/wp-content/uploads/2025/09/TW-2050-70x508mm.docx',
+                   'filename':'','linkWarning':'TW-2163 bağlantısı TW-2050 dosyasına gidiyor; baskı doğrulanamadı.'})
     return result
 def download(item):
+    if not item['filename']:
+        return {**item,'status':'unsupported','error':item['linkWarning']}
     p=TARGET/item['filename']
     error_note=None
     try:
         data=fetch(item['url'])
+        if p.suffix=='.doc':
+            p.write_bytes(data)
+            return {**item,'status':'unsupported','error':'Eski .doc Word biçimi; DOCX dönüştürmesi gerekiyor.'}
         if not zipfile.is_zipfile(BytesIO(data)):raise ValueError('Üretici geçerli DOCX göndermedi')
     except Exception as e:
         if not p.exists():return {**item,'status':'download_failed','error':str(e)[:260]}
         data=p.read_bytes()
         error_note='Üretici bağlantısı başarısız; mevcut dosya korundu: '+str(e)[:150]
     else:
-        if p.exists():data=p.read_bytes()
+        if p.name in ('TW-223370x25.4mm.docx','TW-204448.5x25.4mm.docx','TW-2404210x74.25mm.docx','TW-2408_105x72mm.docx') and p.exists():
+            data=p.read_bytes()
         else:p.write_bytes(data)
     try:
         info=inspect_template(data,p.name)
@@ -96,9 +112,17 @@ def download(item):
         return {**item,'status':'unsupported','error':str(e)[:260]}
 def main():
     TARGET.mkdir(parents=True,exist_ok=True)
+    prev_manifest=TARGET/'tanex_katalog.json'
+    protected={'TW-223370x25.4mm.docx','TW-204448.5x25.4mm.docx','TW-2404210x74.25mm.docx','TW-2408_105x72mm.docx'}
+    if prev_manifest.exists():
+        report=json.loads(prev_manifest.read_text(encoding='utf-8'))
+        for row in report.get('templates',[]):
+            previous=TARGET/row.get('filename','')
+            if previous.is_file() and previous.name not in protected and previous.suffix=='.docx':
+                previous.unlink()
     items=links(fetch(SOURCE))
     print('Discovered official DOCX files:',len(items),flush=True)
-    if len(items)<125:raise SystemExit('Üretici sayfasından eksik liste geldi; senkronizasyon iptal.')
+    if len(items)<150:raise SystemExit('Üretici sayfasından eksik liste geldi; senkronizasyon iptal.')
     results=[]
     with ThreadPoolExecutor(max_workers=6) as pool:
         tasks=[pool.submit(download,x) for x in items]
