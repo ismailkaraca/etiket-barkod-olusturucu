@@ -12,7 +12,7 @@
 <div class="panelhead mini"><h2>2. Otomatik koli ve paket hesabı</h2></div>
 <div class="cols three"><label>Toplam etiket <em>*</em><input id="total" name="total" inputmode="numeric" type="number" min="1" max="3000000" required placeholder="Toplam etiket adedi"></label><label>1 paketteki etiket <em>*</em><input id="unitsPerPack" name="unitsPerPack" type="number" min="1" value="1000" required></label><label>1 kolideki paket <em>*</em><input id="packsPerBox" name="packsPerBox" type="number" min="1" value="9" required></label></div>
 <div class="cols"><label>Elle paket adedi (isteğe bağlı)<input name="packCountOverride" id="packCountOverride" type="number" min="1" placeholder="Otomatik hesapla"></label><label>Elle koli adedi (isteğe bağlı)<input name="boxCountOverride" id="boxCountOverride" type="number" min="1" placeholder="Otomatik hesapla"></label></div>
-<p class="note">1 pakette 1.000 ve 1 kolide 9 paket, başlangıç için kullanılan <strong>örnek ambalaj varsayımlarıdır</strong>; fiili gönderi kapasitesine göre mutlaka kontrol edin.</p><div class="calc" id="calcBox"><span>Hesaplama için bilgileri girin.</span></div>
+<p class="note">Bu değerler koli ve paket adetlerinin hesabında kullanılır; gönderi etiketi ve teslim tutanağında kapasite bilgileri yazdırılmaz. Fiili gönderiye göre kontrol edebilirsiniz.</p><div class="calc" id="calcBox"><span>Hesaplama için bilgileri girin.</span></div>
 <div id="formAlert" class="form-alert" role="status" hidden></div>
 <div class="formbuttons"><button type="button" class="button primary" id="saveRecord">+ Gönderiyi listeye ekle</button><button type="button" class="button light" id="newRecord">Yeni / temiz form</button></div>
 </form></section>

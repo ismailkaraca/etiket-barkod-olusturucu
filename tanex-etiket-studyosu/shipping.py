@@ -78,7 +78,8 @@ def calculate_boxes(total,units_per_pack=1000,packs_per_box=9,override_pack_coun
     full_boxes,partial_packs=divmod(pack_count,per_box)
     remainder=total%unit
     words=[f'{box_count} koli', f'{pack_count} paket',f'{total:,}'.replace(',','.')+' etiket']
-    details=f'{box_count} Koli / {pack_count} Paket (1 Paket: {unit:,} Etiket; 1 Koli: {per_box} Paket)'.replace(',', '.')
+    # Basılı belgede yalnızca toplam koli/paket sayıları gösterilir; kapasite varsayımları yazdırılmaz.
+    details=f'{box_count} Koli / {pack_count} Paket'
     if remainder:details+=f'; Son pakette {remainder:,} etiket'.replace(',','.')
     if override_box_count not in (None,'') or override_pack_count not in (None,''):
         details+=' [Adetler elle düzenlendi]'
@@ -262,11 +263,9 @@ def _shipping_page(c,w,h,r,box,base,one_per_box):
         c.drawString(20*mm,y,(f"KOLİ {box['number']} / {r['boxCount']}  •  BU KOLİDE {box['packs']} PAKET" if one_per_box else f"{r['boxCount']} KOLİ  •  {r['packCount']} PAKET"))
         c.setFont(FONT_REG,9.5)
         c.drawRightString(w-17*mm,27*mm,f"TOPLAM SEVKİYAT: {r['total']:,} ADET / {r['packCount']} PAKET / {r['boxCount']} KOLİ".replace(',','.'))
-        y-=8*mm
-        c.setFont(FONT_REG,10)
-        c.drawString(20*mm,y,f"Paket başına {r['unitsPerPack']:,} adet / Koli başına {r['packsPerBox']} paket".replace(',','.'))
+        # Paket ve koli başına kapasite değerleri yalnızca hesaplamada kullanılır.
         if r['partialPackLabels'] and (not one_per_box or box['number']==r['boxCount']):
-            y-=6*mm
+            y-=14*mm
             c.setFont(FONT_REG,9)
             c.drawString(20*mm,y,f"Son pakette: {r['partialPackLabels']:,} adet (kısmi paket)".replace(',','.'))
         c.setFont(FONT_REG,8.5)

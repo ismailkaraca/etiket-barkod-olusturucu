@@ -34,7 +34,7 @@ function display(n){return Number(n||0).toLocaleString('tr-TR')}
 function compute(){const r=readForm(),n=calc(r);const node=$('calcBox');
  if(!n){node.textContent='Toplam etiket ve paket/koli kapasitelerini yazın.'}
  else if(n.error){node.innerHTML='<b>Uyarı:</b> '+escapeHtml(n.error)}
- else node.innerHTML=`<strong>${display(n.total)} etiket → ${n.packs} paket / ${n.boxes} koli</strong><div>Bir pakette ${display(n.per)} etiket · Bir kolide en fazla ${n.box} paket</div><div>${n.distribution.map(x=>`${x.box}. koli: <b>${x.packs} paket / ${display(x.labels)} etiket</b>`).join(' &nbsp; | &nbsp; ')}</div>`;
+ else node.innerHTML=`<strong>${display(n.total)} etiket → ${n.packs} paket / ${n.boxes} koli</strong><div>${n.distribution.map(x=>`${x.box}. koli: <b>${x.packs} paket / ${display(x.labels)} etiket</b>`).join(' &nbsp; | &nbsp; ')}</div>`;
 }
 function updateVisual(){const r=readForm(),n=calc(r);$('previewLibrary').textContent=r.library||'Kütüphane adı';$('previewLocation').textContent=(r.province||'İl')+' / '+(r.district||'İlçe');$('previewAddress').textContent=r.address||'Gönderi adresi';$('previewPhone').textContent=r.phone||'Kütüphane telefonu';$('previewQuantity').textContent=r.total?(display(r.total)+' ADET RFID ETİKETİ'):'ETİKET ADEDİ GİRİLMEDİ';$('previewBoxes').textContent=n&&!n.error?`${n.boxes} KOLİ · ${n.packs} PAKET`:'Koli/paket hesabı'}
 function setStatus(message,error=false){$('result').textContent=message;$('result').classList.toggle('error',error);const hint=$('formAlert');if(hint){hint.hidden=!error;hint.textContent=error?message:''}}
