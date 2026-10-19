@@ -28,33 +28,38 @@ app.mount('/static',StaticFiles(directory=str(STATIC)),name='static')
 
 
 def catalog():
-    """Use the verified downloadable DOCX catalog; retain manually added labels."""
-    file=TEMPLATES/'tanex_katalog.json'
-    found=[]
-    seen=set()
-    stats=None
-    if file.is_file():
+    """Fast startup: use prevalidated template metadata from the import workflow.
+
+    Existing 4 user-provided templates remain available even when a manufacturer
+    source link breaks. Unsupported originals are kept in the GitHub archive,
+    but are not offered for printing.
+    """
+    catalog_file=TEMPLATES/'tanex_katalog.json'
+    out=[];seen=set();stats=None
+    if catalog_file.is_file():
         try:
-            report=json.loads(file.read_text(encoding='utf-8'))
-            stats={key:report.get(key) for key in ('totalLinks','compatibleCount','unsupportedCount','failedCount','source','generatedUTC')}
-            for row in report.get('templates',[]):
-                p=TEMPLATES/row['filename']
-                seen.add(p.stem)  # Do not reparse unsupported originals.
-                if row.get('status')!='compatible' or not p.is_file():continue
-                item=row['info'].copy()
-                item['id']=p.stem
-                found.append(item)
+            with catalog_file.open(encoding='utf-8') as fh:manifest=json.load(fh)
+            stats={k:manifest.get(k) for k in ('totalLinks','compatibleCount','unsupportedCount','failedCount','source','generatedUTC')}
+            for item in manifest.get('templates',[]):
+                if item.get('status')!='compatible':continue
+                path=TEMPLATES/item['filename']
+                if not path.is_file():continue
+                info=item['info'].copy()
+                info['id']=path.stem
+                if info['id'] in seen:continue
+                seen.add(info['id']);out.append(info)
         except (ValueError,KeyError,TypeError,OSError):
             stats=None
-    for p in sorted(TEMPLATES.glob('*.docx')):
-        if p.stem in seen:continue
+    # Extras added manually or before a full Tanex sync.
+    for file in sorted(TEMPLATES.glob('*.docx')):
+        if file.stem in seen:continue
         try:
-            info=inspect_template(p.read_bytes(),p.name)
-            info['id']=p.stem
-            found.append(info)
+            inf=inspect_template(file.read_bytes(),file.name)
+            inf['id']=file.stem
+            seen.add(inf['id']);out.append(inf)
         except Exception:continue
-    found.sort(key=lambda item:(item['id']!=DEFAULT_TEMPLATE_ID,item.get('model',item['name']).casefold()))
-    return found,stats
+    out.sort(key=lambda item: (item['id'] != DEFAULT_TEMPLATE_ID, item.get('model',item['name']).casefold()))
+    return out,stats
 
 @app.get('/',response_class=HTMLResponse)
 def home():return (STATIC/'index.html').read_text(encoding='utf-8')
@@ -132,6 +137,50 @@ def download(payload:ComposeRequest):
     except Exception as e:raise HTTPException(500,f'Word çıktısı oluşturulamadı: {e}')
     return Response(content=result,media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',headers={'Content-Disposition':'attachment; filename="tanex_etiketler.docx"','X-Labels':str(comp['total']),'X-Pages':str(comp['pageCount'])})
 
+# Print-ready PDF uses the same computed page order and label geometry as DOCX.
+@app.post('/api/export-pdf')
+def download_pdf(payload:ComposeRequest):
+    from core import export_pdf
+    template,comp,_=compose_from_request(payload)
+    try:result=export_pdf(template,comp,payload.options)
+    except Exception as e:raise HTTPException(500,f'PDF çıktısı hazırlanamadı: {e}')
+    return Response(content=result,media_type='application/pdf',headers={'Content-Disposition':'attachment; filename="tanex_etiketler.pdf"'})
+
+@app.post('/api/calibration')
+def calibration_page(payload:ComposeRequest):
+    from core import export_calibration_pdf
+    template,_,_=compose_from_request(payload)
+    return Response(content=export_calibration_pdf(template,payload.options),media_type='application/pdf',headers={'Content-Disposition':'attachment; filename=tanex_kalibrasyon.pdf'})
+
+@app.post('/api/check')
+def check_records(payload:ComposeRequest):
+    from core import validate_records
+    return validate_records(payload.headers,payload.records,payload.fields,payload.options)
+
+class ExcelExportRequest(BaseModel):
+    headers:list[str]
+    records:list[dict]
+
+@app.post('/api/export-excel')
+def export_edited_excel(payload:ExcelExportRequest):
+    if len(payload.headers)>120 or len(payload.records)>6000:
+        raise HTTPException(400,'Excel çıktı sınırı aşıldı.')
+    import xlsxwriter
+    output=BytesIO()
+    workbook=xlsxwriter.Workbook(output,{'in_memory':True,'strings_to_urls':False})
+    worksheet=workbook.add_worksheet('Düzenlenen Veriler')
+    headerfmt=workbook.add_format({'bold':True,'bg_color':'#DBEAFE','border':1})
+    for j,header in enumerate(payload.headers):worksheet.write_string(0,j,str(header)[:500],headerfmt)
+    for i,row in enumerate(payload.records,1):
+        for j,cell in enumerate(row.get('values',[])[:len(payload.headers)]):
+            # Persist text exactly, including postal codes and phone leading zeros.
+            worksheet.write_string(i,j,str(cell or '')[:32000])
+    worksheet.freeze_panes(1,0);worksheet.autofilter(0,0,max(1,len(payload.records)),max(0,len(payload.headers)-1))
+    for col in range(min(len(payload.headers),120)):worksheet.set_column(col,col,23)
+    workbook.close()
+    return Response(content=output.getvalue(),media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',headers={'Content-Disposition':'attachment; filename="duzenlenmis_excel.xlsx"'})
+
 if __name__=='__main__':
     print('Tanex Etiket Stüdyosu yerel adres: http://127.0.0.1:8765')
     uvicorn.run(app,host='127.0.0.1',port=8765,log_level='warning')
+
