@@ -38,3 +38,15 @@
 @media(max-width:1200px){.row-tools{flex-wrap:wrap}.ship-map{grid-template-columns:1fr}.designer-controls{grid-template-columns:1fr 1fr}}
 
 .print-label .line[draggable=true]{cursor:grab}.print-label .line[draggable=true]:hover{background:#e7f0ff80;border-radius:2px}
+
+/* Primary sub-navigation: remains available when topbar controls are hidden on mobile. */
+.app-subnav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 26px;background:#fff;border-bottom:1px solid #dfe8f0;position:relative;z-index:9}
+.app-subnav a,.subnav-group summary{color:#305b81;font-size:12px;font-weight:700;text-decoration:none;border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:7px;min-height:38px}
+.app-subnav .subnav-home{background:#edf4fd;color:#174775}
+.subnav-group{position:relative}
+.subnav-group summary{border:1px solid #d4e2f2;cursor:pointer;list-style:none;background:#fafcff}
+.subnav-group summary::-webkit-details-marker{display:none}
+.subnav-dropdown{position:absolute;left:0;top:calc(100% + 5px);min-width:240px;box-shadow:0 12px 32px rgba(30,55,79,.18);background:#fff;border:1px solid #dae4ef;border-radius:10px;padding:5px;display:grid;z-index:60}
+.subnav-dropdown a:hover,.app-subnav>a:hover{background:#e9f3ff}
+.subnav-dropdown a{white-space:nowrap}
+@media(max-width:720px){.app-subnav{padding:10px 12px;gap:7px}.app-subnav a,.subnav-group summary{font-size:12px;padding:9px}.subnav-group{flex:1}.subnav-group summary{justify-content:space-between}.subnav-dropdown{left:auto;right:0;max-width:calc(100vw - 24px)}.app-subnav .subnav-home{flex:1}.app-subnav .subnav-quick{width:100%;justify-content:center;background:#f4f8fe}}
