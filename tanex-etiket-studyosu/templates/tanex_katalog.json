@@ -1,6 +1,6 @@
 {
   "source": "https://www.tanexlabel.com/sablonlar-ve-olculer/",
-  "generatedUTC": "2026-10-19T17:45:43.575864+00:00",
+  "generatedUTC": "2026-10-19T17:49:19.343740+00:00",
   "totalLinks": 159,
   "compatibleCount": 156,
   "unsupportedCount": 3,
@@ -8,14 +8,14 @@
   "templates": [
     {
       "code": "TW-2000",
-      "measurement": "210x297mm",
+      "measurement": "210×297 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2000-210x297mm.docx",
-      "filename": "TW-2000_210x297mm.docx",
+      "filename": "TW-2000_210-297-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2000 · 210x297mm",
+        "name": "TW-2000 · 210×297 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -46,23 +46,23 @@
         ],
         "perPage": 1,
         "warnings": [],
-        "id": "TW-2000_210x297mm",
+        "id": "TW-2000_210-297-mm",
         "model": "TW-2000",
-        "measurement": "210x297mm",
+        "measurement": "210×297 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2001",
-      "measurement": "2001199.6x289.1mm",
+      "measurement": "199.6×289.1 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2001199.6x289.1mm.docx",
-      "filename": "TW-2001_2001199.6x289.1mm.docx",
+      "filename": "TW-2001_199.6-289.1-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2001 · 2001199.6x289.1mm",
+        "name": "TW-2001 · 199.6×289.1 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -93,23 +93,23 @@
         ],
         "perPage": 1,
         "warnings": [],
-        "id": "TW-2001_2001199.6x289.1mm",
+        "id": "TW-2001_199.6-289.1-mm",
         "model": "TW-2001",
-        "measurement": "2001199.6x289.1mm",
+        "measurement": "199.6×289.1 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2002",
-      "measurement": "2002199.6x143.5mm",
+      "measurement": "199.6×143.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2002199.6x143.5mm.docx",
-      "filename": "TW-2002_2002199.6x143.5mm.docx",
+      "filename": "TW-2002_199.6-143.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2002 · 2002199.6x143.5mm",
+        "name": "TW-2002 · 199.6×143.5 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -149,23 +149,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2002_2002199.6x143.5mm",
+        "id": "TW-2002_199.6-143.5-mm",
         "model": "TW-2002",
-        "measurement": "2002199.6x143.5mm",
+        "measurement": "199.6×143.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2003",
-      "measurement": "2003210x99mm",
+      "measurement": "210×99 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2003210x99mm.docx",
-      "filename": "TW-2003_2003210x99mm.docx",
+      "filename": "TW-2003_210-99-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2003 · 2003210x99mm",
+        "name": "TW-2003 · 210×99 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -205,23 +205,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2003_2003210x99mm",
+        "id": "TW-2003_210-99-mm",
         "model": "TW-2003",
-        "measurement": "2003210x99mm",
+        "measurement": "210×99 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2004",
-      "measurement": "200499.1x139mm",
+      "measurement": "99.1×139 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-200499.1x139mm.docx",
-      "filename": "TW-2004_200499.1x139mm.docx",
+      "filename": "TW-2004_99.1-139-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2004 · 200499.1x139mm",
+        "name": "TW-2004 · 99.1×139 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -295,23 +295,23 @@
         ],
         "perPage": 6,
         "warnings": [],
-        "id": "TW-2004_200499.1x139mm",
+        "id": "TW-2004_99.1-139-mm",
         "model": "TW-2004",
-        "measurement": "200499.1x139mm",
+        "measurement": "99.1×139 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2006",
-      "measurement": "200699.1x93.1mm",
+      "measurement": "99.1×93.1 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-200699.1x93.1mm.docx",
-      "filename": "TW-2006_200699.1x93.1mm.docx",
+      "filename": "TW-2006_99.1-93.1-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2006 · 200699.1x93.1mm",
+        "name": "TW-2006 · 99.1×93.1 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -410,23 +410,23 @@
         ],
         "perPage": 9,
         "warnings": [],
-        "id": "TW-2006_200699.1x93.1mm",
+        "id": "TW-2006_99.1-93.1-mm",
         "model": "TW-2006",
-        "measurement": "200699.1x93.1mm",
+        "measurement": "99.1×93.1 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2007",
-      "measurement": "200x37mm",
+      "measurement": "200×37 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2007_200x37mm.docx",
-      "filename": "TW-2007_200x37mm.docx",
+      "filename": "TW-2007_200-37-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2007 · 200x37mm",
+        "name": "TW-2007 · 200×37 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -565,23 +565,23 @@
         ],
         "perPage": 13,
         "warnings": [],
-        "id": "TW-2007_200x37mm",
+        "id": "TW-2007_200-37-mm",
         "model": "TW-2007",
-        "measurement": "200x37mm",
+        "measurement": "200×37 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2008",
-      "measurement": "200899.1x67.7mm",
+      "measurement": "99.1×67.7 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-200899.1x67.7mm.docx",
-      "filename": "TW-2008_200899.1x67.7mm.docx",
+      "filename": "TW-2008_99.1-67.7-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2008 · 200899.1x67.7mm",
+        "name": "TW-2008 · 99.1×67.7 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -705,23 +705,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2008_200899.1x67.7mm",
+        "id": "TW-2008_99.1-67.7-mm",
         "model": "TW-2008",
-        "measurement": "200899.1x67.7mm",
+        "measurement": "99.1×67.7 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2010",
-      "measurement": "201099.1x57mm",
+      "measurement": "99.1×57 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-201099.1x57mm.docx",
-      "filename": "TW-2010_201099.1x57mm.docx",
+      "filename": "TW-2010_99.1-57-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2010 · 201099.1x57mm",
+        "name": "TW-2010 · 99.1×57 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -870,23 +870,23 @@
         ],
         "perPage": 15,
         "warnings": [],
-        "id": "TW-2010_201099.1x57mm",
+        "id": "TW-2010_99.1-57-mm",
         "model": "TW-2010",
-        "measurement": "201099.1x57mm",
+        "measurement": "99.1×57 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2012",
-      "measurement": "63.5x72mm",
+      "measurement": "63.5×72 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2012_63.5x72mm.docx",
-      "filename": "TW-2012_63.5x72mm.docx",
+      "filename": "TW-2012_63.5-72-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2012 · 63.5x72mm",
+        "name": "TW-2012 · 63.5×72 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -1076,23 +1076,23 @@
         ],
         "perPage": 20,
         "warnings": [],
-        "id": "TW-2012_63.5x72mm",
+        "id": "TW-2012_63.5-72-mm",
         "model": "TW-2012",
-        "measurement": "63.5x72mm",
+        "measurement": "63.5×72 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2014",
-      "measurement": "201499.1x38.1mm",
+      "measurement": "99.1×38.1 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-201499.1x38.1mm.docx",
-      "filename": "TW-2014_201499.1x38.1mm.docx",
+      "filename": "TW-2014_99.1-38.1-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2014 · 201499.1x38.1mm",
+        "name": "TW-2014 · 99.1×38.1 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -1291,23 +1291,23 @@
         ],
         "perPage": 21,
         "warnings": [],
-        "id": "TW-2014_201499.1x38.1mm",
+        "id": "TW-2014_99.1-38.1-mm",
         "model": "TW-2014",
-        "measurement": "201499.1x38.1mm",
+        "measurement": "99.1×38.1 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2015",
-      "measurement": "201545x45mm",
+      "measurement": "45×45 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-201545x45mm.docx",
-      "filename": "TW-2015_201545x45mm.docx",
+      "filename": "TW-2015_45-45-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2015 · 201545x45mm",
+        "name": "TW-2015 · 45×45 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -1702,23 +1702,23 @@
         ],
         "perPage": 45,
         "warnings": [],
-        "id": "TW-2015_201545x45mm",
+        "id": "TW-2015_45-45-mm",
         "model": "TW-2015",
-        "measurement": "201545x45mm",
+        "measurement": "45×45 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2016",
-      "measurement": "201699.1x34mm",
+      "measurement": "99.1×34 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-201699.1x34mm.docx",
-      "filename": "TW-2016_201699.1x34mm.docx",
+      "filename": "TW-2016_99.1-34-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2016 · 201699.1x34mm",
+        "name": "TW-2016 · 99.1×34 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -1942,23 +1942,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2016_201699.1x34mm",
+        "id": "TW-2016_99.1-34-mm",
         "model": "TW-2016",
-        "measurement": "201699.1x34mm",
+        "measurement": "99.1×34 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2018",
-      "measurement": "201863.5x46.6mm",
+      "measurement": "63.5×46.6 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-201863.5x46.6mm.docx",
-      "filename": "TW-2018_201863.5x46.6mm.docx",
+      "filename": "TW-2018_63.5-46.6-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2018 · 201863.5x46.6mm",
+        "name": "TW-2018 · 63.5×46.6 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -2230,23 +2230,23 @@
         ],
         "perPage": 30,
         "warnings": [],
-        "id": "TW-2018_201863.5x46.6mm",
+        "id": "TW-2018_63.5-46.6-mm",
         "model": "TW-2018",
-        "measurement": "201863.5x46.6mm",
+        "measurement": "63.5×46.6 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2020",
-      "measurement": "202026x95mm",
+      "measurement": "26×95 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202026x95mm.docx",
-      "filename": "TW-2020_202026x95mm.docx",
+      "filename": "TW-2020_26-95-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2020 · 202026x95mm",
+        "name": "TW-2020 · 26×95 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -2439,23 +2439,23 @@
         ],
         "perPage": 20,
         "warnings": [],
-        "id": "TW-2020_202026x95mm",
+        "id": "TW-2020_26-95-mm",
         "model": "TW-2020",
-        "measurement": "202026x95mm",
+        "measurement": "26×95 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2021",
-      "measurement": "202163.5x38.1mm",
+      "measurement": "63.5×38.1 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202163.5x38.1mm.docx",
-      "filename": "TW-2021_202163.5x38.1mm.docx",
+      "filename": "TW-2021_63.5-38.1-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2021 · 202163.5x38.1mm",
+        "name": "TW-2021 · 63.5×38.1 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -2768,23 +2768,23 @@
         ],
         "perPage": 35,
         "warnings": [],
-        "id": "TW-2021_202163.5x38.1mm",
+        "id": "TW-2021_63.5-38.1-mm",
         "model": "TW-2021",
-        "measurement": "202163.5x38.1mm",
+        "measurement": "63.5×38.1 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2022",
-      "measurement": "202250x22mm",
+      "measurement": "50×22 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202250x22mm.docx",
-      "filename": "TW-2022_202250x22mm.docx",
+      "filename": "TW-2022_50-22-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2022 · 202250x22mm",
+        "name": "TW-2022 · 50×22 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -3238,23 +3238,23 @@
         ],
         "perPage": 52,
         "warnings": [],
-        "id": "TW-2022_202250x22mm",
+        "id": "TW-2022_50-22-mm",
         "model": "TW-2022",
-        "measurement": "202250x22mm",
+        "measurement": "50×22 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2024",
-      "measurement": "202464x34mm",
+      "measurement": "64×34 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202464x34mm.docx",
-      "filename": "TW-2024_202464x34mm.docx",
+      "filename": "TW-2024_64-34-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2024 · 202464x34mm",
+        "name": "TW-2024 · 64×34 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -3608,23 +3608,23 @@
         ],
         "perPage": 40,
         "warnings": [],
-        "id": "TW-2024_202464x34mm",
+        "id": "TW-2024_64-34-mm",
         "model": "TW-2024",
-        "measurement": "202464x34mm",
+        "measurement": "64×34 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2025",
-      "measurement": "202541x25mm",
+      "measurement": "41×25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202541x25mm.docx",
-      "filename": "TW-2025_202541x25mm.docx",
+      "filename": "TW-2025_41-25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2025 · 202541x25mm",
+        "name": "TW-2025 · 41×25 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -4012,23 +4012,23 @@
         ],
         "perPage": 44,
         "warnings": [],
-        "id": "TW-2025_202541x25mm",
+        "id": "TW-2025_41-25-mm",
         "model": "TW-2025",
-        "measurement": "202541x25mm",
+        "measurement": "41×25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2027",
-      "measurement": "202770x32mm",
+      "measurement": "70×32 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202770x32mm.docx",
-      "filename": "TW-2027_202770x32mm.docx",
+      "filename": "TW-2027_70-32-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2027 · 202770x32mm",
+        "name": "TW-2027 · 70×32 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -4277,23 +4277,23 @@
         ],
         "perPage": 27,
         "warnings": [],
-        "id": "TW-2027_202770x32mm",
+        "id": "TW-2027_70-32-mm",
         "model": "TW-2027",
-        "measurement": "202770x32mm",
+        "measurement": "70×32 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2028",
-      "measurement": "202852.5x41mm",
+      "measurement": "52.5×41 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-202852.5x41mm.docx",
-      "filename": "TW-2028_202852.5x41mm.docx",
+      "filename": "TW-2028_52.5-41-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2028 · 202852.5x41mm",
+        "name": "TW-2028 · 52.5×41 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -4549,23 +4549,23 @@
         ],
         "perPage": 28,
         "warnings": [],
-        "id": "TW-2028_202852.5x41mm",
+        "id": "TW-2028_52.5-41-mm",
         "model": "TW-2028",
-        "measurement": "202852.5x41mm",
+        "measurement": "52.5×41 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2030",
-      "measurement": "203038x44mm",
+      "measurement": "38×44 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-203038x44mm.docx",
-      "filename": "TW-2030_203038x44mm.docx",
+      "filename": "TW-2030_38-44-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2030 · 203038x44mm",
+        "name": "TW-2030 · 38×44 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -5042,23 +5042,23 @@
         ],
         "perPage": 55,
         "warnings": [],
-        "id": "TW-2030_203038x44mm",
+        "id": "TW-2030_38-44-mm",
         "model": "TW-2030",
-        "measurement": "203038x44mm",
+        "measurement": "38×44 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2032",
-      "measurement": "203252.5x35mm",
+      "measurement": "52.5×35 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-203252.5x35mm.docx",
-      "filename": "TW-2032_203252.5x35mm.docx",
+      "filename": "TW-2032_52.5-35-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2032 · 203252.5x35mm",
+        "name": "TW-2032 · 52.5×35 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -5347,23 +5347,23 @@
         ],
         "perPage": 32,
         "warnings": [],
-        "id": "TW-2032_203252.5x35mm",
+        "id": "TW-2032_52.5-35-mm",
         "model": "TW-2032",
-        "measurement": "203252.5x35mm",
+        "measurement": "52.5×35 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2033",
-      "measurement": "203363.5x25.4mm",
+      "measurement": "63.5×25.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-203363.5x25.4mm.docx",
-      "filename": "TW-2033_203363.5x25.4mm.docx",
+      "filename": "TW-2033_63.5-25.4-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2033 · 203363.5x25.4mm",
+        "name": "TW-2033 · 63.5×25.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -5840,23 +5840,23 @@
         ],
         "perPage": 55,
         "warnings": [],
-        "id": "TW-2033_203363.5x25.4mm",
+        "id": "TW-2033_63.5-25.4-mm",
         "model": "TW-2033",
-        "measurement": "203363.5x25.4mm",
+        "measurement": "63.5×25.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2035",
-      "measurement": "203552.5x33mm",
+      "measurement": "52.5×33 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-203552.5x33mm.docx",
-      "filename": "TW-2035_203552.5x33mm.docx",
+      "filename": "TW-2035_52.5-33-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2035 · 203552.5x33mm",
+        "name": "TW-2035 · 52.5×33 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -6178,23 +6178,23 @@
         ],
         "perPage": 36,
         "warnings": [],
-        "id": "TW-2035_203552.5x33mm",
+        "id": "TW-2035_52.5-33-mm",
         "model": "TW-2035",
-        "measurement": "203552.5x33mm",
+        "measurement": "52.5×33 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2036",
-      "measurement": "203645x30mm",
+      "measurement": "45×30 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-203645x30mm.docx",
-      "filename": "TW-2036_203645x30mm.docx",
+      "filename": "TW-2036_45-30-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2036 · 203645x30mm",
+        "name": "TW-2036 · 45×30 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -6735,23 +6735,23 @@
         ],
         "perPage": 63,
         "warnings": [],
-        "id": "TW-2036_203645x30mm",
+        "id": "TW-2036_45-30-mm",
         "model": "TW-2036",
-        "measurement": "203645x30mm",
+        "measurement": "45×30 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2037",
-      "measurement": "70x37.125mm",
+      "measurement": "70×37.125 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2037_70x37.125mm.docx",
-      "filename": "TW-2037_70x37.125mm.docx",
+      "filename": "TW-2037_70-37.125-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2037 · 70x37.125mm",
+        "name": "TW-2037 · 70×37.125 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -6975,23 +6975,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2037_70x37.125mm",
+        "id": "TW-2037_70-37.125-mm",
         "model": "TW-2037",
-        "measurement": "70x37.125mm",
+        "measurement": "70×37.125 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2040",
-      "measurement": "204052.5x29.7mm",
+      "measurement": "52.5×29.7 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-204052.5x29.7mm.docx",
-      "filename": "TW-2040_204052.5x29.7mm.docx",
+      "filename": "TW-2040_52.5-29.7-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2040 · 204052.5x29.7mm",
+        "name": "TW-2040 · 52.5×29.7 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -7346,9 +7346,9 @@
         ],
         "perPage": 40,
         "warnings": [],
-        "id": "TW-2040_204052.5x29.7mm",
+        "id": "TW-2040_52.5-29.7-mm",
         "model": "TW-2040",
-        "measurement": "204052.5x29.7mm",
+        "measurement": "52.5×29.7 mm",
         "category": "TW serisi"
       },
       "error": null
@@ -7365,14 +7365,14 @@
     },
     {
       "code": "TW-2042",
-      "measurement": "204242x42mm",
+      "measurement": "42×42 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-204242x42mm.docx",
-      "filename": "TW-2042_204242x42mm.docx",
+      "filename": "TW-2042_42-42-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2042 · 204242x42mm",
+        "name": "TW-2042 · 42×42 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -7595,23 +7595,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2042_204242x42mm",
+        "id": "TW-2042_42-42-mm",
         "model": "TW-2042",
-        "measurement": "204242x42mm",
+        "measurement": "42×42 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2044",
-      "measurement": "204448.5x25.4mm",
+      "measurement": "48.5×25.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-204448.5x25.4mm.docx",
       "filename": "TW-204448.5x25.4mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2044 · 204448.5x25.4mm",
+        "name": "TW-2044 · 48.5×25.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -8001,21 +8001,21 @@
         "warnings": [],
         "id": "TW-204448.5x25.4mm",
         "model": "TW-2044",
-        "measurement": "204448.5x25.4mm",
+        "measurement": "48.5×25.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2047",
-      "measurement": "2047210x47.81mm",
+      "measurement": "210×47.81 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2047210x47.81mm.docx",
-      "filename": "TW-2047_2047210x47.81mm.docx",
+      "filename": "TW-2047_210-47.81-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2047 · 2047210x47.81mm",
+        "name": "TW-2047 · 210×47.81 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -8091,23 +8091,23 @@
         ],
         "perPage": 6,
         "warnings": [],
-        "id": "TW-2047_2047210x47.81mm",
+        "id": "TW-2047_210-47.81-mm",
         "model": "TW-2047",
-        "measurement": "2047210x47.81mm",
+        "measurement": "210×47.81 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2048",
-      "measurement": "204832x32mm",
+      "measurement": "32×32 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-204832x32mm.docx",
-      "filename": "TW-2048_204832x32mm.docx",
+      "filename": "TW-2048_32-32-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2048 · 204832x32mm",
+        "name": "TW-2048 · 32×32 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -8526,9 +8526,9 @@
         ],
         "perPage": 48,
         "warnings": [],
-        "id": "TW-2048_204832x32mm",
+        "id": "TW-2048_32-32-mm",
         "model": "TW-2048",
-        "measurement": "204832x32mm",
+        "measurement": "32×32 mm",
         "category": "TW serisi"
       },
       "error": null
@@ -8700,14 +8700,14 @@
     },
     {
       "code": "TW-2052",
-      "measurement": "205246.4x21.2mm",
+      "measurement": "46.4×21.2 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-205246.4x21.2mm.docx",
-      "filename": "TW-2052_205246.4x21.2mm.docx",
+      "filename": "TW-2052_46.4-21.2-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2052 · 205246.4x21.2mm",
+        "name": "TW-2052 · 46.4×21.2 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -9476,23 +9476,23 @@
         ],
         "perPage": 91,
         "warnings": [],
-        "id": "TW-2052_205246.4x21.2mm",
+        "id": "TW-2052_46.4-21.2-mm",
         "model": "TW-2052",
-        "measurement": "205246.4x21.2mm",
+        "measurement": "46.4×21.2 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2054",
-      "measurement": "205435x33.6mm",
+      "measurement": "35×33.6 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-205435x33.6mm.docx",
-      "filename": "TW-2054_205435x33.6mm.docx",
+      "filename": "TW-2054_35-33.6-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2054 · 205435x33.6mm",
+        "name": "TW-2054 · 35×33.6 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -9960,23 +9960,23 @@
         ],
         "perPage": 54,
         "warnings": [],
-        "id": "TW-2054_205435x33.6mm",
+        "id": "TW-2054_35-33.6-mm",
         "model": "TW-2054",
-        "measurement": "205435x33.6mm",
+        "measurement": "35×33.6 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2055",
-      "measurement": "205537x24mm",
+      "measurement": "37×24 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-205537x24mm.docx",
-      "filename": "TW-2055_205537x24mm.docx",
+      "filename": "TW-2055_37-24-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2055 · 205537x24mm",
+        "name": "TW-2055 · 37×24 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -10453,9 +10453,9 @@
         ],
         "perPage": 55,
         "warnings": [],
-        "id": "TW-2055_205537x24mm",
+        "id": "TW-2055_37-24-mm",
         "model": "TW-2055",
-        "measurement": "205537x24mm",
+        "measurement": "37×24 mm",
         "category": "TW serisi"
       },
       "error": null
@@ -10709,14 +10709,14 @@
     },
     {
       "code": "TW-2060",
-      "measurement": "206030x9mm",
+      "measurement": "30×9 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-206030x9mm.docx",
-      "filename": "TW-2060_206030x9mm.docx",
+      "filename": "TW-2060_30-9-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2060 · 206030x9mm",
+        "name": "TW-2060 · 30×9 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -13418,23 +13418,23 @@
         ],
         "perPage": 330,
         "warnings": [],
-        "id": "TW-2060_206030x9mm",
+        "id": "TW-2060_30-9-mm",
         "model": "TW-2060",
-        "measurement": "206030x9mm",
+        "measurement": "30×9 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2065",
-      "measurement": "206538.1x21.2mm",
+      "measurement": "38.1×21.2 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-206538.1x21.2mm.docx",
-      "filename": "TW-2065_206538.1x21.2mm.docx",
+      "filename": "TW-2065_38.1-21.2-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2065 · 206538.1x21.2mm",
+        "name": "TW-2065 · 38.1×21.2 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -14413,23 +14413,23 @@
         ],
         "perPage": 117,
         "warnings": [],
-        "id": "TW-2065_206538.1x21.2mm",
+        "id": "TW-2065_38.1-21.2-mm",
         "model": "TW-2065",
-        "measurement": "206538.1x21.2mm",
+        "measurement": "38.1×21.2 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2067",
-      "measurement": "206767x46mm",
+      "measurement": "67×46 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-206767x46mm.docx",
-      "filename": "TW-2067_206767x46mm.docx",
+      "filename": "TW-2067_67-46-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2067 · 206767x46mm",
+        "name": "TW-2067 · 67×46 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -14603,23 +14603,23 @@
         ],
         "perPage": 18,
         "warnings": [],
-        "id": "TW-2067_206767x46mm",
+        "id": "TW-2067_67-46-mm",
         "model": "TW-2067",
-        "measurement": "206767x46mm",
+        "measurement": "67×46 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2069",
-      "measurement": "2069210x29.69mm",
+      "measurement": "210×29.69 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2069210x29.69mm.docx",
-      "filename": "TW-2069_2069210x29.69mm.docx",
+      "filename": "TW-2069_210-29.69-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2069 · 2069210x29.69mm",
+        "name": "TW-2069 · 210×29.69 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -14731,23 +14731,23 @@
         ],
         "perPage": 10,
         "warnings": [],
-        "id": "TW-2069_2069210x29.69mm",
+        "id": "TW-2069_210-29.69-mm",
         "model": "TW-2069",
-        "measurement": "2069210x29.69mm",
+        "measurement": "210×29.69 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2072",
-      "measurement": "207226.25x33.16mm",
+      "measurement": "26.25×33.16 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-207226.25x33.16mm.docx",
-      "filename": "TW-2072_207226.25x33.16mm.docx",
+      "filename": "TW-2072_26.25-33.16-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2072 · 207226.25x33.16mm",
+        "name": "TW-2072 · 26.25×33.16 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -15361,23 +15361,23 @@
         ],
         "perPage": 72,
         "warnings": [],
-        "id": "TW-2072_207226.25x33.16mm",
+        "id": "TW-2072_26.25-33.16-mm",
         "model": "TW-2072",
-        "measurement": "207226.25x33.16mm",
+        "measurement": "26.25×33.16 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2080",
-      "measurement": "208026.2x29.7mm",
+      "measurement": "26.2×29.7 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-208026.2x29.7mm.docx",
-      "filename": "TW-2080_208026.2x29.7mm.docx",
+      "filename": "TW-2080_26.2-29.7-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2080 · 208026.2x29.7mm",
+        "name": "TW-2080 · 26.2×29.7 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -16056,23 +16056,23 @@
         ],
         "perPage": 80,
         "warnings": [],
-        "id": "TW-2080_208026.2x29.7mm",
+        "id": "TW-2080_26.2-29.7-mm",
         "model": "TW-2080",
-        "measurement": "208026.2x29.7mm",
+        "measurement": "26.2×29.7 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2095",
-      "measurement": "209530x12mm",
+      "measurement": "30×12 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-209530x12mm.docx",
-      "filename": "TW-2095_209530x12mm.docx",
+      "filename": "TW-2095_30-12-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2095 · 209530x12mm",
+        "name": "TW-2095 · 30×12 mm",
         "page": {
           "width": 209.991,
           "height": 297.039
@@ -18803,23 +18803,23 @@
         ],
         "perPage": 333,
         "warnings": [],
-        "id": "TW-2095_209530x12mm",
+        "id": "TW-2095_30-12-mm",
         "model": "TW-2095",
-        "measurement": "209530x12mm",
+        "measurement": "30×12 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2096",
-      "measurement": "209643.5x8.5mm",
+      "measurement": "43.5×8.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-209643.5x8.5mm.docx",
-      "filename": "TW-2096_209643.5x8.5mm.docx",
+      "filename": "TW-2096_43.5-8.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2096 · 209643.5x8.5mm",
+        "name": "TW-2096 · 43.5×8.5 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -20671,23 +20671,23 @@
         ],
         "perPage": 224,
         "warnings": [],
-        "id": "TW-2096_209643.5x8.5mm",
+        "id": "TW-2096_43.5-8.5-mm",
         "model": "TW-2096",
-        "measurement": "209643.5x8.5mm",
+        "measurement": "43.5×8.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2100",
-      "measurement": "2100210x280mm",
+      "measurement": "210×280 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2100210x280mm.docx",
-      "filename": "TW-2100_2100210x280mm.docx",
+      "filename": "TW-2100_210-280-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2100 · 2100210x280mm",
+        "name": "TW-2100 · 210×280 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -20718,23 +20718,23 @@
         ],
         "perPage": 1,
         "warnings": [],
-        "id": "TW-2100_2100210x280mm",
+        "id": "TW-2100_210-280-mm",
         "model": "TW-2100",
-        "measurement": "2100210x280mm",
+        "measurement": "210×280 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2102",
-      "measurement": "2102210x148.5mm",
+      "measurement": "210×148.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2102210x148.5mm.docx",
-      "filename": "TW-2102_2102210x148.5mm.docx",
+      "filename": "TW-2102_210-148.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2102 · 2102210x148.5mm",
+        "name": "TW-2102 · 210×148.5 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -20765,23 +20765,23 @@
         ],
         "perPage": 1,
         "warnings": [],
-        "id": "TW-2102_2102210x148.5mm",
+        "id": "TW-2102_210-148.5-mm",
         "model": "TW-2102",
-        "measurement": "2102210x148.5mm",
+        "measurement": "210×148.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2104",
-      "measurement": "2104192x59mm",
+      "measurement": "192×59 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2104192x59mm.docx",
-      "filename": "TW-2104_2104192x59mm.docx",
+      "filename": "TW-2104_192-59-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2104 · 2104192x59mm",
+        "name": "TW-2104 · 192×59 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -20839,23 +20839,23 @@
         ],
         "perPage": 4,
         "warnings": [],
-        "id": "TW-2104_2104192x59mm",
+        "id": "TW-2104_192-59-mm",
         "model": "TW-2104",
-        "measurement": "2104192x59mm",
+        "measurement": "192×59 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2105",
-      "measurement": "2105105x37.125mm",
+      "measurement": "105×37.125 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2105105x37.125mm.docx",
-      "filename": "TW-2105_2105105x37.125mm.docx",
+      "filename": "TW-2105_105-37.125-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2105 · 2105105x37.125mm",
+        "name": "TW-2105 · 105×37.125 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21014,23 +21014,23 @@
         ],
         "perPage": 16,
         "warnings": [],
-        "id": "TW-2105_2105105x37.125mm",
+        "id": "TW-2105_105-37.125-mm",
         "model": "TW-2105",
-        "measurement": "2105105x37.125mm",
+        "measurement": "105×37.125 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2106",
-      "measurement": "210670x148.5mm",
+      "measurement": "70×148.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-210670x148.5mm.docx",
-      "filename": "TW-2106_210670x148.5mm.docx",
+      "filename": "TW-2106_70-148.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2106 · 210670x148.5mm",
+        "name": "TW-2106 · 70×148.5 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21104,23 +21104,23 @@
         ],
         "perPage": 6,
         "warnings": [],
-        "id": "TW-2106_210670x148.5mm",
+        "id": "TW-2106_70-148.5-mm",
         "model": "TW-2106",
-        "measurement": "210670x148.5mm",
+        "measurement": "70×148.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2107",
-      "measurement": "21071925x39mm",
+      "measurement": "192,5×39 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-21071925x39mm.docx",
-      "filename": "TW-2107_21071925x39mm.docx",
+      "filename": "TW-2107_192-5-39-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2107 · 21071925x39mm",
+        "name": "TW-2107 · 192,5×39 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21205,23 +21205,23 @@
         ],
         "perPage": 7,
         "warnings": [],
-        "id": "TW-2107_21071925x39mm",
+        "id": "TW-2107_192-5-39-mm",
         "model": "TW-2107",
-        "measurement": "21071925x39mm",
+        "measurement": "192,5×39 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2108",
-      "measurement": "2108192x34mm",
+      "measurement": "192×34 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2108192x34mm.docx",
-      "filename": "TW-2108_2108192x34mm.docx",
+      "filename": "TW-2108_192-34-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2108 · 2108192x34mm",
+        "name": "TW-2108 · 192×34 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -21315,23 +21315,23 @@
         ],
         "perPage": 8,
         "warnings": [],
-        "id": "TW-2108_2108192x34mm",
+        "id": "TW-2108_192-34-mm",
         "model": "TW-2108",
-        "measurement": "2108192x34mm",
+        "measurement": "192×34 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2114",
-      "measurement": "2114105x41mm",
+      "measurement": "105×41 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2114105x41mm.docx",
-      "filename": "TW-2114_2114105x41mm.docx",
+      "filename": "TW-2114_105-41-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2114 · 2114105x41mm",
+        "name": "TW-2114 · 105×41 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -21473,23 +21473,23 @@
         ],
         "perPage": 14,
         "warnings": [],
-        "id": "TW-2114_2114105x41mm",
+        "id": "TW-2114_105-41-mm",
         "model": "TW-2114",
-        "measurement": "2114105x41mm",
+        "measurement": "105×41 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2115",
-      "measurement": "211570x56mm",
+      "measurement": "70×56 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-211570x56mm.docx",
-      "filename": "TW-2115_211570x56mm.docx",
+      "filename": "TW-2115_70-56-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2115 · 211570x56mm",
+        "name": "TW-2115 · 70×56 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21638,23 +21638,23 @@
         ],
         "perPage": 15,
         "warnings": [],
-        "id": "TW-2115_211570x56mm",
+        "id": "TW-2115_70-56-mm",
         "model": "TW-2115",
-        "measurement": "211570x56mm",
+        "measurement": "70×56 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2116",
-      "measurement": "116x41mm",
+      "measurement": "116×41 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2116_116x41mm.docx",
-      "filename": "TW-2116_116x41mm.docx",
+      "filename": "TW-2116_116-41-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2116 · 116x41mm",
+        "name": "TW-2116 · 116×41 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21703,23 +21703,23 @@
         ],
         "perPage": 3,
         "warnings": [],
-        "id": "TW-2116_116x41mm",
+        "id": "TW-2116_116-41-mm",
         "model": "TW-2116",
-        "measurement": "116x41mm",
+        "measurement": "116×41 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2117",
-      "measurement": "118x37mm",
+      "measurement": "118×37 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2117_118x37mm.docx",
-      "filename": "TW-2117_118x37mm.docx",
+      "filename": "TW-2117_118-37-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2117 · 118x37mm",
+        "name": "TW-2117 · 118×37 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -21768,23 +21768,23 @@
         ],
         "perPage": 3,
         "warnings": [],
-        "id": "TW-2117_118x37mm",
+        "id": "TW-2117_118-37-mm",
         "model": "TW-2117",
-        "measurement": "118x37mm",
+        "measurement": "118×37 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2118",
-      "measurement": "58.4x43.2mm",
+      "measurement": "58.4×43.2 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2118_58.4x43.2mm.docx",
-      "filename": "TW-2118_58.4x43.2mm.docx",
+      "filename": "TW-2118_58.4-43.2-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2118 · 58.4x43.2mm",
+        "name": "TW-2118 · 58.4×43.2 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -22261,23 +22261,23 @@
         ],
         "perPage": 55,
         "warnings": [],
-        "id": "TW-2118_58.4x43.2mm",
+        "id": "TW-2118_58.4-43.2-mm",
         "model": "TW-2118",
-        "measurement": "58.4x43.2mm",
+        "measurement": "58.4×43.2 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2120",
-      "measurement": "212031x14mm",
+      "measurement": "31×14 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-212031x14mm.docx",
-      "filename": "TW-2120_212031x14mm.docx",
+      "filename": "TW-2120_31-14-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2120 · 212031x14mm",
+        "name": "TW-2120 · 31×14 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -23284,23 +23284,23 @@
         ],
         "perPage": 120,
         "warnings": [],
-        "id": "TW-2120_212031x14mm",
+        "id": "TW-2120_31-14-mm",
         "model": "TW-2120",
-        "measurement": "212031x14mm",
+        "measurement": "31×14 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2121",
-      "measurement": "212170x38mm",
+      "measurement": "70×38 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-212170x38mm.docx",
-      "filename": "TW-2121_212170x38mm.docx",
+      "filename": "TW-2121_70-38-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2121 · 212170x38mm",
+        "name": "TW-2121 · 70×38 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -23499,23 +23499,23 @@
         ],
         "perPage": 21,
         "warnings": [],
-        "id": "TW-2121_212170x38mm",
+        "id": "TW-2121_70-38-mm",
         "model": "TW-2121",
-        "measurement": "212170x38mm",
+        "measurement": "70×38 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2124",
-      "measurement": "212470x42.43mm",
+      "measurement": "70×42.43 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-212470x42.43mm.docx",
-      "filename": "TW-2124_212470x42.43mm.docx",
+      "filename": "TW-2124_70-42.43-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2124 · 212470x42.43mm",
+        "name": "TW-2124 · 70×42.43 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -23714,23 +23714,23 @@
         ],
         "perPage": 21,
         "warnings": [],
-        "id": "TW-2124_212470x42.43mm",
+        "id": "TW-2124_70-42.43-mm",
         "model": "TW-2124",
-        "measurement": "212470x42.43mm",
+        "measurement": "70×42.43 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2125",
-      "measurement": "212525mm",
+      "measurement": "25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-212525mm.docx",
-      "filename": "TW-2125_212525mm.docx",
+      "filename": "TW-2125_25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2125 · 212525mm",
+        "name": "TW-2125 · 25 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -24814,23 +24814,23 @@
         ],
         "perPage": 130,
         "warnings": [],
-        "id": "TW-2125_212525mm",
+        "id": "TW-2125_25-mm",
         "model": "TW-2125",
-        "measurement": "212525mm",
+        "measurement": "25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2130",
-      "measurement": "30mm",
+      "measurement": "30mm Yuvarlak",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2130_30mm_Yuvarlak.docx",
-      "filename": "TW-2130_30mm.docx",
+      "filename": "TW-2130_30mm-Yuvarlak.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2130 · 30mm",
+        "name": "TW-2130 · 30mm Yuvarlak",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -26197,23 +26197,23 @@
         ],
         "perPage": 165,
         "warnings": [],
-        "id": "TW-2130_30mm",
+        "id": "TW-2130_30mm-Yuvarlak",
         "model": "TW-2130",
-        "measurement": "30mm",
+        "measurement": "30mm Yuvarlak",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2133",
-      "measurement": "213370x25mm",
+      "measurement": "70×25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-213370x25mm.docx",
-      "filename": "TW-2133_213370x25mm.docx",
+      "filename": "TW-2133_70-25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2133 · 213370x25mm",
+        "name": "TW-2133 · 70×25 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -26512,23 +26512,23 @@
         ],
         "perPage": 33,
         "warnings": [],
-        "id": "TW-2133_213370x25mm",
+        "id": "TW-2133_70-25-mm",
         "model": "TW-2133",
-        "measurement": "213370x25mm",
+        "measurement": "70×25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2137",
-      "measurement": "213735x37.1mm",
+      "measurement": "35×37.1 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-213735x37.1mm.docx",
-      "filename": "TW-2137_213735x37.1mm.docx",
+      "filename": "TW-2137_35-37.1-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2137 · 213735x37.1mm",
+        "name": "TW-2137 · 35×37.1 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -26947,23 +26947,23 @@
         ],
         "perPage": 48,
         "warnings": [],
-        "id": "TW-2137_213735x37.1mm",
+        "id": "TW-2137_35-37.1-mm",
         "model": "TW-2137",
-        "measurement": "213735x37.1mm",
+        "measurement": "35×37.1 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2140",
-      "measurement": "214040mmYuvarlak",
+      "measurement": "40mm Yuvarlak",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-214040mmYuvarlak.docx",
-      "filename": "TW-2140_214040mmYuvarlak.docx",
+      "filename": "TW-2140_40mm-Yuvarlak.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2140 · 214040mmYuvarlak",
+        "name": "TW-2140 · 40mm Yuvarlak",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -27618,23 +27618,23 @@
         ],
         "perPage": 77,
         "warnings": [],
-        "id": "TW-2140_214040mmYuvarlak",
+        "id": "TW-2140_40mm-Yuvarlak",
         "model": "TW-2140",
-        "measurement": "214040mmYuvarlak",
+        "measurement": "40mm Yuvarlak",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2141",
-      "measurement": "214170x41mm",
+      "measurement": "70×41 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-214170x41mm.docx",
-      "filename": "TW-2141_214170x41mm.docx",
+      "filename": "TW-2141_70-41-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2141 · 214170x41mm",
+        "name": "TW-2141 · 70×41 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -27833,23 +27833,23 @@
         ],
         "perPage": 21,
         "warnings": [],
-        "id": "TW-2141_214170x41mm",
+        "id": "TW-2141_70-41-mm",
         "model": "TW-2141",
-        "measurement": "214170x41mm",
+        "measurement": "70×41 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2148",
-      "measurement": "40.6x25.4mm",
+      "measurement": "40.6×25.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2148_40.6x25.4mm_oval.docx",
-      "filename": "TW-2148_40.6x25.4mm.docx",
+      "filename": "TW-2148_40.6-25.4-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2148 · 40.6x25.4mm",
+        "name": "TW-2148 · 40.6×25.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -28846,23 +28846,23 @@
         ],
         "perPage": 119,
         "warnings": [],
-        "id": "TW-2148_40.6x25.4mm",
+        "id": "TW-2148_40.6-25.4-mm",
         "model": "TW-2148",
-        "measurement": "40.6x25.4mm",
+        "measurement": "40.6×25.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2150",
-      "measurement": "50mm",
+      "measurement": "50 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2150-50mm.docx",
-      "filename": "TW-2150_50mm.docx",
+      "filename": "TW-2150_50-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2150 · 50mm",
+        "name": "TW-2150 · 50 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -29184,23 +29184,23 @@
         ],
         "perPage": 36,
         "warnings": [],
-        "id": "TW-2150_50mm",
+        "id": "TW-2150_50-mm",
         "model": "TW-2150",
-        "measurement": "50mm",
+        "measurement": "50 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2154",
-      "measurement": "215435x42.64mm",
+      "measurement": "35×42.64 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-215435x42.64mm.docx",
-      "filename": "TW-2154_215435x42.64mm.docx",
+      "filename": "TW-2154_35-42.64-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2154 · 215435x42.64mm",
+        "name": "TW-2154 · 35×42.64 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -29570,23 +29570,23 @@
         ],
         "perPage": 42,
         "warnings": [],
-        "id": "TW-2154_215435x42.64mm",
+        "id": "TW-2154_35-42.64-mm",
         "model": "TW-2154",
-        "measurement": "215435x42.64mm",
+        "measurement": "35×42.64 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2160",
-      "measurement": "60mm",
+      "measurement": "60 mm Yuvarlak",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2160_60mm_Yuvarlak.docx",
-      "filename": "TW-2160_60mm.docx",
+      "filename": "TW-2160_60-mm-Yuvarlak.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2160 · 60mm",
+        "name": "TW-2160 · 60 mm Yuvarlak",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -29899,9 +29899,9 @@
         ],
         "perPage": 35,
         "warnings": [],
-        "id": "TW-2160_60mm",
+        "id": "TW-2160_60-mm-Yuvarlak",
         "model": "TW-2160",
-        "measurement": "60mm",
+        "measurement": "60 mm Yuvarlak",
         "category": "TW serisi"
       },
       "error": null
@@ -29918,14 +29918,14 @@
     },
     {
       "code": "TW-2164",
-      "measurement": "216452.5x18mm",
+      "measurement": "52.5×18 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-216452.5x18mm.docx",
-      "filename": "TW-2164_216452.5x18mm.docx",
+      "filename": "TW-2164_52.5-18-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2164 · 216452.5x18mm",
+        "name": "TW-2164 · 52.5×18 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -30478,23 +30478,23 @@
         ],
         "perPage": 64,
         "warnings": [],
-        "id": "TW-2164_216452.5x18mm",
+        "id": "TW-2164_52.5-18-mm",
         "model": "TW-2164",
-        "measurement": "216452.5x18mm",
+        "measurement": "52.5×18 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2165",
-      "measurement": "216538.1x21.2mm",
+      "measurement": "38.1×21.2 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-216538.1x21.2mm.docx",
-      "filename": "TW-2165_216538.1x21.2mm.docx",
+      "filename": "TW-2165_38.1-21.2-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2165 · 216538.1x21.2mm",
+        "name": "TW-2165 · 38.1×21.2 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -31053,23 +31053,23 @@
         ],
         "perPage": 65,
         "warnings": [],
-        "id": "TW-2165_216538.1x21.2mm",
+        "id": "TW-2165_38.1-21.2-mm",
         "model": "TW-2165",
-        "measurement": "216538.1x21.2mm",
+        "measurement": "38.1×21.2 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2169",
-      "measurement": "2169210x16.9mm",
+      "measurement": "210×16.9 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2169210x16.9mm.docx",
-      "filename": "TW-2169_2169210x16.9mm.docx",
+      "filename": "TW-2169_210-16.9-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2169 · 2169210x16.9mm",
+        "name": "TW-2169 · 210×16.9 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -31253,23 +31253,23 @@
         ],
         "perPage": 18,
         "warnings": [],
-        "id": "TW-2169_2169210x16.9mm",
+        "id": "TW-2169_210-16.9-mm",
         "model": "TW-2169",
-        "measurement": "2169210x16.9mm",
+        "measurement": "210×16.9 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2172",
-      "measurement": "217235x23mm",
+      "measurement": "35×23 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-217235x23mm.docx",
-      "filename": "TW-2172_217235x23mm.docx",
+      "filename": "TW-2172_35-23-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2172 · 217235x23mm",
+        "name": "TW-2172 · 35×23 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -31884,23 +31884,23 @@
         ],
         "perPage": 72,
         "warnings": [],
-        "id": "TW-2172_217235x23mm",
+        "id": "TW-2172_35-23-mm",
         "model": "TW-2172",
-        "measurement": "217235x23mm",
+        "measurement": "35×23 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2180",
-      "measurement": "218037x14.25mm",
+      "measurement": "37×14.25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-218037x14.25mm.docx",
-      "filename": "TW-2180_218037x14.25mm.docx",
+      "filename": "TW-2180_37-14.25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2180 · 218037x14.25mm",
+        "name": "TW-2180 · 37×14.25 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -32623,23 +32623,23 @@
         ],
         "perPage": 85,
         "warnings": [],
-        "id": "TW-2180_218037x14.25mm",
+        "id": "TW-2180_37-14.25-mm",
         "model": "TW-2180",
-        "measurement": "218037x14.25mm",
+        "measurement": "37×14.25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2204",
-      "measurement": "2204105x148.5mm",
+      "measurement": "105×148.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2204105x148.5mm.docx",
-      "filename": "TW-2204_2204105x148.5mm.docx",
+      "filename": "TW-2204_105-148.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2204 · 2204105x148.5mm",
+        "name": "TW-2204 · 105×148.5 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -32696,23 +32696,23 @@
         ],
         "perPage": 4,
         "warnings": [],
-        "id": "TW-2204_2204105x148.5mm",
+        "id": "TW-2204_105-148.5-mm",
         "model": "TW-2204",
-        "measurement": "2204105x148.5mm",
+        "measurement": "105×148.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2208",
-      "measurement": "2208105x70mm",
+      "measurement": "105×70 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2208105x70mm.docx",
-      "filename": "TW-2208_2208105x70mm.docx",
+      "filename": "TW-2208_105-70-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2208 · 2208105x70mm",
+        "name": "TW-2208 · 105×70 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -32803,33 +32803,33 @@
         ],
         "perPage": 8,
         "warnings": [],
-        "id": "TW-2208_2208105x70mm",
+        "id": "TW-2208_105-70-mm",
         "model": "TW-2208",
-        "measurement": "2208105x70mm",
+        "measurement": "105×70 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2215",
-      "measurement": "15mm",
+      "measurement": "15 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2215_15mm_Yuvarlak.docx",
-      "filename": "TW-2215_15mm.docx",
+      "filename": "TW-2215_15-mm.docx",
       "linkWarning": null,
       "status": "unsupported",
       "error": "Bir sayfada en fazla 600 etiket hücresi destekleniyor."
     },
     {
       "code": "TW-2216",
-      "measurement": "2216105x35mm",
+      "measurement": "105×35 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2216105x35mm.docx",
-      "filename": "TW-2216_2216105x35mm.docx",
+      "filename": "TW-2216_105-35-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2216 · 2216105x35mm",
+        "name": "TW-2216 · 105×35 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -32988,23 +32988,23 @@
         ],
         "perPage": 16,
         "warnings": [],
-        "id": "TW-2216_2216105x35mm",
+        "id": "TW-2216_105-35-mm",
         "model": "TW-2216",
-        "measurement": "2216105x35mm",
+        "measurement": "105×35 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2218",
-      "measurement": "221870x46mm",
+      "measurement": "70×46 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-221870x46mm.docx",
-      "filename": "TW-2218_221870x46mm.docx",
+      "filename": "TW-2218_70-46-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2218 · 221870x46mm",
+        "name": "TW-2218 · 70×46 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -33178,23 +33178,23 @@
         ],
         "perPage": 18,
         "warnings": [],
-        "id": "TW-2218_221870x46mm",
+        "id": "TW-2218_70-46-mm",
         "model": "TW-2218",
-        "measurement": "221870x46mm",
+        "measurement": "70×46 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2222",
-      "measurement": "2222105x23mm",
+      "measurement": "105×23 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2222105x23mm.docx",
-      "filename": "TW-2222_2222105x23mm.docx",
+      "filename": "TW-2222_105-23-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2222 · 2222105x23mm",
+        "name": "TW-2222 · 105×23 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -33404,23 +33404,23 @@
         ],
         "perPage": 22,
         "warnings": [],
-        "id": "TW-2222_2222105x23mm",
+        "id": "TW-2222_105-23-mm",
         "model": "TW-2222",
-        "measurement": "2222105x23mm",
+        "measurement": "105×23 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2224",
-      "measurement": "2224105x23mm",
+      "measurement": "105×23 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2224105x23mm.docx",
-      "filename": "TW-2224_2224105x23mm.docx",
+      "filename": "TW-2224_105-23-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2224 · 2224105x23mm",
+        "name": "TW-2224 · 105×23 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -33647,23 +33647,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2224_2224105x23mm",
+        "id": "TW-2224_105-23-mm",
         "model": "TW-2224",
-        "measurement": "2224105x23mm",
+        "measurement": "105×23 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2229",
-      "measurement": "222970x29.7mm",
+      "measurement": "70×29.7 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-222970x29.7mm.docx",
-      "filename": "TW-2229_222970x29.7mm.docx",
+      "filename": "TW-2229_70-29.7-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2229 · 222970x29.7mm",
+        "name": "TW-2229 · 70×29.7 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -33937,23 +33937,23 @@
         ],
         "perPage": 30,
         "warnings": [],
-        "id": "TW-2229_222970x29.7mm",
+        "id": "TW-2229_70-29.7-mm",
         "model": "TW-2229",
-        "measurement": "222970x29.7mm",
+        "measurement": "70×29.7 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2233",
-      "measurement": "223370x25.4mm",
+      "measurement": "70×25.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-223370x25.4mm.docx",
       "filename": "TW-223370x25.4mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2233 · 223370x25.4mm",
+        "name": "TW-2233 · 70×25.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -34254,21 +34254,21 @@
         "warnings": [],
         "id": "TW-223370x25.4mm",
         "model": "TW-2233",
-        "measurement": "223370x25.4mm",
+        "measurement": "70×25.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2237",
-      "measurement": "37x133mm",
+      "measurement": "37×133 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2237_37x133mm.docx",
-      "filename": "TW-2237_37x133mm.docx",
+      "filename": "TW-2237_37-133-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2237 · 37x133mm",
+        "name": "TW-2237 · 37×133 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -34517,23 +34517,23 @@
         ],
         "perPage": 27,
         "warnings": [],
-        "id": "TW-2237_37x133mm",
+        "id": "TW-2237_37-133-mm",
         "model": "TW-2237",
-        "measurement": "37x133mm",
+        "measurement": "37×133 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2238",
-      "measurement": "223837x85mm",
+      "measurement": "37×85 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-223837x85mm.docx",
-      "filename": "TW-2238_223837x85mm.docx",
+      "filename": "TW-2238_37-85-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2238 · 223837x85mm",
+        "name": "TW-2238 · 37×85 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -34764,23 +34764,23 @@
         ],
         "perPage": 25,
         "warnings": [],
-        "id": "TW-2238_223837x85mm",
+        "id": "TW-2238_37-85-mm",
         "model": "TW-2238",
-        "measurement": "223837x85mm",
+        "measurement": "37×85 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2240",
-      "measurement": "224048.5x25.4mm",
+      "measurement": "48.5×25.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-224048.5x25.4mm.docx",
-      "filename": "TW-2240_224048.5x25.4mm.docx",
+      "filename": "TW-2240_48.5-25.4-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2240 · 224048.5x25.4mm",
+        "name": "TW-2240 · 48.5×25.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -35135,23 +35135,23 @@
         ],
         "perPage": 40,
         "warnings": [],
-        "id": "TW-2240_224048.5x25.4mm",
+        "id": "TW-2240_48.5-25.4-mm",
         "model": "TW-2240",
-        "measurement": "224048.5x25.4mm",
+        "measurement": "48.5×25.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2248",
-      "measurement": "224852.5x23mm",
+      "measurement": "52.5×23 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-224852.5x23mm.docx",
-      "filename": "TW-2248_224852.5x23mm.docx",
+      "filename": "TW-2248_52.5-23-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2248 · 224852.5x23mm",
+        "name": "TW-2248 · 52.5×23 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -35572,23 +35572,23 @@
         ],
         "perPage": 48,
         "warnings": [],
-        "id": "TW-2248_224852.5x23mm",
+        "id": "TW-2248_52.5-23-mm",
         "model": "TW-2248",
-        "measurement": "224852.5x23mm",
+        "measurement": "52.5×23 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2260",
-      "measurement": "226024x40mm",
+      "measurement": "24×40 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-226024x40mm.docx",
-      "filename": "TW-2260_226024x40mm.docx",
+      "filename": "TW-2260_24-40-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2260 · 226024x40mm",
+        "name": "TW-2260 · 24×40 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -36106,23 +36106,23 @@
         ],
         "perPage": 60,
         "warnings": [],
-        "id": "TW-2260_226024x40mm",
+        "id": "TW-2260_24-40-mm",
         "model": "TW-2260",
-        "measurement": "226024x40mm",
+        "measurement": "24×40 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2270",
-      "measurement": "227020x40mm",
+      "measurement": "40×20 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-227020x40mm.docx",
-      "filename": "TW-2270_227020x40mm.docx",
+      "filename": "TW-2270_40-20-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2270 · 227020x40mm",
+        "name": "TW-2270 · 40×20 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -36722,23 +36722,23 @@
         ],
         "perPage": 70,
         "warnings": [],
-        "id": "TW-2270_227020x40mm",
+        "id": "TW-2270_40-20-mm",
         "model": "TW-2270",
-        "measurement": "227020x40mm",
+        "measurement": "40×20 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2272",
-      "measurement": "227235x23.3mm",
+      "measurement": "35×23.3 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-227235x23.3mm.docx",
-      "filename": "TW-2272_227235x23.3mm.docx",
+      "filename": "TW-2272_35-23.3-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2272 · 227235x23.3mm",
+        "name": "TW-2272 · 35×23.3 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -37353,23 +37353,23 @@
         ],
         "perPage": 72,
         "warnings": [],
-        "id": "TW-2272_227235x23.3mm",
+        "id": "TW-2272_35-23.3-mm",
         "model": "TW-2272",
-        "measurement": "227235x23.3mm",
+        "measurement": "35×23.3 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2280",
-      "measurement": "228022x12mm",
+      "measurement": "22×12 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-228022x12mm.docx",
-      "filename": "TW-2280_228022x12mm.docx",
+      "filename": "TW-2280_22-12-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2280 · 228022x12mm",
+        "name": "TW-2280 · 22×12 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42124,23 +42124,23 @@
         ],
         "perPage": 585,
         "warnings": [],
-        "id": "TW-2280_228022x12mm",
+        "id": "TW-2280_22-12-mm",
         "model": "TW-2280",
-        "measurement": "228022x12mm",
+        "measurement": "22×12 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2294",
-      "measurement": "2294210x294.86mm",
+      "measurement": "210×294.86 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2294210x294.86mm.docx",
-      "filename": "TW-2294_2294210x294.86mm.docx",
+      "filename": "TW-2294_210-294.86-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2294 · 2294210x294.86mm",
+        "name": "TW-2294 · 210×294.86 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42171,23 +42171,23 @@
         ],
         "perPage": 1,
         "warnings": [],
-        "id": "TW-2294_2294210x294.86mm",
+        "id": "TW-2294_210-294.86-mm",
         "model": "TW-2294",
-        "measurement": "2294210x294.86mm",
+        "measurement": "210×294.86 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2297",
-      "measurement": "105x296.8mm",
+      "measurement": "105×296.8 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2297_105x296.8mm.docx",
-      "filename": "TW-2297_105x296.8mm.docx",
+      "filename": "TW-2297_105-296.8-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2297 · 105x296.8mm",
+        "name": "TW-2297 · 105×296.8 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42227,23 +42227,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2297_105x296.8mm",
+        "id": "TW-2297_105-296.8-mm",
         "model": "TW-2297",
-        "measurement": "105x296.8mm",
+        "measurement": "105×296.8 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2302",
-      "measurement": "2302210x140mm",
+      "measurement": "210×140 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2302210x140mm.docx",
-      "filename": "TW-2302_2302210x140mm.docx",
+      "filename": "TW-2302_210-140-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2302 · 2302210x140mm",
+        "name": "TW-2302 · 210×140 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42283,23 +42283,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2302_2302210x140mm",
+        "id": "TW-2302_210-140-mm",
         "model": "TW-2302",
-        "measurement": "2302210x140mm",
+        "measurement": "210×140 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2303",
-      "measurement": "2303105x99mm",
+      "measurement": "105×99 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2303105x99mm.docx",
-      "filename": "TW-2303_2303105x99mm.docx",
+      "filename": "TW-2303_105-99-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2303 · 2303105x99mm",
+        "name": "TW-2303 · 105×99 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42373,23 +42373,23 @@
         ],
         "perPage": 6,
         "warnings": [],
-        "id": "TW-2303_2303105x99mm",
+        "id": "TW-2303_105-99-mm",
         "model": "TW-2303",
-        "measurement": "2303105x99mm",
+        "measurement": "105×99 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2304",
-      "measurement": "2304105x140mm",
+      "measurement": "105×140 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2304105x140mm.docx",
-      "filename": "TW-2304_2304105x140mm.docx",
+      "filename": "TW-2304_105-140-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2304 · 2304105x140mm",
+        "name": "TW-2304 · 105×140 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42446,23 +42446,23 @@
         ],
         "perPage": 4,
         "warnings": [],
-        "id": "TW-2304_2304105x140mm",
+        "id": "TW-2304_105-140-mm",
         "model": "TW-2304",
-        "measurement": "2304105x140mm",
+        "measurement": "105×140 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2308",
-      "measurement": "230895x65mm",
+      "measurement": "95×65 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-230895x65mm.docx",
-      "filename": "TW-2308_230895x65mm.docx",
+      "filename": "TW-2308_95-65-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2308 · 230895x65mm",
+        "name": "TW-2308 · 95×65 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42661,23 +42661,23 @@
         ],
         "perPage": 21,
         "warnings": [],
-        "id": "TW-2308_230895x65mm",
+        "id": "TW-2308_95-65-mm",
         "model": "TW-2308",
-        "measurement": "230895x65mm",
+        "measurement": "95×65 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2312",
-      "measurement": "231270x70mm",
+      "measurement": "70×70 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-231270x70mm.docx",
-      "filename": "TW-2312_231270x70mm.docx",
+      "filename": "TW-2312_70-70-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2312 · 231270x70mm",
+        "name": "TW-2312 · 70×70 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -42801,23 +42801,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2312_231270x70mm",
+        "id": "TW-2312_70-70-mm",
         "model": "TW-2312",
-        "measurement": "231270x70mm",
+        "measurement": "70×70 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2316",
-      "measurement": "2316105x36mm",
+      "measurement": "105×36 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2316105x36mm.docx",
-      "filename": "TW-2316_2316105x36mm.docx",
+      "filename": "TW-2316_105-36-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2316 · 2316105x36mm",
+        "name": "TW-2316 · 105×36 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -42976,23 +42976,23 @@
         ],
         "perPage": 16,
         "warnings": [],
-        "id": "TW-2316_2316105x36mm",
+        "id": "TW-2316_105-36-mm",
         "model": "TW-2316",
-        "measurement": "2316105x36mm",
+        "measurement": "105×36 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2318",
-      "measurement": "231883x30mm",
+      "measurement": "83×30 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-231883x30mm.docx",
-      "filename": "TW-2318_231883x30mm.docx",
+      "filename": "TW-2318_83-30-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2318 · 231883x30mm",
+        "name": "TW-2318 · 83×30 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -43168,23 +43168,23 @@
         ],
         "perPage": 18,
         "warnings": [],
-        "id": "TW-2318_231883x30mm",
+        "id": "TW-2318_83-30-mm",
         "model": "TW-2318",
-        "measurement": "231883x30mm",
+        "measurement": "83×30 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2319",
-      "measurement": "33x19mm",
+      "measurement": "33×19 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2319-33x19mm.docx",
-      "filename": "TW-2319_33x19mm.docx",
+      "filename": "TW-2319_33-19-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2319 · 33x19mm",
+        "name": "TW-2319 · 33×19 mm",
         "page": {
           "width": 209.991,
           "height": 298.044
@@ -43946,23 +43946,23 @@
         ],
         "perPage": 90,
         "warnings": [],
-        "id": "TW-2319_33x19mm",
+        "id": "TW-2319_33-19-mm",
         "model": "TW-2319",
-        "measurement": "33x19mm",
+        "measurement": "33×19 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2320",
-      "measurement": "232090x25mm",
+      "measurement": "90×25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-232090x25mm.docx",
-      "filename": "TW-2320_232090x25mm.docx",
+      "filename": "TW-2320_90-25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2320 · 232090x25mm",
+        "name": "TW-2320 · 90×25 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -44172,23 +44172,23 @@
         ],
         "perPage": 22,
         "warnings": [],
-        "id": "TW-2320_232090x25mm",
+        "id": "TW-2320_90-25-mm",
         "model": "TW-2320",
-        "measurement": "232090x25mm",
+        "measurement": "90×25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2321",
-      "measurement": "232152.5x21.2mm",
+      "measurement": "52.5×21.2 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-232152.5x21.2mm.docx",
-      "filename": "TW-2321_232152.5x21.2mm.docx",
+      "filename": "TW-2321_52.5-21.2-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2321 · 232152.5x21.2mm",
+        "name": "TW-2321 · 52.5×21.2 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -44675,23 +44675,23 @@
         ],
         "perPage": 56,
         "warnings": [],
-        "id": "TW-2321_232152.5x21.2mm",
+        "id": "TW-2321_52.5-21.2-mm",
         "model": "TW-2321",
-        "measurement": "232152.5x21.2mm",
+        "measurement": "52.5×21.2 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2324",
-      "measurement": "232470x35mm",
+      "measurement": "70×35 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-232470x35mm.docx",
-      "filename": "TW-2324_232470x35mm.docx",
+      "filename": "TW-2324_70-35-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2324 · 232470x35mm",
+        "name": "TW-2324 · 70×35 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -44915,23 +44915,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2324_232470x35mm",
+        "id": "TW-2324_70-35-mm",
         "model": "TW-2324",
-        "measurement": "232470x35mm",
+        "measurement": "70×35 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2327",
-      "measurement": "232770x30mm",
+      "measurement": "70×30 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-232770x30mm.docx",
-      "filename": "TW-2327_232770x30mm.docx",
+      "filename": "TW-2327_70-30-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2327 · 232770x30mm",
+        "name": "TW-2327 · 70×30 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -45180,23 +45180,23 @@
         ],
         "perPage": 27,
         "warnings": [],
-        "id": "TW-2327_232770x30mm",
+        "id": "TW-2327_70-30-mm",
         "model": "TW-2327",
-        "measurement": "232770x30mm",
+        "measurement": "70×30 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2329",
-      "measurement": "2329210x32mm",
+      "measurement": "210×32 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2329210x32mm.docx",
-      "filename": "TW-2329_2329210x32mm.docx",
+      "filename": "TW-2329_210-32-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2329 · 2329210x32mm",
+        "name": "TW-2329 · 210×32 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -45299,23 +45299,23 @@
         ],
         "perPage": 9,
         "warnings": [],
-        "id": "TW-2329_2329210x32mm",
+        "id": "TW-2329_210-32-mm",
         "model": "TW-2329",
-        "measurement": "2329210x32mm",
+        "measurement": "210×32 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2334",
-      "measurement": "233455x33mm",
+      "measurement": "55×33 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-233455x33mm.docx",
-      "filename": "TW-2334_233455x33mm.docx",
+      "filename": "TW-2334_55-33-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2334 · 233455x33mm",
+        "name": "TW-2334 · 55×33 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -45714,23 +45714,23 @@
         ],
         "perPage": 45,
         "warnings": [],
-        "id": "TW-2334_233455x33mm",
+        "id": "TW-2334_55-33-mm",
         "model": "TW-2334",
-        "measurement": "233455x33mm",
+        "measurement": "55×33 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2340",
-      "measurement": "25x45mm",
+      "measurement": "25×45 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2340_25x45mm.docx",
-      "filename": "TW-2340_25x45mm.docx",
+      "filename": "TW-2340_25-45-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2340 · 25x45mm",
+        "name": "TW-2340 · 25×45 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -46841,23 +46841,23 @@
         ],
         "perPage": 133,
         "warnings": [],
-        "id": "TW-2340_25x45mm",
+        "id": "TW-2340_25-45-mm",
         "model": "TW-2340",
-        "measurement": "25x45mm",
+        "measurement": "25×45 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2348",
-      "measurement": "234835x35mm",
+      "measurement": "35×35 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-234835x35mm.docx",
-      "filename": "TW-2348_234835x35mm.docx",
+      "filename": "TW-2348_35-35-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2348 · 234835x35mm",
+        "name": "TW-2348 · 35×35 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -47276,23 +47276,23 @@
         ],
         "perPage": 48,
         "warnings": [],
-        "id": "TW-2348_234835x35mm",
+        "id": "TW-2348_35-35-mm",
         "model": "TW-2348",
-        "measurement": "234835x35mm",
+        "measurement": "35×35 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2370",
-      "measurement": "2370210x70mm",
+      "measurement": "210×70 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2370210x70mm.docx",
-      "filename": "TW-2370_2370210x70mm.docx",
+      "filename": "TW-2370_210-70-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2370 · 2370210x70mm",
+        "name": "TW-2370 · 210×70 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -47350,23 +47350,23 @@
         ],
         "perPage": 4,
         "warnings": [],
-        "id": "TW-2370_2370210x70mm",
+        "id": "TW-2370_210-70-mm",
         "model": "TW-2370",
-        "measurement": "2370210x70mm",
+        "measurement": "210×70 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2374",
-      "measurement": "2374105x74.25mm",
+      "measurement": "105×74.25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2374105x74.25mm.docx",
-      "filename": "TW-2374_2374105x74.25mm.docx",
+      "filename": "TW-2374_105-74.25-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2374 · 2374105x74.25mm",
+        "name": "TW-2374 · 105×74.25 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -47457,23 +47457,23 @@
         ],
         "perPage": 8,
         "warnings": [],
-        "id": "TW-2374_2374105x74.25mm",
+        "id": "TW-2374_105-74.25-mm",
         "model": "TW-2374",
-        "measurement": "2374105x74.25mm",
+        "measurement": "105×74.25 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2380",
-      "measurement": "2380105x280mm",
+      "measurement": "105×280 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2380105x280mm.docx",
-      "filename": "TW-2380_2380105x280mm.docx",
+      "filename": "TW-2380_105-280-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2380 · 2380105x280mm",
+        "name": "TW-2380 · 105×280 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -47513,23 +47513,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2380_2380105x280mm",
+        "id": "TW-2380_105-280-mm",
         "model": "TW-2380",
-        "measurement": "2380105x280mm",
+        "measurement": "105×280 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2404",
-      "measurement": "2404210x74.25mm",
+      "measurement": "210×74.25 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2404210x74.25mm.docx",
       "filename": "TW-2404210x74.25mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2404 · 2404210x74.25mm",
+        "name": "TW-2404 · 210×74.25 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -47589,7 +47589,7 @@
         "warnings": [],
         "id": "TW-2404210x74.25mm",
         "model": "TW-2404",
-        "measurement": "2404210x74.25mm",
+        "measurement": "210×74.25 mm",
         "category": "TW serisi"
       },
       "error": null
@@ -47918,14 +47918,14 @@
     },
     {
       "code": "TW-2425",
-      "measurement": "42x59,4mm",
+      "measurement": "42×59,4mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2425 42x59,4mm.docx",
-      "filename": "TW-2425_42x59-4mm.docx",
+      "filename": "TW-2425_42-59-4mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2425 · 42x59,4mm",
+        "name": "TW-2425 · 42×59,4mm",
         "page": {
           "width": 209.991,
           "height": 297.039
@@ -48156,23 +48156,23 @@
         ],
         "perPage": 25,
         "warnings": [],
-        "id": "TW-2425_42x59-4mm",
+        "id": "TW-2425_42-59-4mm",
         "model": "TW-2425",
-        "measurement": "42x59,4mm",
+        "measurement": "42×59,4mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2433",
-      "measurement": "243370x23mm",
+      "measurement": "70×23 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-243370x23mm.docx",
-      "filename": "TW-2433_243370x23mm.docx",
+      "filename": "TW-2433_70-23-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2433 · 243370x23mm",
+        "name": "TW-2433 · 70×23 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -48496,23 +48496,23 @@
         ],
         "perPage": 36,
         "warnings": [],
-        "id": "TW-2433_243370x23mm",
+        "id": "TW-2433_70-23-mm",
         "model": "TW-2433",
-        "measurement": "243370x23mm",
+        "measurement": "70×23 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2453",
-      "measurement": "245345x30mm",
+      "measurement": "45×30 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-245345x30mm.docx",
-      "filename": "TW-2453_245345x30mm.docx",
+      "filename": "TW-2453_45-30-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2453 · 245345x30mm",
+        "name": "TW-2453 · 45×30 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -48834,23 +48834,23 @@
         ],
         "perPage": 36,
         "warnings": [],
-        "id": "TW-2453_245345x30mm",
+        "id": "TW-2453_45-30-mm",
         "model": "TW-2453",
-        "measurement": "245345x30mm",
+        "measurement": "45×30 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2472",
-      "measurement": "35x23.375mm",
+      "measurement": "35×23.375mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-2472 35x23.375mm.docx",
-      "filename": "TW-2472_35x23.375mm.docx",
+      "filename": "TW-2472_35-23.375mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2472 · 35x23.375mm",
+        "name": "TW-2472 · 35×23.375mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -49465,23 +49465,23 @@
         ],
         "perPage": 72,
         "warnings": [],
-        "id": "TW-2472_35x23.375mm",
+        "id": "TW-2472_35-23.375mm",
         "model": "TW-2472",
-        "measurement": "35x23.375mm",
+        "measurement": "35×23.375mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2504",
-      "measurement": "98×148.5mm",
+      "measurement": "98×148.5 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2504_98×148.5mm.docx",
-      "filename": "TW-2504_98-148.5mm.docx",
+      "filename": "TW-2504_98-148.5-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2504 · 98×148.5mm",
+        "name": "TW-2504 · 98×148.5 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -49538,23 +49538,23 @@
         ],
         "perPage": 4,
         "warnings": [],
-        "id": "TW-2504_98-148.5mm",
+        "id": "TW-2504_98-148.5-mm",
         "model": "TW-2504",
-        "measurement": "98×148.5mm",
+        "measurement": "98×148.5 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2506",
-      "measurement": "250679x79mm",
+      "measurement": "79×79 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-250679x79mmMiniCd.docx",
-      "filename": "TW-2506_250679x79mm.docx",
+      "filename": "TW-2506_79-79-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2506 · 250679x79mm",
+        "name": "TW-2506 · 79×79 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -49703,23 +49703,23 @@
         ],
         "perPage": 15,
         "warnings": [],
-        "id": "TW-2506_250679x79mm",
+        "id": "TW-2506_79-79-mm",
         "model": "TW-2506",
-        "measurement": "250679x79mm",
+        "measurement": "79×79 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2510",
-      "measurement": "2510105x56mm",
+      "measurement": "105×56 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2510105x56mm.docx",
-      "filename": "TW-2510_2510105x56mm.docx",
+      "filename": "TW-2510_105-56-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2510 · 2510105x56mm",
+        "name": "TW-2510 · 105×56 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -49827,23 +49827,23 @@
         ],
         "perPage": 10,
         "warnings": [],
-        "id": "TW-2510_2510105x56mm",
+        "id": "TW-2510_105-56-mm",
         "model": "TW-2510",
-        "measurement": "2510105x56mm",
+        "measurement": "105×56 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2512",
-      "measurement": "2512105x46mm",
+      "measurement": "105×46 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2512105x46mm.docx",
-      "filename": "TW-2512_2512105x46mm.docx",
+      "filename": "TW-2512_105-46-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2512 · 2512105x46mm",
+        "name": "TW-2512 · 105×46 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -49968,23 +49968,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2512_2512105x46mm",
+        "id": "TW-2512_105-46-mm",
         "model": "TW-2512",
-        "measurement": "2512105x46mm",
+        "measurement": "105×46 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2514",
-      "measurement": "2514105x38mm",
+      "measurement": "105×38 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2514105x38mm.docx",
-      "filename": "TW-2514_2514105x38mm.docx",
+      "filename": "TW-2514_105-38-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2514 · 2514105x38mm",
+        "name": "TW-2514 · 105×38 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -50126,23 +50126,23 @@
         ],
         "perPage": 14,
         "warnings": [],
-        "id": "TW-2514_2514105x38mm",
+        "id": "TW-2514_105-38-mm",
         "model": "TW-2514",
-        "measurement": "2514105x38mm",
+        "measurement": "105×38 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2518",
-      "measurement": "251870x45mm",
+      "measurement": "70×45 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-251870x45mm.docx",
-      "filename": "TW-2518_251870x45mm.docx",
+      "filename": "TW-2518_70-45-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2518 · 251870x45mm",
+        "name": "TW-2518 · 70×45 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -50316,23 +50316,23 @@
         ],
         "perPage": 18,
         "warnings": [],
-        "id": "TW-2518_251870x45mm",
+        "id": "TW-2518_70-45-mm",
         "model": "TW-2518",
-        "measurement": "251870x45mm",
+        "measurement": "70×45 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2524",
-      "measurement": "2524210x24mm",
+      "measurement": "210×24 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2524210x24mm.docx",
-      "filename": "TW-2524_2524210x24mm.docx",
+      "filename": "TW-2524_210-24-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2524 · 2524210x24mm",
+        "name": "TW-2524 · 210×24 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -50462,23 +50462,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2524_2524210x24mm",
+        "id": "TW-2524_210-24-mm",
         "model": "TW-2524",
-        "measurement": "2524210x24mm",
+        "measurement": "210×24 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2525",
-      "measurement": "252552.5x148mm",
+      "measurement": "52.5×148 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-252552.5x148mm.docx",
-      "filename": "TW-2525_252552.5x148mm.docx",
+      "filename": "TW-2525_52.5-148-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2525 · 252552.5x148mm",
+        "name": "TW-2525 · 52.5×148 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -50569,23 +50569,23 @@
         ],
         "perPage": 8,
         "warnings": [],
-        "id": "TW-2525_252552.5x148mm",
+        "id": "TW-2525_52.5-148-mm",
         "model": "TW-2525",
-        "measurement": "252552.5x148mm",
+        "measurement": "52.5×148 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2533",
-      "measurement": "253364.6x33.8mm",
+      "measurement": "64.6×33.8 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-253364.6x33.8mm.docx",
-      "filename": "TW-2533_253364.6x33.8mm.docx",
+      "filename": "TW-2533_64.6-33.8-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2533 · 253364.6x33.8mm",
+        "name": "TW-2533 · 64.6×33.8 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -50809,23 +50809,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2533_253364.6x33.8mm",
+        "id": "TW-2533_64.6-33.8-mm",
         "model": "TW-2533",
-        "measurement": "253364.6x33.8mm",
+        "measurement": "64.6×33.8 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2536",
-      "measurement": "253663x24mm",
+      "measurement": "63×24 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-253663x24mm.docx",
-      "filename": "TW-2536_253663x24mm.docx",
+      "filename": "TW-2536_63-24-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2536 · 253663x24mm",
+        "name": "TW-2536 · 63×24 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -51149,23 +51149,23 @@
         ],
         "perPage": 36,
         "warnings": [],
-        "id": "TW-2536_253663x24mm",
+        "id": "TW-2536_63-24-mm",
         "model": "TW-2536",
-        "measurement": "253663x24mm",
+        "measurement": "63×24 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2544",
-      "measurement": "254435x12.4355mm",
+      "measurement": "35×12.4355 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-254435x12.4355mm.docx",
-      "filename": "TW-2544_254435x12.4355mm.docx",
+      "filename": "TW-2544_35-12.4355-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2544 · 254435x12.4355mm",
+        "name": "TW-2544 · 35×12.4355 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -52368,23 +52368,23 @@
         ],
         "perPage": 144,
         "warnings": [],
-        "id": "TW-2544_254435x12.4355mm",
+        "id": "TW-2544_35-12.4355-mm",
         "model": "TW-2544",
-        "measurement": "254435x12.4355mm",
+        "measurement": "35×12.4355 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2546",
-      "measurement": "2546100x46mm",
+      "measurement": "100×46 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2546100x46mm.docx",
-      "filename": "TW-2546_2546100x46mm.docx",
+      "filename": "TW-2546_100-46-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2546 · 2546100x46mm",
+        "name": "TW-2546 · 100×46 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -52509,23 +52509,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2546_2546100x46mm",
+        "id": "TW-2546_100-46-mm",
         "model": "TW-2546",
-        "measurement": "2546100x46mm",
+        "measurement": "100×46 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2564",
-      "measurement": "256448.5x16.9mm",
+      "measurement": "48.5×16.9 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-256448.5x16.9mm.docx",
-      "filename": "TW-2564_256448.5x16.9mm.docx",
+      "filename": "TW-2564_48.5-16.9-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2564 · 256448.5x16.9mm",
+        "name": "TW-2564 · 48.5×16.9 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -53078,23 +53078,23 @@
         ],
         "perPage": 64,
         "warnings": [],
-        "id": "TW-2564_256448.5x16.9mm",
+        "id": "TW-2564_48.5-16.9-mm",
         "model": "TW-2564",
-        "measurement": "256448.5x16.9mm",
+        "measurement": "48.5×16.9 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2602",
-      "measurement": "2602208x146mm",
+      "measurement": "208×146 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2602208x146mm.docx",
-      "filename": "TW-2602_2602208x146mm.docx",
+      "filename": "TW-2602_208-146-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2602 · 2602208x146mm",
+        "name": "TW-2602 · 208×146 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -53134,23 +53134,23 @@
         ],
         "perPage": 2,
         "warnings": [],
-        "id": "TW-2602_2602208x146mm",
+        "id": "TW-2602_208-146-mm",
         "model": "TW-2602",
-        "measurement": "2602208x146mm",
+        "measurement": "208×146 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2610",
-      "measurement": "2610105x57mm",
+      "measurement": "105×57 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2610105x57mm.docx",
-      "filename": "TW-2610_2610105x57mm.docx",
+      "filename": "TW-2610_105-57-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2610 · 2610105x57mm",
+        "name": "TW-2610 · 105×57 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -53258,23 +53258,23 @@
         ],
         "perPage": 10,
         "warnings": [],
-        "id": "TW-2610_2610105x57mm",
+        "id": "TW-2610_105-57-mm",
         "model": "TW-2610",
-        "measurement": "2610105x57mm",
+        "measurement": "105×57 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2612",
-      "measurement": "2612105x48mm",
+      "measurement": "105×48 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2612105x48mm.docx",
-      "filename": "TW-2612_2612105x48mm.docx",
+      "filename": "TW-2612_105-48-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2612 · 2612105x48mm",
+        "name": "TW-2612 · 105×48 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -53399,23 +53399,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2612_2612105x48mm",
+        "id": "TW-2612_105-48-mm",
         "model": "TW-2612",
-        "measurement": "2612105x48mm",
+        "measurement": "105×48 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2614",
-      "measurement": "2614105x40mm",
+      "measurement": "105×40 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2614105x40mm.docx",
-      "filename": "TW-2614_2614105x40mm.docx",
+      "filename": "TW-2614_105-40-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2614 · 2614105x40mm",
+        "name": "TW-2614 · 105×40 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -53557,23 +53557,23 @@
         ],
         "perPage": 14,
         "warnings": [],
-        "id": "TW-2614_2614105x40mm",
+        "id": "TW-2614_105-40-mm",
         "model": "TW-2614",
-        "measurement": "2614105x40mm",
+        "measurement": "105×40 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2644",
-      "measurement": "35x12mm",
+      "measurement": "35×12 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2644_35x12mm.docx",
-      "filename": "TW-2644_35x12mm.docx",
+      "filename": "TW-2644_35-12-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2644 · 35x12mm",
+        "name": "TW-2644 · 35×12 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -54776,23 +54776,23 @@
         ],
         "perPage": 144,
         "warnings": [],
-        "id": "TW-2644_35x12mm",
+        "id": "TW-2644_35-12-mm",
         "model": "TW-2644",
-        "measurement": "35x12mm",
+        "measurement": "35×12 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2712",
-      "measurement": "2712105x42mm",
+      "measurement": "105×42 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-2712105x42mm.docx",
-      "filename": "TW-2712_2712105x42mm.docx",
+      "filename": "TW-2712_105-42-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2712 · 2712105x42mm",
+        "name": "TW-2712 · 105×42 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -54934,23 +54934,23 @@
         ],
         "perPage": 14,
         "warnings": [],
-        "id": "TW-2712_2712105x42mm",
+        "id": "TW-2712_105-42-mm",
         "model": "TW-2712",
-        "measurement": "2712105x42mm",
+        "measurement": "105×42 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2736",
-      "measurement": "273670x36mm",
+      "measurement": "70×36 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-273670x36mm.docx",
-      "filename": "TW-2736_273670x36mm.docx",
+      "filename": "TW-2736_70-36-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2736 · 273670x36mm",
+        "name": "TW-2736 · 70×36 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -55174,23 +55174,23 @@
         ],
         "perPage": 24,
         "warnings": [],
-        "id": "TW-2736_273670x36mm",
+        "id": "TW-2736_70-36-mm",
         "model": "TW-2736",
-        "measurement": "273670x36mm",
+        "measurement": "70×36 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-2772",
-      "measurement": "277270x72mm",
+      "measurement": "70×72 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-277270x72mm.docx",
-      "filename": "TW-2772_277270x72mm.docx",
+      "filename": "TW-2772_70-72-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-2772 · 277270x72mm",
+        "name": "TW-2772 · 70×72 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -55314,23 +55314,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-2772_277270x72mm",
+        "id": "TW-2772_70-72-mm",
         "model": "TW-2772",
-        "measurement": "277270x72mm",
+        "measurement": "70×72 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-3117",
-      "measurement": "117mm",
+      "measurement": "117 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-3117-117mm.docx",
-      "filename": "TW-3117_117mm.docx",
+      "filename": "TW-3117_117-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-3117 · 117mm",
+        "name": "TW-3117 · 117 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -55379,23 +55379,23 @@
         ],
         "perPage": 3,
         "warnings": [],
-        "id": "TW-3117_117mm",
+        "id": "TW-3117_117-mm",
         "model": "TW-3117",
-        "measurement": "117mm",
+        "measurement": "117 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-3177",
-      "measurement": "317778x58.4mm",
+      "measurement": "78×58.4 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-317778x58.4mmOvalKartCd.docx",
-      "filename": "TW-3177_317778x58.4mm.docx",
+      "filename": "TW-3177_78-58.4-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-3177 · 317778x58.4mm",
+        "name": "TW-3177 · 78×58.4 mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -55544,23 +55544,23 @@
         ],
         "perPage": 15,
         "warnings": [],
-        "id": "TW-3177_317778x58.4mm",
+        "id": "TW-3177_78-58.4-mm",
         "model": "TW-3177",
-        "measurement": "317778x58.4mm",
+        "measurement": "78×58.4 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-3178",
-      "measurement": "317883x56mm",
+      "measurement": "83×56 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-317883x56mm.docx",
-      "filename": "TW-3178_317883x56mm.docx",
+      "filename": "TW-3178_83-56-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-3178 · 317883x56mm",
+        "name": "TW-3178 · 83×56 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -55709,23 +55709,23 @@
         ],
         "perPage": 15,
         "warnings": [],
-        "id": "TW-3178_317883x56mm",
+        "id": "TW-3178_83-56-mm",
         "model": "TW-3178",
-        "measurement": "317883x56mm",
+        "measurement": "83×56 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-4066",
-      "measurement": "70x12mm",
+      "measurement": "70×12 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-4066_70x12mm.docx",
-      "filename": "TW-4066_70x12mm.docx",
+      "filename": "TW-4066_70-12-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-4066 · 70x12mm",
+        "name": "TW-4066 · 70×12 mm",
         "page": {
           "width": 210.009,
           "height": 297.004
@@ -56299,23 +56299,23 @@
         ],
         "perPage": 66,
         "warnings": [],
-        "id": "TW-4066_70x12mm",
+        "id": "TW-4066_70-12-mm",
         "model": "TW-4066",
-        "measurement": "70x12mm",
+        "measurement": "70×12 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-4097",
-      "measurement": "97x42.4mm",
+      "measurement": "97×42.4mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TW-4097_97x42.4mm.docx",
-      "filename": "TW-4097_97x42.4mm.docx",
+      "filename": "TW-4097_97-42.4mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-4097 · 97x42.4mm",
+        "name": "TW-4097 · 97×42.4mm",
         "page": {
           "width": 209.991,
           "height": 296.986
@@ -56440,23 +56440,23 @@
         ],
         "perPage": 12,
         "warnings": [],
-        "id": "TW-4097_97x42.4mm",
+        "id": "TW-4097_97-42.4mm",
         "model": "TW-4097",
-        "measurement": "97x42.4mm",
+        "measurement": "97×42.4mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-4110",
-      "measurement": "40x12mm",
+      "measurement": "40×12 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-4110_40x12mm.docx",
-      "filename": "TW-4110_40x12mm.docx",
+      "filename": "TW-4110_40-12-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-4110 · 40x12mm",
+        "name": "TW-4110 · 40×12 mm",
         "page": {
           "width": 210.026,
           "height": 297.039
@@ -57384,23 +57384,23 @@
         ],
         "perPage": 110,
         "warnings": [],
-        "id": "TW-4110_40x12mm",
+        "id": "TW-4110_40-12-mm",
         "model": "TW-4110",
-        "measurement": "40x12mm",
+        "measurement": "40×12 mm",
         "category": "TW serisi"
       },
       "error": null
     },
     {
       "code": "TW-4574",
-      "measurement": "15x7mm",
+      "measurement": "15×7 mm",
       "category": "TW serisi",
       "url": "https://www.tanexlabel.com/sablondosya/TANEX-4574_15x7mm.docx",
-      "filename": "TW-4574_15x7mm.docx",
+      "filename": "TW-4574_15-7-mm.docx",
       "linkWarning": null,
       "status": "compatible",
       "info": {
-        "name": "TW-4574 · 15x7mm",
+        "name": "TW-4574 · 15×7 mm",
         "page": {
           "width": 209.991,
           "height": 297.039
@@ -62068,9 +62068,9 @@
         ],
         "perPage": 574,
         "warnings": [],
-        "id": "TW-4574_15x7mm",
+        "id": "TW-4574_15-7-mm",
         "model": "TW-4574",
-        "measurement": "15x7mm",
+        "measurement": "15×7 mm",
         "category": "TW serisi"
       },
       "error": null
