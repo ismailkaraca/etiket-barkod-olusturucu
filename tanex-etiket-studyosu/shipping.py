@@ -53,6 +53,23 @@ def _text(value,limit=MAX_TEXT):
     return str(value if value is not None else '').strip()[:limit]
 
 
+def format_phone(value):
+    """Display Turkish telephone numbers as +212) 542-40-81 while keeping raw input intact."""
+    raw=_text(value,40)
+    if re.fullmatch(r"[0-9]{10,14}\.0",raw):
+        raw=raw[:-2]  # Numeric Excel cells sometimes become strings ending in .0.
+    digits=re.sub(r"\D","",raw)
+    if len(digits)==14 and digits.startswith("0090"):
+        digits=digits[4:]
+    if len(digits)==12 and digits.startswith("90"):
+        digits=digits[2:]
+    if len(digits)==11 and digits.startswith("0"):
+        digits=digits[1:]
+    if len(digits)!=10:
+        return raw
+    return f"+{digits[:3]}) {digits[3:6]}-{digits[6:8]}-{digits[8:]}"
+
+
 def _positive_int(x,name,min_value=1,max_value=3_000_000):
     try:
         n=int(str(x).strip().replace('.','').replace(' ','').replace(',',''))
@@ -94,6 +111,7 @@ def normalize_receipt(obj):
     if missing:raise ValueError('Zorunlu alanları doldurun: '+', '.join(missing))
     p=calculate_boxes(obj.get('total'),obj.get('unitsPerPack') or 1000,obj.get('packsPerBox') or 9,
                       obj.get('packCountOverride'),obj.get('boxCountOverride'))
+    x['phone']=format_phone(x['phone'])
     x.update(p)
     x['packCountOverride']=_text(obj.get('packCountOverride'),20)
     x['boxCountOverride']=_text(obj.get('boxCountOverride'),20)

@@ -30,13 +30,23 @@ function calc(r){const total=number(r.total),per=number(r.unitsPerPack),box=numb
  if(pos!==packs||remainPacks)return {error:'Koli/paket dağıtımı tutarsız. Sayıları kontrol edin.'};
  return {total,packs,boxes,per,box,distribution};
 }
+function formatPhone(value){
+ const original=String(value??'').trim();
+ const raw=/^[0-9]{10,14}\.0$/.test(original)?original.slice(0,-2):original;
+ let digits=raw.replace(/\D/g,'');
+ if(digits.length===14&&digits.startsWith('0090'))digits=digits.slice(4);
+ if(digits.length===12&&digits.startsWith('90'))digits=digits.slice(2);
+ if(digits.length===11&&digits.startsWith('0'))digits=digits.slice(1);
+ if(digits.length!==10)return raw;
+ return '+'+digits.slice(0,3)+') '+digits.slice(3,6)+'-'+digits.slice(6,8)+'-'+digits.slice(8);
+}
 function display(n){return Number(n||0).toLocaleString('tr-TR')}
 function compute(){const r=readForm(),n=calc(r);const node=$('calcBox');
  if(!n){node.textContent='Toplam etiket ve paket/koli kapasitelerini yazın.'}
  else if(n.error){node.innerHTML='<b>Uyarı:</b> '+escapeHtml(n.error)}
  else node.innerHTML=`<strong>${display(n.total)} etiket → ${n.packs} paket / ${n.boxes} koli</strong><div>${n.distribution.map(x=>`${x.box}. koli: <b>${x.packs} paket / ${display(x.labels)} etiket</b>`).join(' &nbsp; | &nbsp; ')}</div>`;
 }
-function updateVisual(){const r=readForm(),n=calc(r);$('previewLibrary').textContent=r.library||'Kütüphane adı';$('previewLocation').textContent=(r.province||'İl')+' / '+(r.district||'İlçe');$('previewAddress').textContent=r.address||'Gönderi adresi';$('previewPhone').textContent=r.phone||'Kütüphane telefonu';$('previewQuantity').textContent=r.total?(display(r.total)+' ADET RFID ETİKETİ'):'ETİKET ADEDİ GİRİLMEDİ';$('previewBoxes').textContent=n&&!n.error?`${n.boxes} KOLİ · ${n.packs} PAKET`:'Koli/paket hesabı'}
+function updateVisual(){const r=readForm(),n=calc(r);$('previewLibrary').textContent=r.library||'Kütüphane adı';$('previewLocation').textContent=(r.province||'İl')+' / '+(r.district||'İlçe');$('previewAddress').textContent=r.address||'Gönderi adresi';$('previewPhone').textContent=formatPhone(r.phone)||'Kütüphane telefonu';$('previewQuantity').textContent=r.total?(display(r.total)+' ADET RFID ETİKETİ'):'ETİKET ADEDİ GİRİLMEDİ';$('previewBoxes').textContent=n&&!n.error?`${n.boxes} KOLİ · ${n.packs} PAKET`:'Koli/paket hesabı'}
 function setStatus(message,error=false){$('result').textContent=message;$('result').classList.toggle('error',error);const hint=$('formAlert');if(hint){hint.hidden=!error;hint.textContent=error?message:''}}
 function checkedRows(){return records.filter(x=>x.checked).map(x=>({...x.data}));}
 function getPayload(){const chosen=checkedRows();if(chosen.length)return chosen;
